@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${@osmalert.webappTitle}"></title>
+    <script src="/js/htmx-1.9.5.min.js"></script>
+    <link href="/css/bare.min.css" rel="stylesheet">
+    <link href="/css/osmalert.css" rel="stylesheet">
+</head>
+<body>
+
+<h1 th:text="${@osmalert.webappTitle}">OSM Alert</h1>
+
+<h2>Current Jobs</h2>
+
+<div id="joblist" th:fragment="joblist">
+    <table>
+        <tr>
+            <th>Job Name</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="job: ${jobs}">
+            <td th:text="${job.jobName}">unknown</td>
+            <td hx-get="/jobs/status"
+                hx-trigger="every 1s"
+                th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
+            >unknown</td>
+        </tr>
+    </table>
+</div>
+
+<h2>New Job</h2>
+<form hx-on::after-request="this.reset()">
+    <label for="jobName">Job Name</label>
+    <input type="text" id="jobName" name="jobName"/>
+    <button
+        hx-post="/jobs"
+        hx-trigger="click"
+        hx-target="#joblist"
+        hx-swap="outerHTML"
+    >
+        Create new Job
+    </button>
+</form>
+
+</body>
+</html>

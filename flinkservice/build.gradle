@@ -1,0 +1,32 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'org.heigit.osmalert'
+
+dependencies {
+    runtimeOnly(project(':flinkjobjar'))
+
+    api('org.apache.flink:flink-core:1.17.1')
+    api('org.apache.flink:flink-clients:1.17.1')
+
+    testImplementation 'org.apache.flink:flink-test-utils:1.17.1'
+    testImplementation 'org.junit-pioneer:junit-pioneer:2.1.0'
+
+}
+
+
+tasks.register('copyFlinkJobJar', Copy) {
+    description 'Copy generated flink jar to resources'
+    dependsOn project(':flinkjobjar').tasks.named('shadowJar')
+
+    def sourceJobJarFile = project(':flinkjobjar').layout.buildDirectory.file("libs/flinkjobjar-all.jar")
+    def targetResourcesFolder = layout.buildDirectory.file("resources/main")
+
+    from sourceJobJarFile
+    into targetResourcesFolder
+}
+
+tasks.named('processResources') {
+    dependsOn tasks.named('copyFlinkJobJar')
+}

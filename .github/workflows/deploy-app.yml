@@ -1,0 +1,39 @@
+name: Deploy Webapp
+
+on: workflow_dispatch
+
+#on:
+#    push:
+#        branches: [ main ]
+
+jobs:
+
+    deploy:
+        runs-on: ubuntu-latest
+
+        name: Build and Deploy to Heroku
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Set up JDK 17
+                uses: actions/setup-java@v3
+                with:
+                    distribution: 'temurin'
+                    java-version: '17'
+                    cache: 'gradle'
+
+            -   name: Build JAR file with Gradle
+                run: ./gradlew web:build -x test --no-daemon
+
+            -   name: Install Heroku Java Plugin
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                run: heroku plugins:install java
+
+            -   name: Deploy to Heroku
+                env:
+                    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+                working-directory: ./webapp
+                run: heroku deploy:jar build/libs/webapp.jar -a osmalert-web
