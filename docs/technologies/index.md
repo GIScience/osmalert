@@ -8,13 +8,13 @@ Please prepare an overview document in Markdown format for one of the topics bel
 
 ## Core topics
 
-* [Spring Boot](./spring-boot.md)
-* Spring Data JPA
-* Docker
-* Heroku
-* Gradle
-* HTMX
-* Apache Flink
+* [Spring Boot](./spring-boot.md) - Marianna
+* Spring Data JPA - Pavan 
+* Docker - Prakriti Jain 
+* Heroku - Selina
+* Gradle - Leon 
+* HTMX - Karthik 
+* Apache Flink - Ke
 
 
 
