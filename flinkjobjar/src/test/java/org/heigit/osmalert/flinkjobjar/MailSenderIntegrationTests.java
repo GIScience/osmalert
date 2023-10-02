@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@DisabledIfEnvironmentVariable(named = "CI", matches = "true", disabledReason = "Do not run on in GH Actions")
+
+//TODO: cleanup or fix!
+// @DisabledIfEnvironmentVariable(named = "CI", matches = "true", disabledReason = "Do not run on in GH Actions")
 public class MailSenderIntegrationTests {
 
 
