@@ -31,7 +31,7 @@ class AlertJobIntegrationTests {
 
 	@RegisterExtension
 	static FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
-													   .port(1025);
+													   .port(2025);
 
 
 	static String contribution = "{\n" +
@@ -43,7 +43,7 @@ class AlertJobIntegrationTests {
 	// @Disabled("check on github")
 	@Test
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "1025")
+	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "2025")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
 	void flinkJobCanBeRunAndMailIsSent() throws Exception {
