@@ -9,7 +9,7 @@ Please prepare an overview document in Markdown format for one of the topics bel
 ## Core topics
 
 * [Spring Boot](./spring-boot.md)
-* Spring Data
+* Spring Data JPA
 * Docker
 * Heroku
 * Gradle
