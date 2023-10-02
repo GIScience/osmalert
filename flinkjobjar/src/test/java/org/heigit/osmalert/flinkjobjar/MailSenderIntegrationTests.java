@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MailSenderIntegrationTests {
 
 
-	MailSender mailSender = new MailSender();
+	MailSender mailSender = new MailSender("localhost", 2025, "username", "password");
 
 
 	@RegisterExtension
 	static FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
-														   .port(25);
+														   .port(2025);
 
 
 	@Test
