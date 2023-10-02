@@ -31,7 +31,7 @@ public class MailSenderIntegrationTests {
 		MimeMessage message = fakeMailServer.getMessages().get(0);
 
 		assertNotNull(message);
-		assertEquals("osmalert <7ead94725baf40d45113d83f7c957a5e@smtp.us-west-1.mailertogo.net>", message.getFrom()[0].toString());
+		assertEquals("osmalert <admin@osmalert-web-0773365646a7.herokuapp.com>", message.getFrom()[0].toString());
 		assertEquals("Osmalert Notification", message.getSubject());
 		assertEquals("payload\r\n", message.getContent().toString());
 	}
