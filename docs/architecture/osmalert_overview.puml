@@ -1,0 +1,48 @@
+@startuml
+!include <logos/kafka>
+
+title "Osmalert Architectural Overview"
+
+skinparam linetype ortho
+
+
+<style>
+    queue {
+      BackGroundColor #lightblue
+    }
+
+    component {
+      BackGroundColor #beige
+      LineColor black
+    }
+</style>
+
+queue "<$kafka>" as kafka
+database OSHDB as oshdb
+
+component "OSM Planet Server" as osm <<External Server>> #lightgray
+component "OhsomeNow OSHDB" as updater <<Streaming Producer>>
+component "OhsomeNow Processing" as processing <<Streaming Component>>
+
+folder "Flink Cluster" <<Heroku Component>> {
+
+    component "Alert Job 1" <<Flink Job>>
+    component "Alert Job 2" <<Flink Job>>
+    component "Alert Job N" <<Flink Job>>
+
+}
+
+
+osm --> updater : minute-diffs
+updater --> kafka : raw contributions
+
+oshdb -> updater
+updater -> oshdb
+
+osm --> processing : changesets
+kafka --> processing : raw contributions
+processing --> kafka : located contributions
+kafka ---> appbackend : located contributions
+
+
+@enduml
