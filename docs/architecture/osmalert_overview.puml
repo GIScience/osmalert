@@ -19,6 +19,9 @@ skinparam linetype ortho
 
 queue "<$kafka>" as kafka
 
+
+folder "Heroku Cloud Datacenter"  {
+
 component "Mailer To Go SMTP service" <<Heroku Component>> as mail
 
 
@@ -51,6 +54,7 @@ folder "Flink Cluster" <<Heroku Component>> {
 }
 
 
+}
 
 
 @enduml
