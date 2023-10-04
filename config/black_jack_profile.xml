@@ -1,9 +1,0 @@
-<profile version="1.0">
-  <option name="myName" value="black_jack_profile" />
-  <inspection_tool class="CyclomaticComplexity" enabled="true" level="ERROR" enabled_by_default="true" editorAttributes="ERRORS_ATTRIBUTES">
-    <option name="m_limit" value="4" />
-  </inspection_tool>
-  <inspection_tool class="NonCommentSourceStatements" enabled="true" level="ERROR" enabled_by_default="true" editorAttributes="ERRORS_ATTRIBUTES">
-    <option name="m_limit" value="17" />
-  </inspection_tool>
-</profile>
