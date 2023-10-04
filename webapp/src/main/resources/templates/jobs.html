@@ -14,10 +14,10 @@
 <h2>Current Jobs</h2>
 
 <div id="joblist" th:fragment="joblist">
-    <table>
+    <table style="width:100%">
         <tr>
-            <th>Job Name</th>
-            <th>Status</th>
+            <th style="width: 50%">Job Name</th>
+            <th style="width: 50%">Status</th>
         </tr>
         <tr th:each="job: ${jobs}">
             <td th:text="${job.jobName}">unknown</td>
