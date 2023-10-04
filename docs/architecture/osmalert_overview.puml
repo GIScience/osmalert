@@ -17,15 +17,20 @@ skinparam linetype ortho
     }
 </style>
 
-queue "<$kafka>" as kafka
+folder "Confluent Cloud Datacenter"  {
+
+    queue "<$kafka>" as kafka
+
+}
 
 
 folder "Heroku Cloud Datacenter"  {
 
     component "Mailer To Go SMTP service" <<Heroku Component>> as mail
 
+    "Osmalert WebService" ---> "Flink Cluster" : "deploys jobs to "
 
-    folder "Osmalert Webapp" <<Heroku Component>> {
+    folder "Osmalert WebService" <<Heroku Component>>  {
 
         database  "Jobs Database" as jobsdb
 
@@ -34,7 +39,7 @@ folder "Heroku Cloud Datacenter"  {
         bootapp -> jobsdb
     }
 
-    folder "Flink Cluster" <<Heroku Component>> {
+    folder "Flink Cluster" <<Heroku Component>>  {
 
         component "Alert Job 1" as job1 <<Flink Job>>
         component "Alert Job 2" as job2 <<Flink Job>>
