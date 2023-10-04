@@ -19,10 +19,8 @@ skinparam linetype ortho
 
 queue "<$kafka>" as kafka
 
+component "Mailer To Go SMTP service" <<Heroku Component>> as mail
 
-'component "OSM Planet Server" as osm <<External Server>> #lightgray
-'component "OhsomeNow OSHDB" as updater <<Streaming Producer>>
-'component "OhsomeNow Processing" as processing <<Streaming Component>>
 
 folder "Osmalert Webapp" <<Heroku Component>> {
 
@@ -46,19 +44,13 @@ folder "Flink Cluster" <<Heroku Component>> {
     kafka --> job2 : OSM contributions
     kafka --> job3
 
+    job1 --> mail
+    job2 --> mail
+    job3 --> mail
+
 }
 
 
-'osm --> updater : minute-diffs
-'updater --> kafka : raw contributions
-
-'oshdb -> updater
-'updater -> oshdb
-
-'osm --> processing : changesets
-'kafka --> processing : raw contributions
-'processing --> kafka : located contributions
-'kafka ---> appbackend : located contributions
 
 
 @enduml
