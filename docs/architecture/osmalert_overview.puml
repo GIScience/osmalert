@@ -22,36 +22,34 @@ queue "<$kafka>" as kafka
 
 folder "Heroku Cloud Datacenter"  {
 
-component "Mailer To Go SMTP service" <<Heroku Component>> as mail
+    component "Mailer To Go SMTP service" <<Heroku Component>> as mail
 
 
-folder "Osmalert Webapp" <<Heroku Component>> {
+    folder "Osmalert Webapp" <<Heroku Component>> {
 
-    database  "Jobs Database" as jobsdb
+        database  "Jobs Database" as jobsdb
 
-    component "Webapp" as bootapp <<Spring Boot>>
+        component "Webapp" as bootapp <<Spring Boot>>
 
-    bootapp -> jobsdb
+        bootapp -> jobsdb
+    }
 
+    folder "Flink Cluster" <<Heroku Component>> {
 
-}
-
-folder "Flink Cluster" <<Heroku Component>> {
-
-    component "Alert Job 1" as job1 <<Flink Job>>
-    component "Alert Job 2" as job2 <<Flink Job>>
-    component "Alert Job N" as job3 <<Flink Job>>
+        component "Alert Job 1" as job1 <<Flink Job>>
+        component "Alert Job 2" as job2 <<Flink Job>>
+        component "Alert Job N" as job3 <<Flink Job>>
 
 
-    kafka --> job1
-    kafka --> job2 : OSM contributions
-    kafka --> job3
+        kafka --> job1
+        kafka --> job2 : OSM contributions
+        kafka --> job3
 
-    job1 --> mail
-    job2 --> mail
-    job3 --> mail
+        job1 --> mail
+        job2 --> mail
+        job3 --> mail
 
-}
+    }
 
 
 }
