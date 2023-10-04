@@ -11,7 +11,7 @@ Please prepare an overview document in Markdown format for one of the topics bel
 * [Spring Boot](./spring-boot.md) - Marianna
 * Spring Data JPA - Pavan 
 * Docker - Prakriti Jain 
-* Heroku - Selina
+* [Heroku](./heroku.md) - Selina
 * Gradle - Leon 
 * HTMX - Karthik 
 * Apache Flink - Ke
