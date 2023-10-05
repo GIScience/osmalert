@@ -19,7 +19,7 @@ The web app can be accessed on [https://osmalert-web-0773365646a7.herokuapp.com]
 
 ## OpenStreetMap (OSM)
 
-Course material with information general information about OSM: 
+Course material with general information about OSM: 
 * [OSM Data Structure](https://giscience.courses-pages.gistools.geog.uni-heidelberg.de/openstreetmap-analyses-with-qgis-python-and-r/content/chapter_2/osm_data_structure.html)
 * [Filtering OSM data](https://giscience.courses-pages.gistools.geog.uni-heidelberg.de/openstreetmap-analyses-with-qgis-python-and-r/content/chapter_2/osm_data_filtering.html)
 * [OSM Data Extraction, Statistics and Aggregation](https://giscience.courses-pages.gistools.geog.uni-heidelberg.de/openstreetmap-analyses-with-qgis-python-and-r/content/chapter_2/osm_data_download_stats.html)
