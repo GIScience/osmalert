@@ -12,7 +12,7 @@ Please prepare an overview document in Markdown format for one of the topics bel
 * Spring Data JPA - Pavan 
 * Docker - Prakriti Jain 
 * [Heroku](./heroku.md) - Selina
-* Gradle - Leon 
+* [Gradle](./gradle.md) - Leon 
 * HTMX - Karthik 
 * [Apache Flink](./flink.md) - Ke
 
