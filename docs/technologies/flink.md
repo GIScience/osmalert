@@ -34,4 +34,3 @@ Apache Flink is a framework for stateful computations over unbounded and bounded
 
 - [Official Apache Flink Website](https://flink.apache.org/)
 - [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.13/)
-- [Flink Tutorials](https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream_api_tutorial/)
