@@ -1,4 +1,4 @@
-# Introduction to Spring Data JPA
+## Introduction to Spring Data JPA
 
 ### Java Persistence API
 The Java Persistence API (JPA) is a standardized specification within the Java Enterprise Edition (Java EE) ecosystem that provides a framework for achieving Object-Relational Mapping (ORM) functionality in Java applications. ORM is a programming technique that facilitates the seamless interaction between Java objects (entities) and relational databases, eliminating the need for developers to write low-level SQL queries and data mapping code.
@@ -102,7 +102,7 @@ Spring Data JPA's extensibility is a significant advantage. While it primarily t
 
 These concepts and tools form the foundation of Spring Data JPA, and understanding them is essential for efficiently working with the framework. As you delve deeper into Spring Data JPA, you'll discover additional features and capabilities that enhance your ability to manage data in your Java applications.
 
-# Resources and Links
+## Resources and Links
 
 As you delve into the world of Spring Data JPA, one can find these resources and links helpful for further exploration, reference, and learning:
 
