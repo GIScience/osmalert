@@ -13,7 +13,7 @@ Please prepare an overview document in Markdown format for one of the topics bel
 * Docker - Prakriti Jain 
 * [Heroku](./heroku.md) - Selina
 * [Gradle](./gradle.md) - Leon 
-* HTMX - Karthik 
+* [htmx](./htmx.md) - Karthik 
 * [Apache Flink](./flink.md) - Ke
 
 
