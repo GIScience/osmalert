@@ -17,9 +17,11 @@ public class InitJobRequestComponent implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() {
 		Job job1 = new Job("job 1");
+		job1.setEmail("IAMAFAKE@Email.com");
 		job1.setFlinkId("fake-1");
 		repository.save(job1);
 		Job job2 = new Job("job 2");
+		job2.setEmail("IAMASECONDFAKE@Email.com");
 		job2.setFlinkId("fake-2");
 		repository.save(job2);
 	}
