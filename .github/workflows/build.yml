@@ -41,4 +41,4 @@ jobs:
                 with:
                     github-token: ${{ secrets.github_token }}
                     discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                    avatar-url: 'https://raw.githubusercontent.com/GIScience/osmalert/main/webapp/src/main/resources/static/images/osm.png'
+                    avatar-url: 'https://www.openstreetmap.org/assets/osm_logo-4afddaae0230a5a46687fdc751ed256dfdccde144118cb02a7d7960f207a4b92.svg'
