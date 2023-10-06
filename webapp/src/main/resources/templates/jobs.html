@@ -24,7 +24,7 @@
         </tr>
         <tr th:each="job: ${jobs}">
             <td th:text="${job.jobName}">unknown</td>
-            <td th:text="${job.email}">unknown</td>
+            <td th:text="${job.getEmail()}">unknown</td>
             <td hx-get="/jobs/status"
                 hx-trigger="every 1s"
                 th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
