@@ -28,7 +28,7 @@ component "Web Browser" <<External Component>> as browser
 
 folder "Heroku Cloud Datacenter"  {
 
-    component "Mailer To Go SMTP service" <<Heroku Component>> as mail
+    component "Mailer To Go SMTP service" <<Heroku Addon>> as mail #pink
 
     "Osmalert WebService" ---> "Flink Cluster" : "deploys jobs to "
 
