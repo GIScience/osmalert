@@ -34,8 +34,9 @@ public class JobsController {
 	}
 
 	@PostMapping
-	String createNewJob(Model model, String jobName) {
+	String createNewJob(Model model, @RequestParam String jobName, @RequestParam String ownersEmail) {
 		Job newJob = new Job(jobName);
+		newJob.setEmail(ownersEmail);
 		jobRepository.save(newJob);
 
 		model.addAttribute("jobs", getAllJobs());

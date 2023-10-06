@@ -55,7 +55,8 @@ class JobsControllerTests {
 		ArgumentCaptor<Job> jobRequestCaptor = ArgumentCaptor.forClass(Job.class);
 
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "A job name"))
+							.param("jobName", "A job name")
+							.param("ownersEmail", "Something"))
 			   .andExpect(status().isOk())
 			   .andExpect(model().attributeExists("jobs"))
 			   .andExpect(view().name("jobs::joblist"));
@@ -64,6 +65,8 @@ class JobsControllerTests {
 
 		assertThat(jobRequestCaptor.getValue().getJobName())
 			.isEqualTo("A job name");
+		assertThat(jobRequestCaptor.getValue().getEmail())
+			.isEqualTo("Something");
 	}
 
 	@Test
