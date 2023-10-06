@@ -41,4 +41,4 @@ jobs:
                 with:
                     github-token: ${{ secrets.github_token }}
                     discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                    avatar-url: 'https://github.com/GIScience/osmalert/blob/main/webapp/src/main/resources/static/images/osm.png'
+                    avatar-url: 'https://raw.githubusercontent.com/GIScience/osmalert/main/webapp/src/main/resources/static/images/osm.png'
