@@ -7,6 +7,22 @@
     <script src="/js/htmx-1.9.5.min.js"></script>
     <link href="/css/bare.min.css" rel="stylesheet">
     <link href="/css/osmalert.css" rel="stylesheet">
+
+    <style>
+        #error-message {
+            display: none;
+            color: red;
+        }
+
+        input:invalid + #error-message {
+            display: block;
+        }
+
+        input:invalid + #error-message + button {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
 </head>
 <body>
 
@@ -32,9 +48,11 @@
 </div>
 
 <h2>New Job</h2>
+
 <form hx-on::after-request="this.reset()">
     <label for="jobName">Job Name</label>
-    <input type="text" id="jobName" name="jobName"/>
+    <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
+    <div id="error-message">Job name is required!</div>
     <button
         hx-post="/jobs"
         hx-trigger="click"
@@ -44,5 +62,12 @@
         Create new Job
     </button>
 </form>
+
+
+
 </body>
+
+
+
 </html>
+
