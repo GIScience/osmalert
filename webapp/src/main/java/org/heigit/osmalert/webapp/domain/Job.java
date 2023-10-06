@@ -13,6 +13,8 @@ public class Job {
 
 	private String flinkId;
 
+	private String email;
+
 	protected Job() { }
 
 	public Job(String jobName) {
