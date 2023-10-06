@@ -41,4 +41,12 @@ public class Job {
 	public String getFlinkId() {
 		return flinkId;
 	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
 }
