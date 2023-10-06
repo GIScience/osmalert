@@ -37,6 +37,10 @@
 <form hx-on::after-request="this.reset()">
     <label for="jobName">Job Name</label>
     <input type="text" id="jobName" name="jobName"/>
+
+    <label for="ownersemail">Owner's E-Mail</label>
+    <input type="text" id="ownersemail" name="ownersemail"/>
+
     <button
         hx-post="/jobs"
         hx-trigger="click"
