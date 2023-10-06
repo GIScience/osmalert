@@ -35,9 +35,8 @@ jobs:
         needs:
             - build-and-test-app
         if: always()
-
         steps:
             -   name: Notify
-                uses: GIScience/osmalert
+                uses: nobrayner/discord-webhook@v1
                 with:
-                    discord-webhook: 'https://discord.com/api/webhooks/1159801100099129354/obrNG3ZxTPISnIzDsrErXGiROR_w5OLwE2IJ7ad0MKwU7LOiD85eLSI3XjmBVNKZV0ts'
+                    discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
