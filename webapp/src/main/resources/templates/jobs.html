@@ -37,10 +37,12 @@
 <h2>New Job</h2>
 <form hx-on::after-request="this.reset()">
     <label for="jobName">Job Name</label>
-    <input type="text" id="jobName" name="jobName"/>
+    <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
+    <div id="error-message">Job name is required!</div>
 
     <label for="ownersEmail">Owner's E-Mail</label>
-    <input type="text" id="ownersEmail" name="ownersEmail"/>
+    <input type="text" id="ownersEmail" name="ownersEmail" required pattern=".*\S+.*" title="ownersEmail is required"/>
+    <div id="error-message-email">Owner's Email is required!</div>
 
     <button
         hx-post="/jobs"
