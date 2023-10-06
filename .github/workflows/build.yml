@@ -29,3 +29,12 @@ jobs:
             -   name: Build and test with Gradle
                 run: ./gradlew check --no-daemon
 
+            -   name: Notify Discord on Failure
+                if: always()
+                env:
+                    DISCORD_WEBHOOK: 'https://discord.com/api/webhooks/1159801100099129354/obrNG3ZxTPISnIzDsrErXGiROR_w5OLwE2IJ7ad0MKwU7LOiD85eLSI3XjmBVNKZV0ts'
+                run: |
+                    curl -X POST -H "Content-Type: application/json" -d '{
+                      "content": "Build Failed! :x:"
+                    }' $DISCORD_WEBHOOK
+
