@@ -41,4 +41,4 @@ jobs:
                 with:
                     github-token: ${{ secrets.github_token }}
                     discord-webhook: ${{ secrets.DISCORD_WEBHOOK }}
-                    avatar-url: 'https://octodex.github.com/images/murakamicat.png'
+                    avatar-url: 'https://octodex.github.com/images/Terracottocat_Single.png'
