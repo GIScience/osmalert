@@ -23,6 +23,8 @@ folder "Confluent Cloud Datacenter"  {
 
 }
 
+component "Web Browser" <<External Component>> as browser
+
 
 folder "Heroku Cloud Datacenter"  {
 
@@ -35,6 +37,8 @@ folder "Heroku Cloud Datacenter"  {
         database  "Jobs Database" as jobsdb
 
         component "Webapp" as bootapp <<Spring Boot>>
+
+        bootapp <-> browser
 
         bootapp -> jobsdb
     }
