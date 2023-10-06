@@ -17,10 +17,11 @@ class JobRepositoryTests {
 	@Test
 	void addJobRequest() {
 		Job job = new Job("my job");
+		job.setEmail("Something");
 		Job saved = repository.save(job);
 
 		Optional<Job> retrieved = repository.findById(saved.getId());
-
+		assertThat(retrieved.get().getEmail()).isEqualTo("Something");
 		assertThat(retrieved).isNotEmpty();
 		assertThat(retrieved.get().getJobName()).isEqualTo("my job");
 	}
