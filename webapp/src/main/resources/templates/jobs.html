@@ -18,8 +18,9 @@
 <div id="joblist" th:fragment="joblist">
     <table style="width:100%">
         <tr>
-            <th style="width: 50%">Job Name</th>
-            <th style="width: 50%">Status</th>
+            <th style="width: 33%">Job Name</th>
+            <th style="width: 33%">Mail</th>
+            <th style="width: 33%">Status</th>
         </tr>
         <tr th:each="job: ${jobs}">
             <td th:text="${job.jobName}">unknown</td>
@@ -33,11 +34,9 @@
 </div>
 
 <h2>New Job</h2>
-
 <form hx-on::after-request="this.reset()">
     <label for="jobName">Job Name</label>
-    <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
-    <div id="error-message">Job name is required!</div>
+    <input type="text" id="jobName" name="jobName"/>
     <button
         hx-post="/jobs"
         hx-trigger="click"
@@ -47,10 +46,5 @@
         Create new Job
     </button>
 </form>
-
-
 </body>
-
-
 </html>
-
