@@ -32,3 +32,21 @@ one of
   * `flinkservice` 
   * `webapp` 
   * `heroku-flink` 
+
+
+## Example
+
+a hypothetical example 
+concerning the _build_ of the component `webapp`
+for the (hypothetical) Jira issue `ISE23-4444`: 
+
+```
+build(webapp): run build tasks in parallel
+
+
+https://jira-se.ifi.uni-heidelberg.de/browse/ISE23-4444
+
+Co-authored-by: Johannes Link <business@johanneslink.net>
+```
+
+
