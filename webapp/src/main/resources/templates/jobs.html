@@ -39,12 +39,14 @@
 
     <label for="jobName">Job Name</label>
     <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
-    <div id="error-message">Job name is required!</div>
+    <div id="error-message" hx-boost="#jobName:invalid">Job name is required!</div>
 
-    <label for="ownersEmail">Owner's E-Mail</label>
-    <input type="text" id="ownersEmail" name="ownersEmail" required pattern=".*\S+.*" title="ownersEmail is required"/>
-    <div id="error-message-email">Owner's Email is empty!</div>
-
+    <div id="emailArea">
+        <label for="ownersEmail">Owner's E-Mail</label>
+        <input type="text" id="ownersEmail" name="ownersEmail" required pattern=".*\S+.*"
+               title="ownersEmail is required"/>
+        <div id="error-message-email">Owner's Email is empty!</div>
+    </div>
 
     <button
         id="createNewJob"

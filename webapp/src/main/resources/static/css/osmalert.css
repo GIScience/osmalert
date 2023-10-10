@@ -25,18 +25,25 @@ button {
 
 input#jobName:valid + #error-message {
     display: none;
+
 }
 
-input#ownersEmail:valid + #error-message-email {
+#emailArea input#ownersEmail:valid + #error-message-email {
     display: none;
 }
 
 input#jobName:invalid + #error-message {
+    position: absolute;
+    top: 0;
+    right: 10px;
     display: block;
     color: red;
 }
 
-input#ownersEmail:invalid + #error-message-email {
+#emailArea input#ownersEmail:invalid + #error-message-email {
+    position: absolute;
+    top: 0;
+    right: 10px;
     display: block;
     color: red;
 }
