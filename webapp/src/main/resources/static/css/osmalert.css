@@ -23,18 +23,25 @@ button {
     -webkit-appearance: none
 }
 
-
-#error-message {
+input#jobName:valid + #error-message {
     display: none;
+}
+
+input#ownersEmail:valid + #error-message-email {
+    display: none;
+}
+
+input#jobName:invalid + #error-message {
+    display: block;
     color: red;
 }
 
-input:invalid + #error-message {
+input#ownersEmail:invalid + #error-message-email {
     display: block;
+    color: red;
 }
 
-input:invalid + #error-message + button {
+#jobName:invalid ~ button#createNewJob {
     pointer-events: none;
     opacity: 0.6;
 }
-
