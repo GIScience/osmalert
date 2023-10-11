@@ -38,7 +38,6 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @RequestParam String jobName, @RequestParam String ownersEmail) {
-		// DONE: Move job creation to JobsService
 		if (checkJobName(jobName)) {
 		Job newJob = new Job(jobName);
 		newJob.setEmail(ownersEmail);
@@ -46,17 +45,13 @@ public class JobsController {
 		}
 		else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-				}
+		}
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
 	}
 
 	public static boolean checkJobName(String jobName) {
-		boolean bRet = false;
-		if (jobName.matches("[^\s]*([A-Za-z0-9]+[ ]?)+[^\s]*")) {
-			bRet = true;
-		}
-		return bRet;
+        return jobName.matches("[^ ]*([A-Za-z0-9]+ ?)+[^ ]*");
 	}
 
 	@GetMapping("/status")

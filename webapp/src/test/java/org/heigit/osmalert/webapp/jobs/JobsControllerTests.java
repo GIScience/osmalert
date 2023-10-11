@@ -92,7 +92,7 @@ class JobsControllerTests {
 	}
 
 	@Test
-	void checkEmptyJobName() throws Exception {
+	void checkEmptyJobName() {
 		assertThat(JobsController.checkJobName("testjob")).isTrue();
 		assertThat(JobsController.checkJobName("")).isFalse();
 		assertThat(JobsController.checkJobName("     text")).isFalse();
