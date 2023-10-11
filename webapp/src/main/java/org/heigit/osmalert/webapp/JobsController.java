@@ -27,6 +27,7 @@ public class JobsController {
 		return "jobs";
 	}
 
+	// TODO: Move to a JobsService class
 	private List<Job> getAllJobs() {
 		Iterable<Job> all = jobRepository.findAll();
 		return StreamSupport.stream(all.spliterator(), false)
@@ -35,6 +36,7 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @RequestParam String jobName, @RequestParam String ownersEmail) {
+		// TODO: Move job creation to JobsService
 		Job newJob = new Job(jobName);
 		newJob.setEmail(ownersEmail);
 		jobRepository.save(newJob);
@@ -48,6 +50,8 @@ public class JobsController {
 	String getJobStatus(Model model, String jobId) {
 		// jobId is long but js cannot handle long
 		long id = Long.parseLong(jobId);
+
+		// TODO: Move job status retrieval to JobsService
 		Optional<Job> optionalJob = jobRepository.findById(id);
 		return optionalJob.map(job -> remoteJobService.getStatus(job).name())
 						  .orElseThrow(() -> new RuntimeException("no job with ID " + id));
