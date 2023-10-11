@@ -11,7 +11,7 @@ public class MailSender {
 
 	final private Mailer mailer;
 
-	private final String fromAddress = "admin@osmalert-web-0773365646a7.herokuapp.com";
+	private final String fromAddress = "osmalert@web.de";
 
 
 
