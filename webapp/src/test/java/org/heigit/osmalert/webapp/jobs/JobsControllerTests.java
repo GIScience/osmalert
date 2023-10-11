@@ -91,4 +91,25 @@ class JobsControllerTests {
 			   .andExpect(content().string(RemoteJobStatus.SUBMITTED.name()));
 	}
 
+	@Test
+	void checkEmptyJobName() throws Exception {
+		assertThat(JobsController.checkJobName("testjob")).isTrue();
+		assertThat(JobsController.checkJobName("")).isFalse();
+		assertThat(JobsController.checkJobName("     text")).isFalse();
+		assertThat(JobsController.checkJobName("     text test")).isFalse();
+		assertThat(JobsController.checkJobName("text test")).isTrue();
+		assertThat(JobsController.checkJobName("A job name")).isTrue();
+	}
+
+	@Test
+	void RejectEmptyJobName() throws Exception {
+
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "")
+							.param("ownersEmail", "Something"))
+			   .andExpect(status().is4xxClientError());
+	}
+
+
+
 }

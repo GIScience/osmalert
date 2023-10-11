@@ -4,9 +4,11 @@ import java.util.*;
 import java.util.stream.*;
 
 import org.heigit.osmalert.webapp.domain.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.*;
 
 @Controller
 @RequestMapping("/jobs")
@@ -36,13 +38,25 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @RequestParam String jobName, @RequestParam String ownersEmail) {
-		// TODO: Move job creation to JobsService
+		// DONE: Move job creation to JobsService
+		if (checkJobName(jobName)) {
 		Job newJob = new Job(jobName);
 		newJob.setEmail(ownersEmail);
 		jobRepository.save(newJob);
-
+		}
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+				}
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
+	}
+
+	public static boolean checkJobName(String jobName) {
+		boolean bRet = false;
+		if (jobName.matches("[^\s]*([A-Za-z0-9]+[ ]?)+[^\s]*")) {
+			bRet = true;
+		}
+		return bRet;
 	}
 
 	@GetMapping("/status")
