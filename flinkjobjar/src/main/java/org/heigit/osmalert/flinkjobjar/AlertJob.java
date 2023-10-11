@@ -23,27 +23,28 @@ public class AlertJob {
 																.name(sourceName);
 
 		String jobName = getJobName(args);
-		configureAndRunJob(jobName, streamOperator, environment);
+		configureAndRunJob(jobName, streamOperator, environment, 60);
 	}
 
 
 
 	static void configureAndRunJob(String jobName, SingleOutputStreamOperator<String> streamOperator,
-								   StreamExecutionEnvironment environment) throws Exception {
+								   StreamExecutionEnvironment environment, int windowSeconds
+	) throws Exception {
 
 
 		String sinkName = "osmalert_flink_mail_sink";
+		MailSinkFunction mailSink = new MailSinkFunction();
 
 		streamOperator
 			.map(AlertJob::log)
 			.map(String::length)
 
-			.windowAll(TumblingProcessingTimeWindows.of(seconds(5)))
-			// .windowAll(SlidingProcessingTimeWindows.of(seconds(5), seconds(2)))
+			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
 			.map( i -> {System.out.println("reduced sum: " + i); return i;})
 
-			.addSink(new MailSinkFunction())
+			.addSink(mailSink)
 			.uid(sinkName)
 			.name(sinkName);
 

@@ -52,7 +52,7 @@ class AlertJobIntegrationTests {
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
 
-		configureAndRunJob("job1", operator, environment);
+		configureAndRunJob("job1", operator, environment, 3);
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);
