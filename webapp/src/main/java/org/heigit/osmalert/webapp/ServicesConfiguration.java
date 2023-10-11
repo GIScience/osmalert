@@ -16,9 +16,9 @@ public class ServicesConfiguration {
 	) throws Exception {
 		if (config.isFlinkEnabled()) {
 			FlinkRestsConfiguration flinkRestConfiguration = new FlinkRestsConfiguration(
-				"localhost",
-				8081,
-				3
+				config.getFlinkHost(),
+				config.getFlinkPort(),
+				config.getFlinkMaxRetryAttempts()
 			);
 			// TODO: Handle potential exceptions
 			FlinkClusterService flinkClusterService = new FlinkClusterService(flinkRestConfiguration);

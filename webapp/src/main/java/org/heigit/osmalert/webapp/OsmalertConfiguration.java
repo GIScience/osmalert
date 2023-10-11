@@ -1,7 +1,6 @@
 package org.heigit.osmalert.webapp;
 
 import org.springframework.boot.context.properties.*;
-import org.springframework.context.annotation.*;
 import org.springframework.stereotype.*;
 
 @Component("osmalert")
@@ -12,6 +11,9 @@ public class OsmalertConfiguration {
 	private String webappTitle;
 	private long submissionPollingInterval;
 	private boolean isFlinkEnabled;
+	private String flinkHost;
+	private int flinkPort;
+	private int flinkMaxRetryAttempts;
 
 	public String getWebappTitle() {
 		return webappTitle;
@@ -36,4 +38,17 @@ public class OsmalertConfiguration {
 	public boolean isFlinkEnabled() {
 		return isFlinkEnabled;
 	}
+
+	public void setFlinkHost(String flinkHost) {this.flinkHost = flinkHost;}
+
+	public String getFlinkHost() {return flinkHost;}
+
+	public void setFlinkPort(int flinkPort) {this.flinkPort = flinkPort;}
+
+	public int getFlinkPort() {return flinkPort;}
+
+	public void setFlinkMaxRetryAttempts(int flinkMaxRetryAttempts) {this.flinkMaxRetryAttempts = flinkMaxRetryAttempts;}
+
+	public int getFlinkMaxRetryAttempts() {return flinkMaxRetryAttempts;}
+
 }
