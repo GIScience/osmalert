@@ -48,11 +48,14 @@ class AlertJobIntegrationTests {
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
 	void flinkJobCanBeRunAndMailIsSent() throws Exception {
 
+		//TODO: remove dependency of test on env variables and fields of AlertJob
+
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
 
-		configureAndRunJob("job1", operator, environment, 3);
+		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password);
+		configureAndRunJob("job1", operator, environment, 3, mailSink);
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);

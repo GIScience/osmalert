@@ -12,6 +12,13 @@ import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 public class AlertJob {
 
 
+	static String host = System.getenv("MAILERTOGO_SMTP_HOST").toString();
+	static int port = Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT"));
+	static String username = System.getenv("MAILERTOGO_SMTP_USER").toString();
+	static String password = System.getenv("MAILERTOGO_SMTP_PASSWORD").toString();
+
+
+
 	public static void main(String[] args) throws Exception {
 
 		String sourceName = "osmalert_flink_kafka_source";
@@ -23,18 +30,18 @@ public class AlertJob {
 																.name(sourceName);
 
 		String jobName = getJobName(args);
-		configureAndRunJob(jobName, streamOperator, environment, 60);
+		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password);
+		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
 	}
 
 
 
 	static void configureAndRunJob(String jobName, SingleOutputStreamOperator<String> streamOperator,
-								   StreamExecutionEnvironment environment, int windowSeconds
+								   StreamExecutionEnvironment environment, int windowSeconds, MailSinkFunction mailSink
 	) throws Exception {
 
 
 		String sinkName = "osmalert_flink_mail_sink";
-		MailSinkFunction mailSink = new MailSinkFunction();
 
 		streamOperator
 			.map(AlertJob::log)
