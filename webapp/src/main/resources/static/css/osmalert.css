@@ -52,3 +52,10 @@ input#jobName:invalid + #error-message {
     pointer-events: none;
     opacity: 0.6;
 }
+
+#error-container {
+    display: none;
+    color: red;
+    font-weight: bold;
+    font-size: 1.5rem;
+}

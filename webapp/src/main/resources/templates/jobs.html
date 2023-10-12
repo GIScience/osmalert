@@ -58,5 +58,26 @@
         Create new Job
     </button>
 </form>
+
+<div id="error-container" class="alert alert-danger mt-4">
+    <strong><span id="error-code"></span></strong> <span id="error-message-500"></span>
+</div>
+<script>
+    document.body.addEventListener('htmx:afterRequest', function (event) {
+        const statusCode = event.detail.xhr.status;
+        const errorContainer = document.getElementById('error-container');
+        const errorCodeElement = document.getElementById('error-code');
+        const errorMessageElement = document.getElementById('error-message-500');
+        if (!(statusCode >= 200 && statusCode < 300)) {
+            errorContainer.style.display = 'block';
+            const responseText = event.detail.xhr.responseText;
+            const errorData = JSON.parse(responseText);
+            errorCodeElement.textContent = errorData.error;
+            errorMessageElement.textContent = ": " + errorData.message;
+        } else {
+            errorContainer.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>
