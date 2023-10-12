@@ -39,19 +39,18 @@ public class JobsController {
 	@PostMapping
 	String createNewJob(Model model, @RequestParam String jobName, @RequestParam String ownersEmail) {
 		if (checkJobName(jobName)) {
-		Job newJob = new Job(jobName);
-		newJob.setEmail(ownersEmail);
-		jobRepository.save(newJob);
-		}
-		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			Job newJob = new Job(jobName);
+			newJob.setEmail(ownersEmail);
+			jobRepository.save(newJob);
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid job name");
 		}
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
 	}
 
 	public static boolean checkJobName(String jobName) {
-        return jobName.matches("[^ ]*([A-Za-z0-9]+ ?)+[^ ]*");
+		return jobName.matches("[^ ]*([A-Za-z0-9]+ ?)+[^ ]*");
 	}
 
 	@GetMapping("/status")

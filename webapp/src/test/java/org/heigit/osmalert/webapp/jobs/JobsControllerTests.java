@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.test.web.servlet.*;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -102,14 +103,17 @@ class JobsControllerTests {
 	}
 
 	@Test
-	void RejectEmptyJobName() throws Exception {
+	void rejectEmptyJobName() throws Exception {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "")
 							.param("ownersEmail", "Something"))
-			   .andExpect(status().is4xxClientError());
+			   .andExpect(result -> assertEquals("400 BAD_REQUEST \"Invalid job name\"", Objects
+																							 .requireNonNull(result.getResolvedException())
+																							 .getMessage()))
+			   .andExpect(result -> assertNotEquals("400 BAD_REQUEST", Objects.requireNonNull(result.getResolvedException()).getMessage()))
+		;
+
 	}
-
-
 
 }
