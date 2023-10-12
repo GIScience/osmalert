@@ -3,6 +3,7 @@ package org.heigit.osmalert.flinkservice;
 import org.apache.flink.api.common.*;
 import org.apache.flink.client.program.*;
 import org.apache.flink.configuration.*;
+import org.apache.flink.runtime.jobgraph.*;
 import org.apache.flink.runtime.minicluster.*;
 import org.apache.flink.runtime.testutils.*;
 import org.apache.flink.test.junit5.*;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.junitpioneer.jupiter.*;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlinkClusterServiceTests {
@@ -23,6 +25,26 @@ class FlinkClusterServiceTests {
 	);
 
 	String jobName = "job_23";
+
+
+
+	@Test
+	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
+	@SetEnvironmentVariable(key = "KAFKA_PASSWORD", value = "whatever")
+	@SetEnvironmentVariable(key = "KAFKA_TOPIC", value = "whatever")
+	@SetEnvironmentVariable(key = "KAFKA_BROKER", value = "whatever")
+	void aJobGraphCanBeCreated() throws Exception {
+
+		// dummy config - never used
+		FlinkRestsConfiguration config = new FlinkRestsConfiguration("", -1, 0);
+		FlinkClusterService clusterService = new FlinkClusterService(config);
+
+		JobGraph jobGraph = clusterService.createJobGraph("name");
+		assertThat(jobGraph).isNotNull();
+
+	}
+
+
 
 	@Test
 	@Disabled("must be fixed by MM")
