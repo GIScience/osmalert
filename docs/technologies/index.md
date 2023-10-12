@@ -9,8 +9,8 @@ Please prepare an overview document in Markdown format for one of the topics bel
 ## Core topics
 
 * [Spring Boot](./spring-boot.md) - Marianna
-* Spring Data JPA - Pavan 
-* Docker - Prakriti Jain 
+* [Spring Data JPA](./spring-data-jpa/JPA_architectural_overview.pdf) - Pavan 
+* [Docker](./Docker.md) - Prakriti Jain 
 * [Heroku](./heroku.md) - Selina
 * [Gradle](./gradle.md) - Leon 
 * [htmx](./htmx.md) - Karthik 
