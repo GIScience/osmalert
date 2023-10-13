@@ -38,7 +38,6 @@ class FlinkClusterServiceTests {
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "123")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
-
 	void aJobGraphCanBeCreated() throws Exception {
 
 		// dummy config - never used
@@ -53,7 +52,11 @@ class FlinkClusterServiceTests {
 
 
 	@Test
-	@Disabled("must be fixed by MM")
+	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
+	@SetEnvironmentVariable(key = "KAFKA_PASSWORD", value = "whatever")
+	@SetEnvironmentVariable(key = "KAFKA_TOPIC", value = "whatever")
+	@SetEnvironmentVariable(key = "KAFKA_BROKER", value = "whatever")
+
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "25")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
