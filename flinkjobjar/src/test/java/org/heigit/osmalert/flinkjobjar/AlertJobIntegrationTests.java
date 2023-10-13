@@ -39,8 +39,6 @@ class AlertJobIntegrationTests {
 					 "  \"id\": \"changeset-toplevel\",\n";
 
 
-
-	// @Disabled("check on github")
 	@Test
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "2025")
