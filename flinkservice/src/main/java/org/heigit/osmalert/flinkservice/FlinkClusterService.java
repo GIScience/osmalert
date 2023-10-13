@@ -1,6 +1,7 @@
 package org.heigit.osmalert.flinkservice;
 
 import java.io.*;
+import java.nio.file.*;
 
 import org.apache.flink.api.common.*;
 import org.apache.flink.client.deployment.*;
@@ -57,7 +58,6 @@ public class FlinkClusterService {
 		return jobId.toString();
 	}
 
-
 	JobGraph createJobGraph(String jobName) throws ProgramInvocationException {
 		System.out.println("jobName = " + jobName);
 
@@ -100,7 +100,16 @@ public class FlinkClusterService {
 
 	private File getJarFile(String resourceName) {
 		ClassLoader classLoader = getClass().getClassLoader();
-		return new File(classLoader.getResource(resourceName).getFile());
+		try {
+			// Copy file from resources to a temporary file since Flink requires a file
+			InputStream jarFileStream = classLoader.getResourceAsStream(resourceName);
+			File file = File.createTempFile("flinkjobjar", ".jar");
+			Files.copy(jarFileStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			return file;
+		} catch (IOException e) {
+			// There is no way to recover from this
+			throw new RuntimeException(e);
+		}
 	}
 
 }
