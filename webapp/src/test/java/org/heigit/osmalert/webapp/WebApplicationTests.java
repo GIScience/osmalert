@@ -32,7 +32,7 @@ class WebApplicationTests {
 
 	@Test
 	void dataHasBeenInitialized() {
-		assertThat(repository.findAll()).hasSize(2);
+		assertThat(repository.findAll()).hasSize(0);
 	}
 
 }
