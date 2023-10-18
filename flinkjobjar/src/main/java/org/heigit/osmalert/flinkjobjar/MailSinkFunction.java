@@ -2,6 +2,7 @@ package org.heigit.osmalert.flinkjobjar;
 
 import org.apache.flink.streaming.api.functions.sink.*;
 
+import static java.lang.Runtime.getRuntime;
 
 
 public class MailSinkFunction implements SinkFunction<Integer> {
@@ -24,6 +25,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	public void invoke(Integer value, Context context) {
 
 		System.out.println("##### MailSink input: " + value);
+
+		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
+		System.out.println("##### memory: maximum memory MB : " + getRuntime().maxMemory() / 1_000_000);
 
 		this.sendMail("total message length for last 60 seconds: " + value);
 	}
