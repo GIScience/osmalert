@@ -31,8 +31,18 @@ This makes sure that all modules are correctly built and resources processed.
 
 > Settings | Editor | Code Style | ☑️Enable EditorConfig Support
 
-To adapt IntelliJ's formatting rules to `osmalert` guidelines. 
- 
+To adapt IntelliJ's formatting rules to `osmalert` guidelines.
+
+### VM Options
+
+Below two arguments should be passed as the vm-options (run configuration) while
+running the web application. They can be set as VM Options in intellij's run
+configuration or can be passed as parameters if running in command line.
+
+```
+--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED
+```
+
 ## Project Structure
 
 - webapp
