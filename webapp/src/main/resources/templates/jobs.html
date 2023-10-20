@@ -72,7 +72,7 @@
             errorContainer.style.display = 'block';
             const responseText = event.detail.xhr.responseText;
             const errorData = JSON.parse(responseText);
-            errorCodeElement.textContent = errorData.error;
+            errorCodeElement.textContent = statusCode;
             errorMessageElement.textContent = ": " + errorData.message;
         } else {
             errorContainer.style.display = 'none';

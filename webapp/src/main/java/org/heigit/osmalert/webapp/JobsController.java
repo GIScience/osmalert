@@ -3,6 +3,7 @@ package org.heigit.osmalert.webapp;
 import java.util.*;
 import java.util.stream.*;
 
+import jakarta.validation.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
@@ -36,8 +37,17 @@ public class JobsController {
 							.toList();
 	}
 
+	@ExceptionHandler(ConstraintViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	ResponseEntity<Map<String, Object>> handleConstraintViolationException() {
+		Map<String, Object> response = new HashMap<>();
+		response.put("error", "400");
+		response.put("message", "Invalid Email");
+		return ResponseEntity.badRequest().body(response);
+	}
+
 	@PostMapping
-	String createNewJob(Model model, @RequestParam String jobName, @RequestParam String ownersEmail) {
+	String createNewJob(Model model, @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
 		if (checkJobName(jobName)) {
 			Job newJob = new Job(jobName);
 			newJob.setEmail(ownersEmail);

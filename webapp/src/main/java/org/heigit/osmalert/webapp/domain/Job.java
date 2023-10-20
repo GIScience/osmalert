@@ -1,6 +1,7 @@
 package org.heigit.osmalert.webapp.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Job {
@@ -13,6 +14,7 @@ public class Job {
 
 	private String flinkId;
 
+	@Email(regexp = ".+[@].+[\\.].+")
 	private String email;
 
 	protected Job() { }
