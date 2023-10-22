@@ -9,6 +9,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
+import org.springframework.boot.test.context.*;
 import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.test.web.servlet.*;
 
@@ -18,13 +19,14 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(value = {JobsController.class, OsmalertConfiguration.class})
+@SpringBootTest
+@AutoConfigureMockMvc
 class JobsControllerTests {
 
 	@Autowired
 	MockMvc mockMvc;
 
-	@MockBean
+	@SpyBean
 	JobRepository jobRepository;
 
 	@MockBean
@@ -57,7 +59,7 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "A job name")
-							.param("ownersEmail", "Something"))
+							.param("ownersEmail", "123@web.de"))
 			   .andExpect(status().isOk())
 			   .andExpect(model().attributeExists("jobs"))
 			   .andExpect(view().name("jobs::joblist"));
@@ -67,7 +69,7 @@ class JobsControllerTests {
 		assertThat(jobRequestCaptor.getValue().getJobName())
 			.isEqualTo("A job name");
 		assertThat(jobRequestCaptor.getValue().getEmail())
-			.isEqualTo("Something");
+			.isEqualTo("123@web.de");
 	}
 
 	@Test
@@ -111,9 +113,44 @@ class JobsControllerTests {
 			   .andExpect(result -> assertEquals("400 BAD_REQUEST \"Invalid job name\"", Objects
 																							 .requireNonNull(result.getResolvedException())
 																							 .getMessage()))
-			   .andExpect(result -> assertNotEquals("400 BAD_REQUEST", Objects.requireNonNull(result.getResolvedException()).getMessage()))
-		;
+			   .andExpect(result -> assertNotEquals("400 BAD_REQUEST", Objects.requireNonNull(result.getResolvedException()).getMessage()));
 
 	}
 
+	@Test
+	void rejectInvalidEmail() throws Exception {
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "666")
+							.param("ownersEmail", "123a"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid Email")
+			   ));
+
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "666")
+							.param("ownersEmail", "abc@def"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid Email")
+			   ));
+
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "666")
+							.param("ownersEmail", "@abc"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid Email")
+			   ));
+
+	}
+
+	@Test
+	void checkValidEmail() throws Exception {
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "666")
+							.param("ownersEmail", "hello@world.com"))
+			   .andExpect(status().isOk());
+	}
 }
+
