@@ -115,12 +115,25 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "")
-							.param("ownersEmail", "Something"))
-			   .andExpect(result -> assertEquals("400 BAD_REQUEST \"Invalid job name\"", Objects
-																							 .requireNonNull(result.getResolvedException())
-																							 .getMessage()))
-			   .andExpect(result -> assertNotEquals("400 BAD_REQUEST", Objects.requireNonNull(result.getResolvedException()).getMessage()));
-
+							.param("ownersEmail", "Something@hallo.de"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid jobName")
+			   ));
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "     text")
+							.param("ownersEmail", "Something@hallo.de"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid jobName")
+			   ));
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "     text test")
+							.param("ownersEmail", "Something@hallo.de"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid jobName")
+			   ));
 	}
 
 	@Test
