@@ -57,7 +57,7 @@ class JobsControllerTests {
 		ArgumentCaptor<Job> jobRequestCaptor = ArgumentCaptor.forClass(Job.class);
 
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "A job name")
+							.param("jobName", "Post New Job")
 							.param("ownersEmail", "123@web.de"))
 			   .andExpect(status().isOk())
 			   .andExpect(model().attributeExists("jobs"))
@@ -66,9 +66,14 @@ class JobsControllerTests {
 		verify(jobRepository).save(jobRequestCaptor.capture());
 
 		assertThat(jobRequestCaptor.getValue().getJobName())
-			.isEqualTo("a job name");
+			.isEqualTo("post new job");
 		assertThat(jobRequestCaptor.getValue().getEmail())
 			.isEqualTo("123@web.de");
+
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "Post New Job")
+							.param("ownersEmail", "123@web.de"))
+			   .andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -96,15 +101,15 @@ class JobsControllerTests {
 	@Test
 	void checkValidJobName() throws Exception {
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "testjob")
+							.param("jobName", "checkvalidjobname")
 							.param("ownersEmail", "hello@world.com"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "test test")
+							.param("jobName", "check valid Jobname")
 							.param("ownersEmail", "hello@world.com"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "A job name")
+							.param("jobName", " check Valid Job  Name2 ")
 							.param("ownersEmail", "hello@world.com"))
 			   .andExpect(status().isOk());
 	}
@@ -124,7 +129,7 @@ class JobsControllerTests {
 	@Test
 	void rejectInvalidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "666")
+							.param("jobName", "InvalidEmailJobName1")
 							.param("ownersEmail", "123a"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
@@ -132,7 +137,7 @@ class JobsControllerTests {
 			   ));
 
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "666")
+							.param("jobName", "InvalidEmailJobName2")
 							.param("ownersEmail", "abc@def"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
@@ -140,7 +145,7 @@ class JobsControllerTests {
 			   ));
 
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "666")
+							.param("jobName", "jobName3")
 							.param("ownersEmail", "@abc"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
@@ -152,7 +157,7 @@ class JobsControllerTests {
 	@Test
 	void checkValidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
-							.param("jobName", "666")
+							.param("jobName", "checkValidEmail1")
 							.param("ownersEmail", "hello@world.com"))
 			   .andExpect(status().isOk());
 	}

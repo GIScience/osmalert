@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.*;
 
 @Controller
 @RequestMapping("/jobs")
@@ -16,10 +17,12 @@ public class JobsController {
 
 	private final JobRepository jobRepository;
 	private final RemoteJobService remoteJobService;
+	private final Set<String> runningJobs;
 
 	public JobsController(JobRepository jobRepository, RemoteJobService remoteJobService) {
 		this.jobRepository = jobRepository;
 		this.remoteJobService = remoteJobService;
+		this.runningJobs = new HashSet<>();
 	}
 
 	@GetMapping
@@ -56,11 +59,15 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
-
-		Job newJob = new Job(normalizeJobName(jobName));
-		newJob.setEmail(ownersEmail);
-		jobRepository.save(newJob);
-
+		String normalizedJobName = normalizeJobName(jobName);
+		if (runningJobs.contains(normalizedJobName)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JobName already exists");
+		} else {
+			Job newJob = new Job(normalizedJobName);
+			newJob.setEmail(ownersEmail);
+			jobRepository.save(newJob);
+			runningJobs.add(normalizedJobName);
+		}
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
 	}
