@@ -25,6 +25,7 @@ class FlinkClusterServiceTests {
 	);
 
 	String jobName = "job_23";
+	String emailAddress = "email_23@email.com";
 
 
 
@@ -44,7 +45,7 @@ class FlinkClusterServiceTests {
 		FlinkRestsConfiguration config = new FlinkRestsConfiguration("", -1, 0);
 		FlinkClusterService clusterService = new FlinkClusterService(config);
 
-		JobGraph jobGraph = clusterService.createJobGraph("name");
+		JobGraph jobGraph = clusterService.createJobGraph("name", "emailAddress");
 		assertThat(jobGraph).isNotNull();
 
 	}
@@ -66,7 +67,7 @@ class FlinkClusterServiceTests {
 		MiniClusterClient clusterClient = getMiniClusterClient(miniCluster);
 		FlinkClusterService clusterService = new FlinkClusterService(clusterClient);
 
-		String jobId = clusterService.submitJarJobToCluster(jobName);
+		String jobId = clusterService.submitJarJobToCluster(jobName, emailAddress);
 		System.out.println("jobId = " + jobId);
 
 		assertEquals(32, jobId.length());

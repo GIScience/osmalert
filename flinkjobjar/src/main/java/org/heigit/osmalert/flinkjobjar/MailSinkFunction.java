@@ -2,7 +2,7 @@ package org.heigit.osmalert.flinkjobjar;
 
 import org.apache.flink.streaming.api.functions.sink.*;
 
-import static java.lang.Runtime.getRuntime;
+import static java.lang.Runtime.*;
 
 
 public class MailSinkFunction implements SinkFunction<Integer> {
@@ -11,13 +11,14 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final int port;
 	private final String username;
 	private final String password;
+	private final String emailAddress;
 
-
-	public MailSinkFunction(String host, int port, String username, String password) {
+	public MailSinkFunction(String host, int port, String username, String password, String emailAddress) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
 		this.password = password;
+		this.emailAddress = emailAddress;
 	}
 
 
@@ -29,7 +30,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
 		System.out.println("##### memory: maximum memory MB : " + getRuntime().maxMemory() / 1_000_000);
 
-		this.sendMail("total message length for last 60 seconds: " + value);
+		this.sendMail("total message length for last 60 seconds: " + value, this.emailAddress);
 	}
 
 
@@ -41,10 +42,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		return new MailSender(host, port, username, password);
 	}
 
-
-	private  void sendMail(String payload) {
+	private void sendMail(String payload, String emailAddress) {
 		MailSender mailSender = getMailSender();
-		mailSender.sendMail("osmalert@web.de", payload);
+		mailSender.sendMail(emailAddress, payload);
 		System.out.println("=== MAIL SENT! ===");
 	}
 

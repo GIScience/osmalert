@@ -30,7 +30,8 @@ public class AlertJob {
 																.name(sourceName);
 
 		String jobName = getJobName(args);
-		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password);
+		String emailAddress = args[1];
+		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
 	}
 
