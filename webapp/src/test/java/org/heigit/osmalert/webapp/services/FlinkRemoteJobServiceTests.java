@@ -1,6 +1,7 @@
 package org.heigit.osmalert.webapp.services;
 
 import org.apache.flink.api.common.*;
+import org.apache.flink.runtime.messages.*;
 import org.heigit.osmalert.flinkservice.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.junit.jupiter.api.*;
@@ -49,6 +50,17 @@ class FlinkRemoteJobServiceTests {
 		);
 		assertThat(flinkRemoteJobService.getStatus(job))
 			.isEqualTo(RemoteJobStatus.UNKNOWN);
+	}
+
+	@Test
+	void statusIsArchivedWhenFlinkJobNotFoundExceptionOccurs() throws Exception {
+		Job job = new Job("job1", 1L);
+		job.setFlinkId("1234");
+		when(flinkClusterService.getStatus(anyString())).thenThrow(
+			new FlinkJobNotFoundException(new JobID())
+		);
+		assertThat(flinkRemoteJobService.getStatus(job))
+			.isEqualTo(RemoteJobStatus.ARCHIVED);
 	}
 
 	@Test

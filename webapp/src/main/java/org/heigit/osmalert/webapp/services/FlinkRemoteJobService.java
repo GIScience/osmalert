@@ -35,9 +35,16 @@ public class FlinkRemoteJobService implements RemoteJobService {
 			JobStatus status = flinkClusterService.getStatus(job.getFlinkId());
 			return toRemoteJobStatus(status);
 		} catch (Exception e) {
-			// TODO: handle exception
-			return RemoteJobStatus.UNKNOWN;
+			return getStatusExceptionHandling(e);
 		}
+	}
+
+	private RemoteJobStatus getStatusExceptionHandling(Exception e) {
+		String exceptionMsg = e.getMessage();
+		if (exceptionMsg.contains("Could not find Flink job") || exceptionMsg.contains("FlinkJobNotFoundException")) {
+			return RemoteJobStatus.ARCHIVED;
+		}
+		return RemoteJobStatus.UNKNOWN;
 	}
 
 	@SuppressWarnings("OverlyComplexMethod")
