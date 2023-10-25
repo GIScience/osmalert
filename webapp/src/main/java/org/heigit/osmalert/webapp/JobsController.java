@@ -9,7 +9,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.*;
 
 @Controller
 @RequestMapping("/jobs")
@@ -42,7 +41,6 @@ public class JobsController {
 	ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
 
 		Map<String, String> response = new HashMap<>();
-		;
 		if (e.getLocalizedMessage().contains("Invalid Email")) {
 			response.put("error", "400");
 			response.put("message", "Invalid Email");
