@@ -39,29 +39,39 @@ public class JobsController {
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<Map<String, Object>> handleConstraintViolationException() {
-		Map<String, Object> response = new HashMap<>();
-		response.put("error", "400");
-		response.put("message", "Invalid Email");
+	ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
+
+		Map<String, String> response = new HashMap<>();
+		;
+		if (e.getLocalizedMessage().contains("Invalid Email")) {
+			response.put("error", "400");
+			response.put("message", "Invalid Email");
+		} else if (e.getLocalizedMessage().contains("Invalid jobName")) {
+			response.put("error", "400");
+			response.put("message", "Invalid jobName");
+		} else {
+			response.put("error", "412");
+			response.put("message", "Unknown source");
+		}
 		return ResponseEntity.badRequest().body(response);
 	}
 
 	@PostMapping
-	String createNewJob(Model model, @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
-		if (checkJobName(jobName)) {
-			Job newJob = new Job(jobName);
-			newJob.setEmail(ownersEmail);
-			jobRepository.save(newJob);
-		} else {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid job name");
-		}
+	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
+		// if (checkJobName(jobName)) {
+		Job newJob = new Job(jobName);
+		newJob.setEmail(ownersEmail);
+		jobRepository.save(newJob);
+		// } else {
+		// 	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid job name");
+		// }
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
 	}
 
-	public static boolean checkJobName(String jobName) {
-		return jobName.matches("[^ ]*([A-Za-z0-9]+ ?)+[^ ]*");
-	}
+	// public static boolean checkJobName(String jobName) {
+	// 	return jobName.matches("[^ ]*([A-Za-z0-9]+ ?)+[^ ]*");
+	// }
 
 	@GetMapping("/status")
 	@ResponseBody

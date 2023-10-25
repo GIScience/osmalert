@@ -10,14 +10,15 @@ public class Job {
 	@GeneratedValue
 	private Long id;
 
+	@Pattern(regexp = "[^ ]*([A-Za-z0-9]+ ?)+[^ ]*", message = "Invalid jobName")
 	private String jobName;
 
 	private String flinkId;
 
-	@Email(regexp = ".+[@].+[\\.].+")
+	@Email(regexp = ".+[@].+[\\.].+", message = "Invalid Email")
 	private String email;
 
-	protected Job() { }
+	protected Job() {}
 
 	public Job(String jobName) {
 		this.jobName = jobName;

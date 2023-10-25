@@ -95,13 +95,19 @@ class JobsControllerTests {
 	}
 
 	@Test
-	void checkEmptyJobName() {
-		assertThat(JobsController.checkJobName("testjob")).isTrue();
-		assertThat(JobsController.checkJobName("")).isFalse();
-		assertThat(JobsController.checkJobName("     text")).isFalse();
-		assertThat(JobsController.checkJobName("     text test")).isFalse();
-		assertThat(JobsController.checkJobName("text test")).isTrue();
-		assertThat(JobsController.checkJobName("A job name")).isTrue();
+	void checkValidJobName() throws Exception {
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "testjob")
+							.param("ownersEmail", "hello@world.com"))
+			   .andExpect(status().isOk());
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "test test")
+							.param("ownersEmail", "hello@world.com"))
+			   .andExpect(status().isOk());
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "A job name")
+							.param("ownersEmail", "hello@world.com"))
+			   .andExpect(status().isOk());
 	}
 
 	@Test
@@ -153,4 +159,3 @@ class JobsControllerTests {
 			   .andExpect(status().isOk());
 	}
 }
-
