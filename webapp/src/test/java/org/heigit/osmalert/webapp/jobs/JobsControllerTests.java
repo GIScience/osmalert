@@ -67,7 +67,7 @@ class JobsControllerTests {
 		verify(jobRepository).save(jobRequestCaptor.capture());
 
 		assertThat(jobRequestCaptor.getValue().getJobName())
-			.isEqualTo("A job name");
+			.isEqualTo("a job name");
 		assertThat(jobRequestCaptor.getValue().getEmail())
 			.isEqualTo("123@web.de");
 	}
@@ -120,20 +120,6 @@ class JobsControllerTests {
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid jobName")
 			   ));
-		mockMvc.perform(post("/jobs")
-							.param("jobName", "     text")
-							.param("ownersEmail", "Something@hallo.de"))
-			   .andExpect(status().isBadRequest())
-			   .andExpect(content().string(
-				   Matchers.containsString("Invalid jobName")
-			   ));
-		mockMvc.perform(post("/jobs")
-							.param("jobName", "     text test")
-							.param("ownersEmail", "Something@hallo.de"))
-			   .andExpect(status().isBadRequest())
-			   .andExpect(content().string(
-				   Matchers.containsString("Invalid jobName")
-			   ));
 	}
 
 	@Test
@@ -170,5 +156,15 @@ class JobsControllerTests {
 							.param("jobName", "666")
 							.param("ownersEmail", "hello@world.com"))
 			   .andExpect(status().isOk());
+	}
+
+	@Test
+	void checkNormalizeJobName() {
+		assertThat("jobname").isEqualTo(JobsController.normalizeJobName("    jobName"));
+		assertThat("jobname").isEqualTo(JobsController.normalizeJobName("    jobName          "));
+		assertThat("job name").isEqualTo(JobsController.normalizeJobName("job    Name"));
+		assertThat("jobname").isEqualTo(JobsController.normalizeJobName("JOBNAME"));
+		assertThat("job name ggg").isEqualTo(JobsController.normalizeJobName("    job   Name       ggg   "));
+		assertThat("").isEqualTo(JobsController.normalizeJobName("      "));
 	}
 }

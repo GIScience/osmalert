@@ -58,20 +58,19 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
-		// if (checkJobName(jobName)) {
-		Job newJob = new Job(jobName);
+
+		Job newJob = new Job(normalizeJobName(jobName));
 		newJob.setEmail(ownersEmail);
 		jobRepository.save(newJob);
-		// } else {
-		// 	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid job name");
-		// }
+
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
 	}
 
-	// public static boolean checkJobName(String jobName) {
-	// 	return jobName.matches("[^ ]*([A-Za-z0-9]+ ?)+[^ ]*");
-	// }
+	public static String normalizeJobName(String jobName) {
+		// Do not optimize the ReplaceAll Regex! The IntelliJ Suggestion breaks it.
+		return jobName.replaceAll("[ ]{2,}", " ").toLowerCase().trim();
+	}
 
 	@GetMapping("/status")
 	@ResponseBody
