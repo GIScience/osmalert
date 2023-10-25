@@ -59,7 +59,9 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
+
 		String normalizedJobName = normalizeJobName(jobName);
+		CleanUpRunningJobs();
 		if (runningJobs.contains(normalizedJobName)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JobName already exists");
 		} else {
@@ -72,6 +74,15 @@ public class JobsController {
 		return "jobs::joblist";
 	}
 
+	private void CleanUpRunningJobs() {
+		for (Job job : jobRepository.findAll()) {
+			if (remoteJobService.getStatus(job) == RemoteJobStatus.FAILED
+					|| remoteJobService.getStatus(job) == RemoteJobStatus.FINISHED) {
+				runningJobs.remove(job.getJobName());
+			}
+		}
+	}
+
 	public static String normalizeJobName(String jobName) {
 		// Do not optimize the ReplaceAll Regex! The IntelliJ Suggestion breaks it.
 		return jobName.replaceAll("[ ]{2,}", " ").toLowerCase().trim();
@@ -80,9 +91,9 @@ public class JobsController {
 	@GetMapping("/status")
 	@ResponseBody
 	String getJobStatus(Model model, String jobId) {
+		CleanUpRunningJobs();
 		// jobId is long but js cannot handle long
 		long id = Long.parseLong(jobId);
-
 		// TODO: Move job status retrieval to JobsService
 		Optional<Job> optionalJob = jobRepository.findById(id);
 		return optionalJob.map(job -> remoteJobService.getStatus(job).name())
