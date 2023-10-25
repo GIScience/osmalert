@@ -25,7 +25,7 @@ class FlinkClusterServiceTests {
 	);
 
 	String jobName = "job_23";
-	String emailAddress = "email_23@email.com";
+	String emailAddress = "user@example.org";
 
 
 
@@ -94,7 +94,7 @@ class FlinkClusterServiceTests {
 
 		FlinkClusterService clusterService = new FlinkClusterService();
 
-		submitJobAndCheck("finally works!!", clusterService);
+		submitJobAndCheck("finally works!!", "valid email address!!", clusterService);
 
 	}
 
@@ -111,7 +111,7 @@ class FlinkClusterServiceTests {
 
 		FlinkClusterService clusterService = new FlinkClusterService(restConfiguration);
 
-		clusterService.submitJarJobToCluster("try_job_with_mail");
+		clusterService.submitJarJobToCluster("try_job_with_mail", "user@example.org");
 
 	}
 
@@ -128,9 +128,9 @@ class FlinkClusterServiceTests {
 		assertTrue(clusterService.getFlinkJobJar().exists());
 	}
 
-	private static void submitJobAndCheck(String name, FlinkClusterService clusterService) {
+	private static void submitJobAndCheck(String name, String emailAddress, FlinkClusterService clusterService) {
 		try {
-			String id = clusterService.submitJarJobToCluster(name);
+			String id = clusterService.submitJarJobToCluster(name, emailAddress);
 			System.out.println("jobId = " + id);
 			assertTrue(clusterService.isNotFailed(id));
 		} catch (Exception e) {
