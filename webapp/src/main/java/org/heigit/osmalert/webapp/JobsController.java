@@ -72,14 +72,14 @@ public class JobsController {
 	}
 
 	private boolean checkRunningJobs(String jobname) {
-		boolean bRet = false;
+		boolean returnValue = false;
 		for (Job job : jobRepository.findAll()) {
 			if (!isJobFailedFinished(job) && job.getJobName().equals(jobname)) {
-				bRet = true;
+				returnValue = true;
 				break;
 			}
 		}
-		return bRet;
+		return returnValue;
 	}
 
 	private boolean isJobFailedFinished(Job job) {
