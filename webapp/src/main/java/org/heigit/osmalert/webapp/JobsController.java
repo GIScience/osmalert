@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import jakarta.validation.*;
+import org.apache.commons.lang3.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
@@ -86,8 +87,7 @@ public class JobsController {
 	}
 
 	public static String normalizeJobName(String jobName) {
-		// Do not optimize the ReplaceAll Regex! The IntelliJ Suggestion breaks it.
-		return jobName.replaceAll("[ ]{2,}", " ").toLowerCase().trim();
+		return StringUtils.normalizeSpace(jobName.toLowerCase());
 	}
 
 	@GetMapping("/status")
