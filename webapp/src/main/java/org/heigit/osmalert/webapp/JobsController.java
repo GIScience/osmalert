@@ -17,12 +17,10 @@ public class JobsController {
 
 	private final JobRepository jobRepository;
 	private final RemoteJobService remoteJobService;
-	private final Set<String> runningJobs;
 
 	public JobsController(JobRepository jobRepository, RemoteJobService remoteJobService) {
 		this.jobRepository = jobRepository;
 		this.remoteJobService = remoteJobService;
-		this.runningJobs = new HashSet<>();
 	}
 
 	@GetMapping
@@ -61,26 +59,30 @@ public class JobsController {
 	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
 
 		String normalizedJobName = normalizeJobName(jobName);
-		CleanUpRunningJobs();
-		if (runningJobs.contains(normalizedJobName)) {
+		if (checkRunningJobs(normalizedJobName)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JobName already exists");
 		} else {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
 			jobRepository.save(newJob);
-			runningJobs.add(normalizedJobName);
 		}
 		model.addAttribute("jobs", getAllJobs());
 		return "jobs::joblist";
 	}
 
-	private void CleanUpRunningJobs() {
+	private boolean checkRunningJobs(String jobname) {
+		boolean bRet = false;
 		for (Job job : jobRepository.findAll()) {
-			if (remoteJobService.getStatus(job) == RemoteJobStatus.FAILED
-					|| remoteJobService.getStatus(job) == RemoteJobStatus.FINISHED) {
-				runningJobs.remove(job.getJobName());
+			if (!isJobFailedFinished(job) && job.getJobName().equals(jobname)) {
+				bRet = true;
+				break;
 			}
 		}
+		return bRet;
+	}
+
+	private boolean isJobFailedFinished(Job job) {
+		return remoteJobService.getStatus(job) == RemoteJobStatus.FAILED || remoteJobService.getStatus(job) == RemoteJobStatus.FINISHED;
 	}
 
 	public static String normalizeJobName(String jobName) {
@@ -91,7 +93,6 @@ public class JobsController {
 	@GetMapping("/status")
 	@ResponseBody
 	String getJobStatus(Model model, String jobId) {
-		CleanUpRunningJobs();
 		// jobId is long but js cannot handle long
 		long id = Long.parseLong(jobId);
 		// TODO: Move job status retrieval to JobsService
