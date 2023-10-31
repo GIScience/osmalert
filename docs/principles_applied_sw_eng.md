@@ -4,6 +4,12 @@
 🍍🍍 PrINciplEs of APPLiEd Software Engineering 🍍🍍
 
 
+
+> [!NOTE]  
+> This is work in progress.
+
+
+
 ## Text-based
 
 * all artifacts are text
