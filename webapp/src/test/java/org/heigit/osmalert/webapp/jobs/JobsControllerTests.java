@@ -3,8 +3,8 @@ package org.heigit.osmalert.webapp.jobs;
 import java.util.*;
 
 import org.hamcrest.*;
-import org.heigit.osmalert.webapp.*;
 import org.heigit.osmalert.webapp.domain.*;
+import org.heigit.osmalert.webapp.services.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.*;
@@ -164,11 +164,11 @@ class JobsControllerTests {
 
 	@Test
 	void checkNormalizeJobName() {
-		assertThat("jobname").isEqualTo(JobsController.normalizeJobName("    jobName"));
-		assertThat("jobname").isEqualTo(JobsController.normalizeJobName("    jobName          "));
-		assertThat("job name").isEqualTo(JobsController.normalizeJobName("job    Name"));
-		assertThat("jobname").isEqualTo(JobsController.normalizeJobName("JOBNAME"));
-		assertThat("job name ggg").isEqualTo(JobsController.normalizeJobName("    job   Name       ggg   "));
-		assertThat("").isEqualTo(JobsController.normalizeJobName("      "));
+		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("    jobName"));
+		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("    jobName          "));
+		assertThat("job name").isEqualTo(JobsService.normalizeJobName("job    Name"));
+		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("JOBNAME"));
+		assertThat("job name ggg").isEqualTo(JobsService.normalizeJobName("    job   Name       ggg   "));
+		assertThat("").isEqualTo(JobsService.normalizeJobName("      "));
 	}
 }
