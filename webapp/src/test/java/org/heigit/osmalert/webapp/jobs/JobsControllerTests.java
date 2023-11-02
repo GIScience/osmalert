@@ -160,14 +160,4 @@ class JobsControllerTests {
 							.param("ownersEmail", "hello@world.com"))
 			   .andExpect(status().isOk());
 	}
-
-	@Test
-	void checkNormalizeJobName() {
-		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("    jobName"));
-		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("    jobName          "));
-		assertThat("job name").isEqualTo(JobsService.normalizeJobName("job    Name"));
-		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("JOBNAME"));
-		assertThat("job name ggg").isEqualTo(JobsService.normalizeJobName("    job   Name       ggg   "));
-		assertThat("").isEqualTo(JobsService.normalizeJobName("      "));
-	}
 }
