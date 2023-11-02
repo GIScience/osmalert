@@ -4,36 +4,30 @@ import java.util.*;
 
 import jakarta.validation.*;
 import org.heigit.osmalert.webapp.domain.*;
+import org.heigit.osmalert.webapp.services.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.*;
 
+import static org.heigit.osmalert.webapp.services.JobsService.*;
+
 @Controller
 @RequestMapping("/jobs")
 public class JobsController {
 
-	private final JobRepository jobRepository;
-	private final RemoteJobService remoteJobService;
+	private final JobsService jobsService;
 
-	public JobsController(JobRepository jobRepository, RemoteJobService remoteJobService) {
-		this.jobRepository = jobRepository;
-		this.remoteJobService = remoteJobService;
+	public JobsController(JobsService jobsService) {
+		this.jobsService = jobsService;
 	}
 
 	@GetMapping
 	String allJobs(Model model) {
-		model.addAttribute("jobs", getAllJobs());
+		model.addAttribute("jobs", jobsService.getAllJobs());
 		// w/o @ResponseBody, the return value gets interpreted as view name
 		return "jobs";
-	}
-
-	// TODO: Move to a JobsService class
-	private List<Job> getAllJobs() {
-		Iterable<Job> all = jobRepository.findAll();
-		return StreamSupport.stream(all.spliterator(), false)
-							.toList();
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -56,45 +50,22 @@ public class JobsController {
 
 	@PostMapping
 	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
-
 		String normalizedJobName = normalizeJobName(jobName);
-		if (checkRunningJobs(normalizedJobName)) {
+		if (jobsService.checkRunningJobs(normalizedJobName)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JobName already exists");
 		} else {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
-			jobRepository.save(newJob);
+			jobsService.saveNewJob(newJob);
 		}
 		model.addAttribute("jobs", jobsService.getAllJobs());
 		return "jobs::joblist";
-	}
-
-	private boolean checkRunningJobs(String jobname) {
-		boolean returnValue = false;
-		for (Job job : jobRepository.findAll()) {
-			if (!isJobFailedFinished(job) && job.getJobName().equals(jobname)) {
-				returnValue = true;
-				break;
-			}
-		}
-		return returnValue;
-	}
-
-	private boolean isJobFailedFinished(Job job) {
-		return remoteJobService.getStatus(job) == RemoteJobStatus.FAILED || remoteJobService.getStatus(job) == RemoteJobStatus.FINISHED;
-	}
-
-	public static String normalizeJobName(String jobName) {
-		return StringUtils.normalizeSpace(jobName.toLowerCase());
 	}
 
 	@GetMapping("/status")
 	@ResponseBody
 	String getJobStatus(Model model, String jobId) {
 		long id = Long.parseLong(jobId);
-		// TODO: Move job status retrieval to JobsService
-		Optional<Job> optionalJob = jobRepository.findById(id);
-		return optionalJob.map(job -> remoteJobService.getStatus(job).name())
-						  .orElseThrow(() -> new RuntimeException("no job with ID " + id));
+		return jobsService.getJobStatus(id);
 	}
 }

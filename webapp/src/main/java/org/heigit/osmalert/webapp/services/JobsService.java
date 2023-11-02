@@ -35,7 +35,7 @@ public class JobsService {
 		return returnValue;
 	}
 
-	private boolean isJobFailedFinished(Job job) {
+	public boolean isJobFailedFinished(Job job) {
 		return remoteJobService.getStatus(job) == RemoteJobStatus.FAILED || remoteJobService.getStatus(job) == RemoteJobStatus.FINISHED;
 	}
 

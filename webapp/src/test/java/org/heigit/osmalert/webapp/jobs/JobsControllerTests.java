@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.hamcrest.*;
 import org.heigit.osmalert.webapp.domain.*;
-import org.heigit.osmalert.webapp.services.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.*;
