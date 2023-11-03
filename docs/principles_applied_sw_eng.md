@@ -17,6 +17,7 @@
   * (architecture) diagrams: e.g. PlantUML 
   * graphics: SVG  
   * all documents (e.g. requirements, architecture): Markdown
+* enables diffs, merging, global search and replace, and line-by-line traceability
 
 
 ## Versioned
