@@ -38,7 +38,9 @@
 * all tests are versioned 
 * all tests are automatically executed during build  
 * TDD when feasible
-
+* developer testing, especially TDD, positively influences design
+* developer testing is not (so much) about finding bugs (see "Weinberg's law")
+* good test coverage enables safe refactorings
 
 ## Always integrated
 
