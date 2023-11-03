@@ -2,8 +2,7 @@ package org.heigit.osmalert.flinkjobjar;
 
 import org.apache.flink.streaming.api.functions.sink.*;
 
-import static java.lang.Runtime.*;
-
+import static java.lang.Runtime.getRuntime;
 
 public class MailSinkFunction implements SinkFunction<Integer> {
 
@@ -21,7 +20,6 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		this.emailAddress = emailAddress;
 	}
 
-
 	@Override
 	public void invoke(Integer value, Context context) {
 
@@ -32,7 +30,6 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		this.sendMail("total message length for last 60 seconds: " + value, this.emailAddress);
 	}
-
 
 	private MailSender getMailSender() {
 
@@ -47,8 +44,5 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		mailSender.sendMail(emailAddress, payload);
 		System.out.println("=== MAIL SENT! ===");
 	}
-
-
-
 
 }

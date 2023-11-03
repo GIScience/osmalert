@@ -8,16 +8,12 @@ import static org.apache.flink.api.common.eventtime.WatermarkStrategy.*;
 import static org.apache.flink.streaming.api.windowing.time.Time.*;
 import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
-
 public class AlertJob {
-
 
 	static String host = System.getenv("MAILERTOGO_SMTP_HOST").toString();
 	static int port = Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT"));
 	static String username = System.getenv("MAILERTOGO_SMTP_USER").toString();
 	static String password = System.getenv("MAILERTOGO_SMTP_PASSWORD").toString();
-
-
 
 	public static void main(String[] args) throws Exception {
 
@@ -30,15 +26,14 @@ public class AlertJob {
 																.name(sourceName);
 
 		String jobName = getJobName(args);
-		String emailAddress = args[1];
+		String emailAddress = getEmailAdress(args);
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
 	}
 
-
-
-	static void configureAndRunJob(String jobName, SingleOutputStreamOperator<String> streamOperator,
-								   StreamExecutionEnvironment environment, int windowSeconds, MailSinkFunction mailSink
+	static void configureAndRunJob(
+		String jobName, SingleOutputStreamOperator<String> streamOperator,
+		StreamExecutionEnvironment environment, int windowSeconds, MailSinkFunction mailSink
 	) throws Exception {
 
 
@@ -50,7 +45,10 @@ public class AlertJob {
 
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
-			.map( i -> {System.out.println("reduced sum: " + i); return i;})
+			.map(i -> {
+				System.out.println("reduced sum: " + i);
+				return i;
+			})
 
 			.addSink(mailSink)
 			.uid(sinkName)
@@ -59,12 +57,10 @@ public class AlertJob {
 		environment.execute(jobName);
 	}
 
-
 	private static String log(String contribution) {
 		System.out.println("contribution = " + contribution);
 		return contribution;
 	}
-
 
 	private static String getJobName(String[] args) {
 		assert args[0] != null;
@@ -73,6 +69,11 @@ public class AlertJob {
 		return jobName;
 	}
 
-
+	private static String getEmailAdress(String[] args) {
+		assert args[1] != null;
+		String emailAdress = args[1];
+		System.out.println("=== " + emailAdress + " ===");
+		return emailAdress;
+	}
 
 }
