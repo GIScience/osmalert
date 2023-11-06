@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.boot.test.mock.mockito.*;
+import org.springframework.security.test.context.support.*;
 import org.springframework.test.web.servlet.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -31,6 +32,7 @@ class JobsControllerTests {
 	RemoteJobService remoteJobService;
 
 	@Test
+	@WithMockUser
 	void getAllJobs() throws Exception {
 		List<Job> jobs = List.of(
 			new Job("job1"),
@@ -52,6 +54,7 @@ class JobsControllerTests {
 	}
 
 	@Test
+	@WithMockUser
 	void postNewJob() throws Exception {
 		ArgumentCaptor<Job> jobRequestCaptor = ArgumentCaptor.forClass(Job.class);
 
@@ -76,6 +79,7 @@ class JobsControllerTests {
 	}
 
 	@Test
+	@WithMockUser
 	void getJobStatus() throws Exception {
 		Job unsubmittedJob = new Job("one", 1L);
 		Job submittedJob = new Job("two", 2L);
@@ -98,6 +102,7 @@ class JobsControllerTests {
 	}
 
 	@Test
+	@WithMockUser
 	void checkValidJobName() throws Exception {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkvalidjobname")
@@ -114,6 +119,7 @@ class JobsControllerTests {
 	}
 
 	@Test
+	@WithMockUser
 	void rejectEmptyJobName() throws Exception {
 
 		mockMvc.perform(post("/jobs")
@@ -126,6 +132,7 @@ class JobsControllerTests {
 	}
 
 	@Test
+	@WithMockUser
 	void rejectInvalidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName1")
@@ -154,6 +161,7 @@ class JobsControllerTests {
 	}
 
 	@Test
+	@WithMockUser
 	void checkValidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidEmail1")
