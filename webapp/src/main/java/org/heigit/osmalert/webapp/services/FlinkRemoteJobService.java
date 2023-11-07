@@ -3,6 +3,7 @@ package org.heigit.osmalert.webapp.services;
 import org.apache.flink.api.common.*;
 import org.heigit.osmalert.flinkservice.*;
 import org.heigit.osmalert.webapp.domain.*;
+import org.heigit.osmalert.webapp.exceptions.*;
 
 public class FlinkRemoteJobService implements RemoteJobService {
 
@@ -22,7 +23,7 @@ public class FlinkRemoteJobService implements RemoteJobService {
 			jobRepository.save(job);
 		} catch (Exception e) {
 			// TODO: handle exception properly
-			throw new RuntimeException(e);
+			throw new SubmitJobException("Failed to submit the job to flink cluster");
 		}
 	}
 
