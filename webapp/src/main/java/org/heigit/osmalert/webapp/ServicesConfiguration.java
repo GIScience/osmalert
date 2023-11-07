@@ -21,9 +21,12 @@ public class ServicesConfiguration {
 				config.getFlinkPort(),
 				config.getFlinkMaxRetryAttempts()
 			);
-			// TODO: Handle potential exceptions
-			FlinkClusterService flinkClusterService = new FlinkClusterService(flinkRestConfiguration);
-			return new FlinkRemoteJobService(jobRepository, flinkClusterService);
+			try {
+				FlinkClusterService flinkClusterService = new FlinkClusterService(flinkRestConfiguration);
+				return new FlinkRemoteJobService(jobRepository, flinkClusterService);
+			} catch (Exception e) {
+				throw new RemoteJobServiceException("Failed to create FlinkClusterService", e);
+			}
 		} else {
 			return new FakeRemoteJobService(jobRepository);
 		}

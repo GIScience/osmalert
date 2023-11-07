@@ -5,6 +5,7 @@ import java.util.stream.*;
 
 import org.apache.commons.lang3.*;
 import org.heigit.osmalert.webapp.domain.*;
+import org.heigit.osmalert.webapp.exceptions.*;
 import org.springframework.stereotype.*;
 
 @Service
@@ -46,7 +47,7 @@ public class JobsService {
 	public String getJobStatus(long id) {
 		Optional<Job> optionalJob = jobRepository.findById(id);
 		return optionalJob.map(job -> remoteJobService.getStatus(job).name())
-						  .orElseThrow(() -> new RuntimeException("no job with ID " + id));
+						  .orElseThrow(() -> new NoJobIdException(Long.toString(id)));
 	}
 
 	public void saveNewJob(Job newJob) {
