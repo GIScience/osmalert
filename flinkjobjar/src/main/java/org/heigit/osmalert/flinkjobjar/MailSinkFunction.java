@@ -36,7 +36,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis);
 		String emailContent = "Dear user,\n\nIn the last 60 seconds, there have been "
 								  + value + " new OpenStreetMap updates.\n" + timeRange
-								  + "\nThank you,\nOSM Alert System";
+								  + "\n\nThank you,\nOSM Alert System";
 
 		this.sendMail(emailContent, this.emailAddress);
 	}
