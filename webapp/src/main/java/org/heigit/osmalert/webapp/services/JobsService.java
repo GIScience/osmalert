@@ -26,14 +26,14 @@ public class JobsService {
 	}
 
 	public boolean isJobRunning(String jobname) {
-		boolean returnValue = false;
+		boolean isRunning = false;
 		for (Job job : jobRepository.findAll()) {
 			if (!isJobFailedFinished(job) && job.getJobName().equals(jobname)) {
-				returnValue = true;
+				isRunning = true;
 				break;
 			}
 		}
-		return returnValue;
+		return isRunning;
 	}
 
 	public boolean isJobFailedFinished(Job job) {
