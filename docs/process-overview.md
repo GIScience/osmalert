@@ -3,7 +3,7 @@
 ## What we would like to do
 
 - Stand-up/sync meetings once or twice a working day
-- Make critical decisions in stand-ops
+- Make critical decisions in stand-ups
 - More documentation during the sprint
 - Layout and fonts should be fixed in advance
 - Finalize presentation in advance & rehearse
@@ -19,9 +19,10 @@
         - Discussions
         - Stand-ups
 - At the end
-    - Prepare Review & Retrospektive
+    - Prepare Review & retrospective
     - Remove name label
     - Set In Progress back to todo
+    - Put progress of unfinished tasks in the description of the issue
 
 ## Tools
 
