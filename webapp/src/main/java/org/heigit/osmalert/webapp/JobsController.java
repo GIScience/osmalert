@@ -30,7 +30,7 @@ public class JobsController {
 	@PostMapping
 	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
 		String normalizedJobName = normalizeJobName(jobName);
-		if (jobsService.checkRunningJobs(normalizedJobName)) {
+		if (jobsService.isJobRunning(normalizedJobName)) {
 			throw new JobNameExistException();
 		} else {
 			Job newJob = new Job(normalizedJobName);

@@ -55,7 +55,7 @@ public class JobsServiceTests {
 		Job job1 = new Job("job1");
 		Mockito.when(jobRepository.findAll()).thenReturn(List.of(job1));
 		Mockito.when(remoteJobService.getStatus(job1)).thenReturn(RemoteJobStatus.RUNNING);
-		boolean result = jobsService.checkRunningJobs("job1");
+		boolean result = jobsService.isJobRunning("job1");
 		assertThat(result).isEqualTo(true);
 	}
 

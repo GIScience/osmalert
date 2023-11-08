@@ -25,7 +25,7 @@ public class JobsService {
 							.toList();
 	}
 
-	public boolean checkRunningJobs(String jobname) {
+	public boolean isJobRunning(String jobname) {
 		boolean returnValue = false;
 		for (Job job : jobRepository.findAll()) {
 			if (!isJobFailedFinished(job) && job.getJobName().equals(jobname)) {
