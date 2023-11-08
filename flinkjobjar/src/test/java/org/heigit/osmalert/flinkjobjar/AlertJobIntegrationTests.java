@@ -16,9 +16,7 @@ import org.junitpioneer.jupiter.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
 
-
 class AlertJobIntegrationTests {
-
 
 	@RegisterExtension
 	static MiniClusterExtension miniClusterExtension = new MiniClusterExtension(
@@ -28,16 +26,13 @@ class AlertJobIntegrationTests {
 			.build()
 	);
 
-
 	@RegisterExtension
 	static FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
 													   .port(2025);
 
-
 	static String contribution = "{\n" +
-					 "  \"replicationSequence\": 1,\n" +
-					 "  \"id\": \"changeset-toplevel\",\n";
-
+									 "  \"replicationSequence\": 1,\n" +
+									 "  \"id\": \"changeset-toplevel\",\n";
 
 	@Test
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
@@ -60,7 +55,6 @@ class AlertJobIntegrationTests {
 
 	}
 
-
 	static class SlowStringIterator implements Iterator<String>, Serializable {
 
 		int count = 0;
@@ -82,7 +76,5 @@ class AlertJobIntegrationTests {
 			return contribution + count;
 		}
 	}
-
-
 
 }

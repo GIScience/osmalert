@@ -26,7 +26,7 @@ public class AlertJob {
 																.name(sourceName);
 
 		String jobName = getJobName(args);
-		String emailAddress = getEmailAdress(args);
+		String emailAddress = getEmailAddress(args);
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
 	}
@@ -41,15 +41,9 @@ public class AlertJob {
 
 		streamOperator
 			.map(AlertJob::log)
-			.map(String::length)
-
+			.map(log -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
-			.map(i -> {
-				System.out.println("reduced sum: " + i);
-				return i;
-			})
-
 			.addSink(mailSink)
 			.uid(sinkName)
 			.name(sinkName);
@@ -69,7 +63,7 @@ public class AlertJob {
 		return jobName;
 	}
 
-	private static String getEmailAdress(String[] args) {
+	private static String getEmailAddress(String[] args) {
 		assert args[1] != null;
 		String emailAdress = args[1];
 		System.out.println("=== " + emailAdress + " ===");
