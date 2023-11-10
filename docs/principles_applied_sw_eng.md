@@ -84,7 +84,11 @@
   * comments (last resort)
 
 
+## Quality-focused
 
+* structural integrity and readability are paramount
+* continuous refactoring to improve internal quality
+* little relation to ISO or similar norms
     
 
 
