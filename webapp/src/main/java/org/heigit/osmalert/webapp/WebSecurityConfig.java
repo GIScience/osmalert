@@ -1,5 +1,6 @@
 package org.heigit.osmalert.webapp;
 
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
@@ -15,11 +16,11 @@ import static org.springframework.security.config.Customizer.*;
 public class WebSecurityConfig {
 
 	@Bean
-	public UserDetailsService userDetailsService() {
+	public UserDetailsService userDetailsService(@Qualifier("osmalert") OsmalertConfiguration config) {
 		UserDetails user =
 			User.withDefaultPasswordEncoder()
-				.username("osmalert")
-				.password("1234")
+				.username(config.getWebUsername())
+				.password(config.getWebPassword())
 				.roles("USER")
 				.build();
 		return new InMemoryUserDetailsManager(user);

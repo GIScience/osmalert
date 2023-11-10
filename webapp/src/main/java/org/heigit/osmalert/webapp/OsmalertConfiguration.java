@@ -14,6 +14,24 @@ public class OsmalertConfiguration {
 	private String flinkHost;
 	private int flinkPort;
 	private int flinkMaxRetryAttempts;
+	private String webPassword;
+	private String webUsername;
+
+	public String getWebPassword() {
+		return webPassword;
+	}
+
+	public void setWebPassword(String webPassword) {
+		this.webPassword = webPassword;
+	}
+
+	public String getWebUsername() {
+		return webUsername;
+	}
+
+	public void setWebUsername(String webUsername) {
+		this.webUsername = webUsername;
+	}
 
 	public String getWebappTitle() {
 		return webappTitle;
