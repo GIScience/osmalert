@@ -2,6 +2,7 @@ package org.heigit.osmalert.flinkjobjar;
 
 import org.apache.flink.streaming.api.datastream.*;
 import org.apache.flink.streaming.api.environment.*;
+import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.streaming.api.windowing.assigners.*;
 
 import static org.apache.flink.api.common.eventtime.WatermarkStrategy.*;
@@ -33,9 +34,8 @@ public class AlertJob {
 
 	static void configureAndRunJob(
 		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, MailSinkFunction mailSink
+		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction mailSink
 	) throws Exception {
-
 
 		String sinkName = "osmalert_flink_mail_sink";
 
@@ -50,6 +50,7 @@ public class AlertJob {
 
 		environment.execute(jobName);
 	}
+
 
 	private static String log(String contribution) {
 		System.out.println("contribution = " + contribution);

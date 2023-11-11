@@ -8,6 +8,7 @@ import org.apache.flink.api.common.typeinfo.*;
 import org.apache.flink.runtime.testutils.*;
 import org.apache.flink.streaming.api.datastream.*;
 import org.apache.flink.streaming.api.environment.*;
+import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.test.junit5.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -52,6 +53,39 @@ class AlertJobIntegrationTests {
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);
+	}
+
+	@Test
+	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
+	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "2025")
+	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
+	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
+	void flinkStreamCountIsRight() throws Exception {
+
+		//TODO: remove dependency of test on env variables and fields of AlertJob
+
+		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+		Iterator<String> iterator = new SlowStringIterator();
+		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
+
+		MockSink mockSink = new MockSink();
+
+		configureAndRunJob("job1", operator, environment, 3, mockSink);
+
+		for (Integer value : MockSink.values) {
+			boolean match = (value <= 3);
+			Assertions.assertTrue(match);
+		}
+	}
+
+	private static class MockSink implements SinkFunction<Integer> {
+		public static final List<Integer> values = new ArrayList<>();
+
+		@Override
+		public void invoke(Integer value, Context context) {
+			System.out.println("Mock sink stream value: " + value);
+			values.add(value);
+		}
 
 	}
 
