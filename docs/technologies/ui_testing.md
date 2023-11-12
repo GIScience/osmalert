@@ -13,9 +13,8 @@ https://www.selenium.dev/documentation/webdriver/
  + Supports Java
  + Drives a browser natively (either locally or on a remote machine)
  + Supports: Chrome, Edge, Firefox, Safari
-
--(-)  Setup costs: creating a stable and maintenable test framework need time (e.g: one need to download a driver for each  browser.
-- (-) no built-in visual regression testing
-- (-) no built-in reporting support (e.g.,external solutions needed to record videos)
+ - (-)  Setup costs: creating a stable and maintenable test framework need time (e.g: one need to download a driver for each  browser.
+ - (-) no built-in visual regression testing
+ - (-) no built-in reporting support (e.g.,external solutions needed to record videos)
 
 
