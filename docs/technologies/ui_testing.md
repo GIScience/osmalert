@@ -2,7 +2,7 @@
 
 ## Playwright
 
-- Supports Chromium, WebKit, Firefox
+- Supports Google Chrome, Microsoft Edge, Safari (Desktop \& mobile), Firefox
 - Tests on Windows, Linux, macOS, locally or on CI
 - Compatible with Java
 - No race conditions when performing checks
@@ -24,7 +24,8 @@ enabling cross-browser and cross-platform automation."
 + Drives a browser natively (either locally or on a remote machine)
 + Supports: Chrome, Edge, Firefox, Safari
 
-- (-)  Setup costs: creating a stable and maintenable test framework need time (
+- (-)  Setup costs: creating a stable and maintainable test framework need
+  time (
   e.g: one need to download a driver for each browser)
 - (-) no built-in visual regression testing
 - (-) no built-in reporting support (e.g.,external solutions needed to record
@@ -36,6 +37,6 @@ enabling cross-browser and cross-platform automation."
 |----------------------------------------------------------------------------|-------------------------------------------------------------------------|
 | 5 times faster                                                             |                                                                         |
 | All tests run independently in own worker processes                        | Parallel Execution with Selenium grid (code changes might be necessary) |
-| auto-waiting mechanism<br/>- automatically enabled<br/>- can be configured | not supported (sleep or wait needed)                                    |
-| automatic test runner (Native playwright tests)                            | set up test runner(use third party like mock)                           |
-| full report and video animation of test results <br/>- retry included      | no built-in reporting support                                           |
+| Auto-waiting mechanism<br/>- automatically enabled<br/>- can be configured | Not supported (sleep or wait needed)                                    |
+| Automatic test runner (Native playwright tests)                            | Set up test runner (use third party like mock)                          |
+| Full report and video animation of test results <br/>- retry included      | No built-in reporting support                                           |
