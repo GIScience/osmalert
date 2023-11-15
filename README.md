@@ -8,7 +8,8 @@ The user website is [here](https://giscience.github.io/osmalert/).
 
 ### Requirements
 
-- Java >= 17 installed and runnable in path, e.g. via [SDKMAN](https://sdkman.io/)
+- Java >= 17 installed and runnable in path, e.g.
+  via [SDKMAN](https://sdkman.io/)
 
 [//]: # (- Chrome browser installed and runnable in path)
 
@@ -25,7 +26,8 @@ The website should now be accessible on `http://localhost:8080`
 
 ### IntelliJ Configuration
 
-> Settings | Build, Execution, Deployment | Build Tools | Gradle | Build and Run using: `Gradle`
+> Settings | Build, Execution, Deployment | Build Tools | Gradle | Build and Run
+> using: `Gradle`
 
 This makes sure that all modules are correctly built and resources processed.
 
@@ -41,6 +43,15 @@ configuration or can be passed as parameters if running in command line.
 
 ```
 --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED
+```
+
+### Environmental Variables
+
+To set the Web password and Username the environmental Variables have to be set
+like the following:
+
+```
+WEB_USERNAME=[Insert Name here],WEB_PASSWORD=[Insert Password here]
 ```
 
 ## Project Structure
@@ -64,19 +75,16 @@ configuration or can be passed as parameters if running in command line.
     - `heroku access:add user.name@example.org -a osmalert-web`
     - `heroku access:add user.name@example.org -a osmalert-flink-docker`
 
-
-
 ### Requirements
 
 - Local installation of Docker
 - [Heroku](https://www.heroku.com/) account.
-- Local installation of [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
-
+- Local installation
+  of [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
 
 ### Manual Deployment
 
 #### Webapp
-
 
 ```bash
 cd webapp
@@ -87,13 +95,10 @@ heroku login
 heroku logs --tail -a osmalert-web
 ```
 
-Now the web app is accessible at: 
+Now the web app is accessible at:
 `https://osmalert-web-0773365646a7.herokuapp.com`
 
-
-
 #### Docker Container for Flink Job Manager
-
 
 ```bash
 cd heroku-flink/job-manager
@@ -106,7 +111,6 @@ heroku logs --tail -a osmalert-flink-docker
 
 Now the flink dashboard is accessible at:
 https://osmalert-flink-docker-d0c317ac495f.herokuapp.com
-
 
 ### Deployment through GitHub Action
 
@@ -124,9 +128,9 @@ heroku logs -a <projectName> --tail
 heroku restart -a <projectName>
 ```
 
-
 ## Static Website
 
-The static website is hosted on [GitHub Pages](https://giscience.github.io/osmalert/)
+The static website is hosted
+on [GitHub Pages](https://giscience.github.io/osmalert/)
 
 The source code for it is in the `docs` folder.
