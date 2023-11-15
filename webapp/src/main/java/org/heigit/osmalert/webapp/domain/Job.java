@@ -18,6 +18,12 @@ public class Job {
 	@Email(regexp = ".+[@].+[\\.].+", message = "Invalid Email")
 	private String email;
 
+	@OneToOne
+	private Point lowerLeft;
+
+	@OneToOne
+	private Point upperRight;
+
 	protected Job() {}
 
 	public Job(String jobName) {
