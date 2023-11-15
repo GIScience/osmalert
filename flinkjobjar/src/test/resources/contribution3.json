@@ -1,0 +1,87 @@
+{
+  "replicationSequence": 5834941,
+  "id": "node/11351212027",
+  "majorChange": true,
+  "current": {
+    "info": {
+      "version": 1,
+      "changeset": 144054153,
+      "timestamp": "2023-11-15T14:22:39Z",
+      "user": 20473249,
+      "visible": true
+    },
+    "tags": {
+      "entrance": "yes"
+    },
+    "geometry": "POINT (-87.9613712 42.1516261)",
+    "area": 0,
+    "length": 0,
+    "centroid": [
+      -87.9613712,
+      42.1516261
+    ],
+    "countries": [
+      {
+        "iso": "USA",
+        "centroid": true,
+        "area": 0,
+        "length": 0
+      }
+    ],
+    "mapFeature": false,
+    "topics": [],
+    "changeset": {
+      "replicationSequence": 5753097,
+      "id": 144054153,
+      "createdAt": "2023-11-15T14:22:39Z",
+      "closedAt": "2023-11-15T14:22:39Z",
+      "closed": true,
+      "userId": 20473249,
+      "user": "Local Archiver",
+      "tags": {
+        "host": "https://www.openstreetmap.org/edit",
+        "imagery_used": "Bing Maps Aerial",
+        "comment": "Added missing pool items.",
+        "locale": "en-US",
+        "changesets_count": "300",
+        "created_by": "iD 2.27.3"
+      },
+      "hashtags": [],
+      "editor": "iD 2.27.3"
+    }
+  },
+  "before": null,
+  "mapFeatureEditType": null,
+  "deltaArea": 0,
+  "deltaLength": 0,
+  "deltaTopics": {},
+  "deltaCountries": [
+    {
+      "iso": "USA",
+      "deltaArea": 0,
+      "deltaLength": 0
+    }
+  ],
+  "contributionTypes": [
+    "CREATION"
+  ],
+  "changeset": {
+    "replicationSequence": 5753097,
+    "id": 144054153,
+    "createdAt": "2023-11-15T14:22:39Z",
+    "closedAt": "2023-11-15T14:22:39Z",
+    "closed": true,
+    "userId": 20473249,
+    "user": "Local Archiver",
+    "tags": {
+      "host": "https://www.openstreetmap.org/edit",
+      "imagery_used": "Bing Maps Aerial",
+      "comment": "Added missing pool items.",
+      "locale": "en-US",
+      "changesets_count": "300",
+      "created_by": "iD 2.27.3"
+    },
+    "hashtags": [],
+    "editor": "iD 2.27.3"
+  }
+}

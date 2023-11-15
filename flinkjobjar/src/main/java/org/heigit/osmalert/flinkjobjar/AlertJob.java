@@ -1,16 +1,19 @@
 package org.heigit.osmalert.flinkjobjar;
 
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.*;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.json.*;
 import org.apache.flink.streaming.api.datastream.*;
 import org.apache.flink.streaming.api.environment.*;
 import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.streaming.api.windowing.assigners.*;
+import org.heigit.osmalert.flinkjobjar.model.*;
 
 import static org.apache.flink.api.common.eventtime.WatermarkStrategy.*;
 import static org.apache.flink.streaming.api.windowing.time.Time.*;
 import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
 public class AlertJob {
-
 	static String host = System.getenv("MAILERTOGO_SMTP_HOST").toString();
 	static int port = Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT"));
 	static String username = System.getenv("MAILERTOGO_SMTP_USER").toString();
@@ -21,13 +24,17 @@ public class AlertJob {
 		String sourceName = "osmalert_flink_kafka_source";
 
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+		ObjectMapper mapper = new JsonMapper();
+
 		SingleOutputStreamOperator<String> streamOperator = environment
 																.fromSource(getKafkaSource(), noWatermarks(), sourceName)
 																.uid(sourceName)
 																.name(sourceName);
+		mapper.readValue(String.valueOf(streamOperator), Contribution.class);
 
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
+		BoundingBox boundingBox = new BoundingBox(getBoundingBoxValues(getBoundingBoxStringArray(args[3])));
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
 	}
@@ -41,6 +48,7 @@ public class AlertJob {
 
 		streamOperator
 			.map(AlertJob::log)
+			.map(Contribution::createContribution)
 			.map(log -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
@@ -50,7 +58,6 @@ public class AlertJob {
 
 		environment.execute(jobName);
 	}
-
 
 	private static String log(String contribution) {
 		System.out.println("contribution = " + contribution);
@@ -69,6 +76,18 @@ public class AlertJob {
 		String emailAdress = args[1];
 		System.out.println("=== " + emailAdress + " ===");
 		return emailAdress;
+	}
+
+	private static double[] getBoundingBoxValues(String[] input) {
+		double[] doubleArray = new double[4];
+		for (int i = 0; i < 4; i++)
+			doubleArray[i] = Double.parseDouble(input[i]);
+		return doubleArray;
+	}
+
+	private static String[] getBoundingBoxStringArray(String args) {
+		assert args != null;
+		return args.split(",");
 	}
 
 }

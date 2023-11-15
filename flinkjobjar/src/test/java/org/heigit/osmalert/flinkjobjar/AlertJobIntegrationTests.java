@@ -6,10 +6,12 @@ import java.util.*;
 import name.bychkov.junit5.*;
 import org.apache.flink.api.common.typeinfo.*;
 import org.apache.flink.runtime.testutils.*;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
 import org.apache.flink.streaming.api.datastream.*;
 import org.apache.flink.streaming.api.environment.*;
 import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.test.junit5.*;
+import org.heigit.osmalert.flinkjobjar.model.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.junitpioneer.jupiter.*;
@@ -31,9 +33,15 @@ class AlertJobIntegrationTests {
 	static FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
 													   .port(2025);
 
-	static String contribution = "{\n" +
-									 "  \"replicationSequence\": 1,\n" +
-									 "  \"id\": \"changeset-toplevel\",\n";
+	static String contribution;
+
+	static {
+		try {
+			contribution = String.valueOf(new FileReader("../contribution1.json"));
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	@Test
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
@@ -76,6 +84,11 @@ class AlertJobIntegrationTests {
 			boolean match = (value <= 3);
 			Assertions.assertTrue(match);
 		}
+	}
+
+	@Test
+	void isContributionNotNull() throws JsonProcessingException {
+		assertThat(Contribution.createContribution(contribution)).isNotNull();
 	}
 
 	private static class MockSink implements SinkFunction<Integer> {

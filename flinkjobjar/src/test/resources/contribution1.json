@@ -1,0 +1,134 @@
+{
+  "replicationSequence": 5834934,
+  "id": "way/470573734",
+  "majorChange": true,
+  "current": {
+    "info": {
+      "version": 2,
+      "changeset": 144053876,
+      "timestamp": "2023-11-15T14:14:46Z",
+      "user": 4399830,
+      "visible": true
+    },
+    "tags": {
+      "access": "forestry",
+      "source": "Landsat;JRC",
+      "highway": "track",
+      "start_date": "2014"
+    },
+    "geometry": "LINESTRING (15.9851664 1.5855625, 15.9945779 1.5752481, 15.9967917 1.5734955, 16.0009427 1.5711894)",
+    "area": 0,
+    "length": 2389,
+    "centroid": [
+      15.992617720036526,
+      1.5778363271902316
+    ],
+    "countries": [
+      {
+        "iso": "COG",
+        "centroid": true,
+        "area": 0,
+        "length": 2389
+      }
+    ],
+    "mapFeature": true,
+    "topics": [
+      "road"
+    ],
+    "changeset": {
+      "replicationSequence": 5753090,
+      "id": 144053876,
+      "createdAt": "2023-11-15T14:14:46Z",
+      "closedAt": "2023-11-15T14:14:47Z",
+      "closed": true,
+      "userId": 4399830,
+      "user": "WalkerB",
+      "tags": {
+        "host": "https://rapideditor.org/rapid",
+        "imagery_used": "Bing Maps Aerial;Esri World Imagery",
+        "comment": "added and corrected roads and powerlines",
+        "source": "mapwithai;ESRI",
+        "locale": "en-US",
+        "changesets_count": "7747",
+        "created_by": "Rapid 2.1.1"
+      },
+      "hashtags": [],
+      "editor": "Rapid 2.1.1"
+    }
+  },
+  "before": {
+    "info": {
+      "version": 1,
+      "changeset": 62785078,
+      "timestamp": "2018-09-21T06:31:34Z",
+      "user": 7532061,
+      "visible": true
+    },
+    "tags": {
+      "access": "forestry",
+      "source": "Landsat;JRC",
+      "highway": "track",
+      "start_date": "2014"
+    },
+    "geometry": "LINESTRING (15.9851664 1.5855625, 15.9898124 1.5804752, 15.9945779 1.5752481, 15.9967917 1.5734955, 16.0009427 1.5711894)",
+    "area": 0,
+    "length": 2389,
+    "centroid": [
+      15.99261843298664,
+      1.577836978036912
+    ],
+    "countries": [
+      {
+        "iso": "COG",
+        "centroid": true,
+        "area": 0,
+        "length": 2389
+      }
+    ],
+    "mapFeature": true,
+    "topics": [
+      "road"
+    ]
+  },
+  "mapFeatureEditType": 0,
+  "deltaArea": 0,
+  "deltaLength": 0,
+  "deltaTopics": {
+    "road": {
+      "measure": 2389,
+      "delta": 0,
+      "editType": 0,
+      "measureType": "length"
+    }
+  },
+  "deltaCountries": [
+    {
+      "iso": "COG",
+      "deltaArea": 0,
+      "deltaLength": 0
+    }
+  ],
+  "contributionTypes": [
+    "GEOMETRY_CHANGE"
+  ],
+  "changeset": {
+    "replicationSequence": 5753090,
+    "id": 144053876,
+    "createdAt": "2023-11-15T14:14:46Z",
+    "closedAt": "2023-11-15T14:14:47Z",
+    "closed": true,
+    "userId": 4399830,
+    "user": "WalkerB",
+    "tags": {
+      "host": "https://rapideditor.org/rapid",
+      "imagery_used": "Bing Maps Aerial;Esri World Imagery",
+      "comment": "added and corrected roads and powerlines",
+      "source": "mapwithai;ESRI",
+      "locale": "en-US",
+      "changesets_count": "7747",
+      "created_by": "Rapid 2.1.1"
+    },
+    "hashtags": [],
+    "editor": "Rapid 2.1.1"
+  }
+}

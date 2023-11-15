@@ -1,0 +1,100 @@
+{
+  "replicationSequence": 5834941,
+  "id": "node/10556589946",
+  "majorChange": true,
+  "current": {
+    "info": {
+      "version": 2,
+      "changeset": 144054157,
+      "timestamp": "2023-11-15T14:22:47Z",
+      "user": 10233983,
+      "visible": false
+    },
+    "tags": {},
+    "geometry": "POINT EMPTY",
+    "area": 0,
+    "length": 0,
+    "centroid": [],
+    "countries": [],
+    "mapFeature": false,
+    "topics": [],
+    "changeset": {
+      "replicationSequence": 5753097,
+      "id": 144054157,
+      "createdAt": "2023-11-15T14:22:46Z",
+      "closedAt": "2023-11-15T14:22:47Z",
+      "closed": true,
+      "userId": 10233983,
+      "user": "KristinaRose",
+      "tags": {
+        "created_by": "JOSM/1.5 (18822 en)",
+        "comment": "added solar panel mpr.lt/c/27941/t/195410611",
+        "source": "Esri World Imagery"
+      },
+      "hashtags": [],
+      "editor": "JOSM/1.5 (18822 en)"
+    }
+  },
+  "before": {
+    "info": {
+      "version": 1,
+      "changeset": 131294581,
+      "timestamp": "2023-01-15T11:43:57Z",
+      "user": 7504544,
+      "visible": true
+    },
+    "tags": {
+      "location": "roof",
+      "generator:method": "photovoltaic",
+      "power": "generator",
+      "generator:type": "solar_photovoltaic_panel",
+      "generator:source": "solar"
+    },
+    "geometry": "POINT (7.9217831 47.2337341)",
+    "area": 0,
+    "length": 0,
+    "centroid": [
+      7.9217831,
+      47.2337341
+    ],
+    "countries": [
+      {
+        "iso": "CHE",
+        "centroid": true,
+        "area": 0,
+        "length": 0
+      }
+    ],
+    "mapFeature": true,
+    "topics": []
+  },
+  "mapFeatureEditType": -1,
+  "deltaArea": 0,
+  "deltaLength": 0,
+  "deltaTopics": {},
+  "deltaCountries": [
+    {
+      "iso": "CHE",
+      "deltaArea": 0,
+      "deltaLength": 0
+    }
+  ],
+  "contributionTypes": [
+    "DELETION"
+  ],
+  "changeset": {
+    "replicationSequence": 5753097,
+    "id": 144054157,
+    "createdAt": "2023-11-15T14:22:46Z",
+    "closedAt": "2023-11-15T14:22:47Z",
+    "closed": true,
+    "userId": 10233983,
+    "user": "KristinaRose",
+    "tags": {
+      "created_by": "JOSM/1.5 (18822 en)",
+      "comment": "added solar panel mpr.lt/c/27941/t/195410611",
+      "source": "Esri World Imagery"
+    },
+    "hashtags": [],
+    "editor": "JOSM/1.5 (18822 en)"
+  },
