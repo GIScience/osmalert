@@ -28,7 +28,8 @@ public class JobsController {
 	}
 
 	@PostMapping
-	String createNewJob(Model model, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
+	String createNewJob(Model model, @RequestParam String lowerLeftLatitude, @RequestParam String lowerLeftLongitude, @RequestParam String upperRightLatitude, @RequestParam String upperRightLongitude, @Valid @RequestParam String jobName, @Valid @RequestParam String ownersEmail) {
+
 		String normalizedJobName = normalizeJobName(jobName);
 		if (jobsService.isJobRunning(normalizedJobName)) {
 			throw new JobNameExistException();

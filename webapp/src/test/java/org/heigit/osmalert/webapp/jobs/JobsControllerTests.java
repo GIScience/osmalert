@@ -78,7 +78,11 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "Post New Job")
-							.param("ownersEmail", "123@web.de"))
+							.param("ownersEmail", "123@web.de")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isBadRequest());
 	}
 
@@ -110,15 +114,27 @@ class JobsControllerTests {
 	void checkValidJobName() throws Exception {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkvalidjobname")
-							.param("ownersEmail", "hello@world.com"))
+							.param("ownersEmail", "hello@world.com")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "check valid Jobname")
-							.param("ownersEmail", "hello@world.com"))
+							.param("ownersEmail", "hello@world.com")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", " check Valid Job  Name2 ")
-							.param("ownersEmail", "hello@world.com"))
+							.param("ownersEmail", "hello@world.com")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isOk());
 	}
 
@@ -128,7 +144,11 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "")
-							.param("ownersEmail", "Something@hallo.de"))
+							.param("ownersEmail", "Something@hallo.de")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid jobName")
@@ -140,7 +160,11 @@ class JobsControllerTests {
 	void rejectInvalidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName1")
-							.param("ownersEmail", "123a"))
+							.param("ownersEmail", "123a")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -148,7 +172,11 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName2")
-							.param("ownersEmail", "abc@def"))
+							.param("ownersEmail", "abc@def")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -156,7 +184,11 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "jobName3")
-							.param("ownersEmail", "@abc"))
+							.param("ownersEmail", "@abc")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -169,7 +201,11 @@ class JobsControllerTests {
 	void checkValidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidEmail1")
-							.param("ownersEmail", "hello@world.com"))
+							.param("ownersEmail", "hello@world.com")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "123.2")
+							.param("upperRightLatitude", "123.2")
+							.param("upperRightLongitude", "123.2"))
 			   .andExpect(status().isOk());
 	}
 }
