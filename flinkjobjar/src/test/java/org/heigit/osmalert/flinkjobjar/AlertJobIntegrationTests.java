@@ -36,10 +36,16 @@ class AlertJobIntegrationTests {
 	static String contribution;
 
 	static {
-		try {
-			contribution = String.valueOf(new FileReader("../contribution1.json"));
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
+		try (BufferedReader reader = new BufferedReader(
+			new FileReader("src/test/resources/contribution1.json"))) {
+			StringBuilder stringBuilder = new StringBuilder();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line);
+			}
+			contribution = stringBuilder.toString();
+		} catch (IOException e) {
+			throw new RuntimeException("Error reading file", e);
 		}
 	}
 
@@ -88,7 +94,8 @@ class AlertJobIntegrationTests {
 
 	@Test
 	void isContributionNotNull() throws JsonProcessingException {
-		assertThat(Contribution.createContribution(contribution)).isNotNull();
+		Contribution contributionObj = Contribution.createContribution(contribution);
+		assertThat(contributionObj).isNotNull();
 	}
 
 	private static class MockSink implements SinkFunction<Integer> {
