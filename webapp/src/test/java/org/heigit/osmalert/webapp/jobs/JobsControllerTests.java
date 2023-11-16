@@ -60,7 +60,11 @@ class JobsControllerTests {
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "Post New Job")
-							.param("ownersEmail", "123@web.de"))
+							.param("ownersEmail", "123@web.de")
+							.param("lowerLeftLatitude", "123.2")
+							.param("lowerLeftLongitude", "345.2")
+							.param("upperRightLatitude", "678.2")
+							.param("upperRightLongitude", "910.2"))
 			   .andExpect(status().isOk())
 			   .andExpect(model().attributeExists("jobs"))
 			   .andExpect(view().name("jobs::joblist"));

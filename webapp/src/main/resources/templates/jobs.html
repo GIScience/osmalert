@@ -50,6 +50,18 @@
         <div id="error-message-email">Owner's Email is empty!</div>
     </div>
 
+    <label for="lowerLeftLatitude">Lower Left Latitude:</label>
+    <input type="text" id="lowerLeftLatitude" name="lowerLeftLatitude">
+
+    <label for="lowerLeftLongitude">Lower Left Longitude</label>
+    <input type="text" id="lowerLeftLongitude" name="lowerLeftLongitude">
+
+    <label for="upperRightLatitude">Upper Right Latitude:</label>
+    <input type="text" id="upperRightLatitude" name="upperRightLatitude">
+
+    <label for="upperRightLongitude">Upper Right Longitude</label>
+    <input type="text" id="upperRightLongitude" name="upperRightLongitude">
+
     <button
         id="createNewJob"
         hx-post="/jobs"
