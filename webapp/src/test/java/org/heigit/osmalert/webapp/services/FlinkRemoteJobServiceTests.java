@@ -87,7 +87,9 @@ class FlinkRemoteJobServiceTests {
 
 	@Test
 	void unsubmittedJobCanBeSubmitted() throws Exception {
+
 		Job job = new Job("job1");
+		job.setEmail("user@example.org");
 		when(flinkClusterService.submitJarJobToCluster(job.getJobName(), job.getEmail(), "123,123,123,123")).
 			thenReturn("new-flink-id");
 
