@@ -26,8 +26,7 @@ class FlinkClusterServiceTests {
 
 	String jobName = "job_23";
 	String emailAddress = "user@example.org";
-
-
+	String boundingBox = "123,123,123,123";
 
 	@Test
 	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
@@ -45,12 +44,10 @@ class FlinkClusterServiceTests {
 		FlinkRestsConfiguration config = new FlinkRestsConfiguration("", -1, 0);
 		FlinkClusterService clusterService = new FlinkClusterService(config);
 
-		JobGraph jobGraph = clusterService.createJobGraph("name", "emailAddress");
+		JobGraph jobGraph = clusterService.createJobGraph("name", "emailAddress", boundingBox);
 		assertThat(jobGraph).isNotNull();
 
 	}
-
-
 
 	@Test
 	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
@@ -67,7 +64,7 @@ class FlinkClusterServiceTests {
 		MiniClusterClient clusterClient = getMiniClusterClient(miniCluster);
 		FlinkClusterService clusterService = new FlinkClusterService(clusterClient);
 
-		String jobId = clusterService.submitJarJobToCluster(jobName, emailAddress);
+		String jobId = clusterService.submitJarJobToCluster(jobName, emailAddress, boundingBox);
 		System.out.println("jobId = " + jobId);
 
 		assertEquals(32, jobId.length());
@@ -94,7 +91,7 @@ class FlinkClusterServiceTests {
 
 		FlinkClusterService clusterService = new FlinkClusterService();
 
-		submitJobAndCheck("finally works!!", "valid email address!!", clusterService);
+		submitJobAndCheck("finally works!!", "valid email address!!", boundingBox, clusterService);
 
 	}
 
@@ -111,7 +108,7 @@ class FlinkClusterServiceTests {
 
 		FlinkClusterService clusterService = new FlinkClusterService(restConfiguration);
 
-		clusterService.submitJarJobToCluster("try_job_with_mail", "user@example.org");
+		clusterService.submitJarJobToCluster("try_job_with_mail", "user@example.org", boundingBox);
 
 	}
 
@@ -128,9 +125,9 @@ class FlinkClusterServiceTests {
 		assertTrue(clusterService.getFlinkJobJar().exists());
 	}
 
-	private static void submitJobAndCheck(String name, String emailAddress, FlinkClusterService clusterService) {
+	private static void submitJobAndCheck(String name, String emailAddress, String boundingBox, FlinkClusterService clusterService) {
 		try {
-			String id = clusterService.submitJarJobToCluster(name, emailAddress);
+			String id = clusterService.submitJarJobToCluster(name, emailAddress, boundingBox);
 			System.out.println("jobId = " + id);
 			assertTrue(clusterService.isNotFailed(id));
 		} catch (Exception e) {

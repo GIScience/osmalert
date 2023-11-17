@@ -24,17 +24,17 @@ public class AlertJob {
 		String sourceName = "osmalert_flink_kafka_source";
 
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
-		ObjectMapper mapper = new JsonMapper();
+		//ObjectMapper mapper = new JsonMapper();
 
 		SingleOutputStreamOperator<String> streamOperator = environment
 																.fromSource(getKafkaSource(), noWatermarks(), sourceName)
 																.uid(sourceName)
 																.name(sourceName);
-		mapper.readValue(String.valueOf(streamOperator), Contribution.class);
+		//mapper.readValue(String.valueOf(streamOperator), Contribution.class);
 
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
-		BoundingBox boundingBox = new BoundingBox(getBoundingBoxValues(getBoundingBoxStringArray(args[3])));
+		BoundingBox boundingBox = new BoundingBox(getBoundingBoxValues(getBoundingBoxStringArray(args[2])));
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
 	}
