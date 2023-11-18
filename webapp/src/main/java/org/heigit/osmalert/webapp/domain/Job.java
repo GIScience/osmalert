@@ -58,4 +58,20 @@ public class Job {
 	public String getEmail() {
 		return this.email;
 	}
+
+	public void setLowerLeft(Point lowerLeft) {
+		this.lowerLeft = lowerLeft;
+	}
+
+	public void setUpperRight(Point upperRight) {
+		this.upperRight = upperRight;
+	}
+
+	public Point getLowerLeft() {
+		return lowerLeft;
+	}
+
+	public Point getUpperRight() {
+		return upperRight;
+	}
 }

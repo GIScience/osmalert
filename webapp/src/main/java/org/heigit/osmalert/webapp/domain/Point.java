@@ -13,9 +13,10 @@ public class Point {
 	private final double lon;
 
 	@Id
+	@GeneratedValue
 	private Long id;
 
-	public Point(double longitude, double latitude) {
+	public Point(double latitude, double longitude) {
 		lat = latitude;
 		lon = longitude;
 	}
@@ -25,11 +26,11 @@ public class Point {
 		lon = 0;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public double getLat() {
+		return lat;
 	}
 
-	public Long getId() {
-		return id;
+	public double getLon() {
+		return lon;
 	}
 }
