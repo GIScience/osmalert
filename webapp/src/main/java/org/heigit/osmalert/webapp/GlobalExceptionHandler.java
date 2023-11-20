@@ -64,5 +64,13 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(response);
 	}
 
+	@ExceptionHandler(InvalidCoordinatesException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	ResponseEntity<Map<String, String>> handleInvalidCoordinnateException(InvalidCoordinatesException e) {
+		Map<String, String> response = new HashMap<>();
+		response.put("error", "400");
+		response.put("message", e.getMessage());
+		return ResponseEntity.badRequest().body(response);
+	}
 }
 
