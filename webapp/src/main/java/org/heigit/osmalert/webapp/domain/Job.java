@@ -18,11 +18,7 @@ public class Job {
 	@Email(regexp = ".+[@].+[\\.].+", message = "Invalid Email")
 	private String email;
 
-	@OneToOne
-	private Point lowerLeft;
-
-	@OneToOne
-	private Point upperRight;
+	private String boundingBox;
 
 	protected Job() {}
 
@@ -59,19 +55,7 @@ public class Job {
 		return this.email;
 	}
 
-	public void setLowerLeft(Point lowerLeft) {
-		this.lowerLeft = lowerLeft;
-	}
-
-	public void setUpperRight(Point upperRight) {
-		this.upperRight = upperRight;
-	}
-
-	public Point getLowerLeft() {
-		return lowerLeft;
-	}
-
-	public Point getUpperRight() {
-		return upperRight;
+	public void setBoundingBox(String boundingBox) {
+		this.boundingBox = boundingBox;
 	}
 }
