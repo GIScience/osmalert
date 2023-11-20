@@ -2,9 +2,12 @@
 
 ## What we would like to do
 
-- Stand-up/sync meetings once or twice a working day
-- Make critical decisions in stand-ups
+- Stand-up/sync meetings at least three times a week
+- In stand-ups:
+    - Make critical decisions
+    - Explain code
 - More documentation during the sprint
+- Use integration token
 - Layout and fonts should be fixed in advance
 - Finalize presentation in advance & rehearse
 
