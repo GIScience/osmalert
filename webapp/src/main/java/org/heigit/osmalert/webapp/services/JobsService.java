@@ -44,6 +44,26 @@ public class JobsService {
 		return StringUtils.normalizeSpace(jobName.toLowerCase());
 	}
 
+	public boolean validateCoordinates(String lowerLon, String upperLon, String lowerLat, String upperLat) {
+		if (validateOneCoordinate(lowerLon, 180)) {
+			if (validateOneCoordinate(upperLon, 180)) {
+				if (validateOneCoordinate(lowerLat, 90)) {
+					return validateOneCoordinate(upperLat, 90);
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean validateOneCoordinate(String coord, int max) {
+		try {
+			double coordinate = Double.parseDouble(coord);
+			return coordinate >= -max && coordinate <= max;
+		} catch (NumberFormatException | NullPointerException e) {
+			throw new InvalidCoordinatesException("Invalid Coordinates");
+		}
+	}
+
 	public String getJobStatus(long id) {
 		Optional<Job> optionalJob = jobRepository.findById(id);
 		return optionalJob.map(job -> remoteJobService.getStatus(job).name())
