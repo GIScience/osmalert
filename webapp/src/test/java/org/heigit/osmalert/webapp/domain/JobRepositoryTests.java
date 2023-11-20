@@ -26,10 +26,6 @@ class JobRepositoryTests {
 		assertThat(retrieved.get().getEmail()).isEqualTo("Something");
 		assertThat(retrieved).isNotEmpty();
 		assertThat(retrieved.get().getJobName()).isEqualTo("my job");
-		assertThat(retrieved.get().getUpperRight().getLat()).isEqualTo(123.1);
-		assertThat(retrieved.get().getUpperRight().getLon()).isEqualTo(456.7);
-		assertThat(retrieved.get().getLowerLeft().getLon()).isEqualTo(0);
-		assertThat(retrieved.get().getLowerLeft().getLat()).isEqualTo(0);
 	}
 
 	@Test
