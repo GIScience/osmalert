@@ -60,7 +60,7 @@ public class JobsService {
 			double coordinate = Double.parseDouble(coord);
 			return coordinate >= -max && coordinate <= max;
 		} catch (NumberFormatException | NullPointerException e) {
-			throw new InvalidCoordinatesException("Invalid Coordinates");
+			return false;
 		}
 	}
 
