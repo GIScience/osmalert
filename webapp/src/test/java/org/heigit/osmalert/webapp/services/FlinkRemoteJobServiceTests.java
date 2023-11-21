@@ -90,7 +90,8 @@ class FlinkRemoteJobServiceTests {
 
 		Job job = new Job("job1");
 		job.setEmail("user@example.org");
-		when(flinkClusterService.submitJarJobToCluster(job.getJobName(), job.getEmail(), "123,123,123,123")).
+		job.setBoundingBox("123,123,123,123");
+		when(flinkClusterService.submitJarJobToCluster(job.getJobName(), job.getEmail(), job.getBoundingBox())).
 			thenReturn("new-flink-id");
 
 		flinkRemoteJobService.submit(job);
