@@ -19,7 +19,7 @@ public class FlinkRemoteJobService implements RemoteJobService {
 	public void submit(Job job) {
 		try {
 			// TODO Change the bounding box to correct values
-			String flinkId = flinkClusterService.submitJarJobToCluster(job.getJobName(), job.getEmail(), "123,123,123,132");
+			String flinkId = flinkClusterService.submitJarJobToCluster(job.getJobName(), job.getEmail(), "123,123,123,123");
 			job.setFlinkId(flinkId);
 			jobRepository.save(job);
 		} catch (Exception e) {
