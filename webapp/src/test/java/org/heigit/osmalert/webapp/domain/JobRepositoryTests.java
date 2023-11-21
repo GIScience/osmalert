@@ -18,10 +18,12 @@ class JobRepositoryTests {
 	void addJobRequest() {
 		Job job = new Job("my job");
 		job.setEmail("Something@email.de");
+		job.setBoundingBox("12.3, 55.5, 120.6, 95.4");
 		Job saved = repository.save(job);
 
 		Optional<Job> retrieved = repository.findById(saved.getId());
 		assertThat(retrieved.orElseThrow().getEmail()).isEqualTo("Something@email.de");
+		assertThat(retrieved.get().getBoundingBox()).isEqualTo("12.3, 55.5, 120.6, 95.4");
 		assertThat(retrieved).isNotEmpty();
 		assertThat(retrieved.get().getJobName()).isEqualTo("my job");
 	}

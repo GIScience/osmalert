@@ -18,6 +18,7 @@ public class Job {
 	@Email(regexp = ".+[@].+[\\.].+", message = "Invalid Email")
 	private String email;
 
+	//lowerLeftLongitude,upperRightLongitude,lowerLeftLatitude,upperRightLatitude
 	private String boundingBox;
 
 	protected Job() {}
@@ -57,5 +58,9 @@ public class Job {
 
 	public void setBoundingBox(String boundingBox) {
 		this.boundingBox = boundingBox;
+	}
+
+	public String getBoundingBox() {
+		return boundingBox;
 	}
 }
