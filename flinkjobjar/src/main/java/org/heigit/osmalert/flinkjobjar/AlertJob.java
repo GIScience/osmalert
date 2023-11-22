@@ -1,8 +1,5 @@
 package org.heigit.osmalert.flinkjobjar;
 
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.*;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.json.*;
 import org.apache.flink.streaming.api.datastream.*;
 import org.apache.flink.streaming.api.environment.*;
 import org.apache.flink.streaming.api.functions.sink.*;
@@ -24,24 +21,22 @@ public class AlertJob {
 		String sourceName = "osmalert_flink_kafka_source";
 
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
-		//ObjectMapper mapper = new JsonMapper();
 
 		SingleOutputStreamOperator<String> streamOperator = environment
 																.fromSource(getKafkaSource(), noWatermarks(), sourceName)
 																.uid(sourceName)
 																.name(sourceName);
-		//mapper.readValue(String.valueOf(streamOperator), Contribution.class);
 
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
 		BoundingBox boundingBox = new BoundingBox(getBoundingBoxValues(getBoundingBoxStringArray(args[2])));
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
-		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink);
+		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink, boundingBox);
 	}
 
 	static void configureAndRunJob(
 		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction mailSink
+		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction mailSink, BoundingBox boundingBox
 	) throws Exception {
 
 		String sinkName = "osmalert_flink_mail_sink";
@@ -49,6 +44,8 @@ public class AlertJob {
 		streamOperator
 			.map(AlertJob::log)
 			.map(Contribution::createContribution)
+			// Line below should add the necessary filtering, but Method isn't implemented yet
+			//.filter(contrib -> contrib.isWithin(boundingBox))
 			.map(log -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)

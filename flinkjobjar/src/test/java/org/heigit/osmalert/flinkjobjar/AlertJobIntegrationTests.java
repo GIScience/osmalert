@@ -34,6 +34,7 @@ class AlertJobIntegrationTests {
 													   .port(2025);
 
 	static String contribution;
+	static BoundingBox boundingBox = new BoundingBox(1, 2, 3, 4);
 
 	static {
 		try (BufferedReader reader = new BufferedReader(
@@ -63,7 +64,7 @@ class AlertJobIntegrationTests {
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
 
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, "user@example.org");
-		configureAndRunJob("job1", operator, environment, 3, mailSink);
+		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);
@@ -84,7 +85,7 @@ class AlertJobIntegrationTests {
 
 		MockSink mockSink = new MockSink();
 
-		configureAndRunJob("job1", operator, environment, 3, mockSink);
+		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox);
 
 		for (Integer value : MockSink.values) {
 			boolean match = (value <= 3);
