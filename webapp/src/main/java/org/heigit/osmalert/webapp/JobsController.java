@@ -30,10 +30,7 @@ public class JobsController {
 	@PostMapping
 	String createNewJob(
 		Model model,
-		@RequestParam String lowerLeftLatitude,
-		@RequestParam String lowerLeftLongitude,
-		@RequestParam String upperRightLatitude,
-		@RequestParam String upperRightLongitude,
+		@RequestParam String boundingBox,
 		@Valid @RequestParam String jobName,
 		@Valid @RequestParam String ownersEmail
 	) {
@@ -44,14 +41,8 @@ public class JobsController {
 		} else {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
-			if (jobsService.validateCoordinates(lowerLeftLongitude, upperRightLongitude, lowerLeftLatitude, upperRightLatitude)) {
-				newJob.setBoundingBox(lowerLeftLongitude +
-										  "," +
-										  upperRightLongitude +
-										  "," +
-										  lowerLeftLatitude +
-										  "," +
-										  upperRightLatitude);
+			if (jobsService.validateCoordinates(boundingBox)) {
+				newJob.setBoundingBox(boundingBox);
 				jobsService.saveNewJob(newJob);
 			} else {
 				throw new InvalidCoordinatesException("Invalid Coordinates");

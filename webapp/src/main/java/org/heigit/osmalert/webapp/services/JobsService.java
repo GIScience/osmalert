@@ -44,7 +44,12 @@ public class JobsService {
 		return StringUtils.normalizeSpace(jobName.toLowerCase());
 	}
 
-	public boolean validateCoordinates(String lowerLon, String upperLon, String lowerLat, String upperLat) {
+	public boolean validateCoordinates(String boundingBox) {
+		String[] coordinates = boundingBox.split(",");
+		String lowerLon = coordinates[0];
+		String lowerLat = coordinates[1];
+		String upperLon = coordinates[2];
+		String upperLat = coordinates[3];
 		if (validateOneCoordinate(lowerLon, 180)) {
 			if (validateOneCoordinate(upperLon, 180)) {
 				if (validateOneCoordinate(lowerLat, 90)) {

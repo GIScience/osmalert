@@ -61,10 +61,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "Post New Job")
 							.param("ownersEmail", "123@web.de")
-							.param("lowerLeftLatitude", "12.3")
-							.param("lowerLeftLongitude", "123.4")
-							.param("upperRightLatitude", "67.2")
-							.param("upperRightLongitude", "120.5"))
+							.param("boundingBox", "123.4,12.3,120.5,67.2"))
 			   .andExpect(status().isOk())
 			   .andExpect(model().attributeExists("jobs"))
 			   .andExpect(view().name("jobs::joblist"));
@@ -79,10 +76,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "Post New Job")
 							.param("ownersEmail", "123@web.de")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.4")
-							.param("upperRightLatitude", "56.7")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.4,12.2,123.2,56.7"))
 			   .andExpect(status().isBadRequest());
 	}
 
@@ -115,26 +109,17 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkvalidjobname")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "check valid Jobname")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", " check Valid Job  Name2 ")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isOk());
 	}
 
@@ -145,10 +130,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "")
 							.param("ownersEmail", "Something@hallo.de")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid jobName")
@@ -161,10 +143,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName1")
 							.param("ownersEmail", "123a")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -173,10 +152,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName2")
 							.param("ownersEmail", "abc@def")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -185,10 +161,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "jobName3")
 							.param("ownersEmail", "@abc")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -202,10 +175,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidEmail1")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "12.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "12.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,12.2,123.2,12.2"))
 			   .andExpect(status().isOk());
 	}
 
@@ -215,19 +185,13 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidBoundingBox")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "30.2")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "23.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,30.2,123.2,23.2"))
 			   .andExpect(status().isOk());
 
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidBoundingBox1")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "0")
-							.param("lowerLeftLongitude", "0")
-							.param("upperRightLatitude", "0")
-							.param("upperRightLongitude", "0"))
+							.param("boundingBox", "0,0,0,0"))
 			   .andExpect(status().isOk());
 	}
 
@@ -237,10 +201,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidBoundingBox")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "invalid")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "123.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,invalid,123.2,23.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -248,10 +209,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidLowerLeftLat")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "123.6")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "13.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,123.6,123.2,13.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -259,10 +217,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidLowerLeftLon")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "12.6")
-							.param("lowerLeftLongitude", "320.2")
-							.param("upperRightLatitude", "13.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "320.2,12.6,123.2,13.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -270,10 +225,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidUpperRightLat")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "23.6")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "-113.2")
-							.param("upperRightLongitude", "123.2"))
+							.param("boundingBox", "123.2,23.6,123.2,-113.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -281,10 +233,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidUpperRightLon")
 							.param("ownersEmail", "hello@world.com")
-							.param("lowerLeftLatitude", "23.6")
-							.param("lowerLeftLongitude", "123.2")
-							.param("upperRightLatitude", "13.2")
-							.param("upperRightLongitude", "-550.2"))
+							.param("boundingBox", "123.2,23.6,-550.2,13.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
