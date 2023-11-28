@@ -5,6 +5,8 @@ import org.apache.flink.streaming.api.environment.*;
 import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.streaming.api.windowing.assigners.*;
 import org.heigit.osmalert.flinkjobjar.model.*;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.io.*;
 
 import static org.apache.flink.api.common.eventtime.WatermarkStrategy.*;
 import static org.apache.flink.streaming.api.windowing.time.Time.*;
@@ -29,14 +31,15 @@ public class AlertJob {
 
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
-		BoundingBox boundingBox = new BoundingBox(getBoundingBoxValues(getBoundingBoxStringArray(args[2])));
+		//double[] params = getBoundingBoxValues(getBoundingBoxStringArray(args[2]));
+		Geometry boundingBox = new WKTReader().read(args[2]);
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink, boundingBox);
 	}
 
 	static void configureAndRunJob(
 		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction mailSink, BoundingBox boundingBox
+		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction mailSink, Geometry boundingBox
 	) throws Exception {
 
 		String sinkName = "osmalert_flink_mail_sink";
@@ -45,7 +48,7 @@ public class AlertJob {
 			.map(AlertJob::log)
 			.map(Contribution::createContribution)
 			// Line below should add the necessary filtering, but Method isn't implemented yet
-			//.filter(contrib -> contrib.isWithin(boundingBox))
+			.filter(contrib -> contrib.isWithin(boundingBox))
 			.map(log -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
