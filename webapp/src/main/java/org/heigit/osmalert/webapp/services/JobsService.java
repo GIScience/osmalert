@@ -45,28 +45,29 @@ public class JobsService {
 	}
 
 	public boolean validateCoordinates(String boundingBox) {
-		String[] coordinates = boundingBox.split(",");
-		String lowerLon = coordinates[0];
-		String lowerLat = coordinates[1];
-		String upperLon = coordinates[2];
-		String upperLat = coordinates[3];
-		if (validateOneCoordinate(lowerLon, 180)) {
-			if (validateOneCoordinate(upperLon, 180)) {
-				if (validateOneCoordinate(lowerLat, 90)) {
-					return validateOneCoordinate(upperLat, 90);
-				}
-			}
-		}
-		return false;
-	}
-
-	private boolean validateOneCoordinate(String coord, int max) {
 		try {
-			double coordinate = Double.parseDouble(coord);
-			return coordinate >= -max && coordinate <= max;
+			String[] coordinates = boundingBox.split(",");
+			double lowerLon = Double.parseDouble(coordinates[0]);
+			double lowerLat = Double.parseDouble(coordinates[1]);
+			double upperLon = Double.parseDouble(coordinates[2]);
+			double upperLat = Double.parseDouble(coordinates[3]);
+
+			if (validateOneCoordinate(lowerLon, 180) && validateOneCoordinate(upperLon, 180) &&
+					validateOneCoordinate(lowerLat, 90) && validateOneCoordinate(upperLat, 90)) {
+				return doesCoordinatesFormABox(lowerLon, lowerLat, upperLon, upperLat);
+			}
+			return false;
 		} catch (NumberFormatException | NullPointerException e) {
 			return false;
 		}
+	}
+
+	private boolean validateOneCoordinate(double coordinate, int max) {
+		return coordinate >= -max && coordinate <= max;
+	}
+
+	private boolean doesCoordinatesFormABox(double lowerLon, double lowerLat, double upperLon, double upperLat) {
+		return lowerLon != upperLon && lowerLat != upperLat;
 	}
 
 	public String getJobStatus(long id) {

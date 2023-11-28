@@ -109,17 +109,17 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkvalidjobname")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "check valid Jobname")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", " check Valid Job  Name2 ")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isOk());
 	}
 
@@ -130,7 +130,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "")
 							.param("ownersEmail", "Something@hallo.de")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid jobName")
@@ -143,7 +143,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName1")
 							.param("ownersEmail", "123a")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -152,7 +152,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName2")
 							.param("ownersEmail", "abc@def")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -161,7 +161,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "jobName3")
 							.param("ownersEmail", "@abc")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -175,7 +175,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidEmail1")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,12.2,123.2,12.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isOk());
 	}
 
@@ -185,13 +185,7 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidBoundingBox")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,30.2,123.2,23.2"))
-			   .andExpect(status().isOk());
-
-		mockMvc.perform(post("/jobs")
-							.param("jobName", "checkValidBoundingBox1")
-							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "0,0,0,0"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2"))
 			   .andExpect(status().isOk());
 	}
 
