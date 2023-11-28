@@ -35,12 +35,6 @@ subprojects { project ->
         useJUnitPlatform()
     }
 
-
-//    jacoco {
-//        includes = ['org/heigit/osmalert/**']
-//        excludes = ['**/*']
-//    }
-
     compileTestJava {
         options.compilerArgs += '-parameters'
     }
