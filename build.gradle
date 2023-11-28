@@ -8,6 +8,8 @@ subprojects { project ->
 
     apply plugin: 'java'
 
+    apply plugin: 'jacoco'
+
     repositories {
         mavenCentral()
     }
@@ -33,9 +35,41 @@ subprojects { project ->
         useJUnitPlatform()
     }
 
+
+//    jacoco {
+//        includes = ['org/heigit/osmalert/**']
+//        excludes = ['**/*']
+//    }
+
     compileTestJava {
         options.compilerArgs += '-parameters'
     }
+
+    jacocoTestReport {
+        dependsOn test
+
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, include: 'org/heigit/**')
+        }))
+    }
+
+
+
+
+
+    jacocoTestCoverageVerification {
+        dependsOn test
+
+        violationRules {
+            rule {
+                limit {
+                    enabled = true
+                    minimum = 0.75
+                }
+            }
+        }
+    }
+
 }
 
 wrapper {
