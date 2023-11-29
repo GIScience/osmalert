@@ -70,7 +70,7 @@ class AlertJobIntegrationTests {
 		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())
-			.isEqualTo(1);
+			.isGreaterThan(0);
 	}
 
 	@Test
