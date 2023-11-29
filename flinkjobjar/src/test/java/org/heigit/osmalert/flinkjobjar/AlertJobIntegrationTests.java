@@ -66,7 +66,7 @@ class AlertJobIntegrationTests {
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
 
-		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, "user@example.org");
+		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, "user@example.org", "1,1,1,1");
 		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())

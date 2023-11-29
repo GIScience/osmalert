@@ -15,12 +15,13 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String emailAddress;
 	private String boundingBox = "";
 
-	public MailSinkFunction(String host, int port, String username, String password, String emailAddress) {
+	public MailSinkFunction(String host, int port, String username, String password, String emailAddress, String boundingBox) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
+		this.boundingBox = boundingBox;
 	}
 
 	@Override
@@ -36,14 +37,10 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis);
 		String emailContent = "Dear user,\n\nIn the last 60 seconds, there have been "
-								  + value + " new OpenStreetMap updates in this bounding box " + boundingBox + ".\n" + timeRange
+								  + value + " new OpenStreetMap updates in this bounding box " + this.boundingBox + ".\n" + timeRange
 								  + "\n\nThank you,\nOSM Alert System";
 
 		this.sendMail(emailContent, this.emailAddress);
-	}
-
-	public void setBoundingBox(String boundingBox) {
-		this.boundingBox = boundingBox;
 	}
 
 	private MailSender getMailSender() {
