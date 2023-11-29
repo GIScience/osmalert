@@ -19,10 +19,12 @@ public class Contribution {
 
 	public boolean isWithin(Geometry boundingBox) throws ParseException {
 		//return boundingBox.getEnvelope().contains(new WKTReader().read(this.current.getGeometry()));
-		Geometry geometry = new WKTReader().read(this.current.getGeometry());
-		for (Coordinate coordinate : geometry.getCoordinates())
-			if (boundingBox.contains(new GeometryFactory().createPoint(coordinate)))
-				return true;
+		if (boundingBox != null) {
+			Geometry geometry = new WKTReader().read(this.current.getGeometry());
+			for (Coordinate coordinate : geometry.getCoordinates())
+				if (boundingBox.contains(new GeometryFactory().createPoint(coordinate)))
+					return true;
+		}
 		return false;
 	}
 
@@ -30,6 +32,10 @@ public class Contribution {
 		assert contribution != null;
 		ObjectMapper objectMapper = new JsonMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return objectMapper.readValue(contribution, Contribution.class);
+		Contribution returnContribution = null;
+		try {
+			returnContribution = objectMapper.readValue(contribution, Contribution.class);
+		} catch (JsonProcessingException ignored) {}
+		return returnContribution;
 	}
 }

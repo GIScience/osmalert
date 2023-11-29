@@ -54,7 +54,7 @@ public class JobsController {
 
 	@GetMapping("/status")
 	@ResponseBody
-	String getJobStatus(Model model, String jobId) {
+	String getJobStatus(String jobId) {
 		long id = Long.parseLong(jobId);
 		return jobsService.getJobStatus(id);
 	}

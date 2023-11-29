@@ -1,6 +1,7 @@
 package org.heigit.osmalert.flinkjobjar;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 import name.bychkov.junit5.*;
@@ -35,7 +36,7 @@ class AlertJobIntegrationTests {
 															 .port(2025);
 
 	static final String contribution;
-	static final Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(1.0, 2.0, 3.0, 4.0));
+	static final Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(15.0, 17.0, 1.0, 2.0));
 
 	static {
 		try (BufferedReader reader = new BufferedReader(
@@ -52,7 +53,7 @@ class AlertJobIntegrationTests {
 	}
 
 	@Test
-	@DisabledUntil(reason = "Fake Mail Messages are filtered and need to be changed to valid messages", date = "2023-12-02")
+	//@DisabledUntil(reason = "Fake Mail Messages are filtered and need to be changed to valid messages", date = "2023-12-02")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "2025")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
@@ -69,7 +70,7 @@ class AlertJobIntegrationTests {
 		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())
-			.isGreaterThan(0);
+			.isEqualTo(1);
 	}
 
 	@Test
@@ -123,14 +124,23 @@ class AlertJobIntegrationTests {
 
 		@Override
 		public String next() {
+			String ret;
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-			count++;
+			if (count == 0) {
+				try {
+					ret = Files.readString(Paths.get("src/test/resources/contribution1.json"));
+					count++;
+				} catch (IOException e) {
+					ret = "File not readable";
+				}
+			} else
+				ret = contribution + count++;
 			System.out.println("NEXT called()");
-			return contribution + count;
+			return ret;
 		}
 	}
 
