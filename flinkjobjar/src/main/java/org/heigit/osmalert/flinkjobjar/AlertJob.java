@@ -35,7 +35,7 @@ public class AlertJob {
 		 * For Polygon use this
 		 * new WKTReader().read(args[2]);
 		 */
-		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(params[0], params[1], params[2], params[3]));
+		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(params[0], params[2], params[1], params[3]));
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink, boundingBox);
 	}
