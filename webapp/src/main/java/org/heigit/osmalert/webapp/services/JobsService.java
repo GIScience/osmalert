@@ -53,15 +53,25 @@ public class JobsService {
 			double upperLat = Double.parseDouble(coordinates[3]);
 
 			return areCoordinatesInValidRange(lowerLon, lowerLat, upperLon, upperLat)
-					   && doesCoordinatesFormABox(lowerLon, lowerLat, upperLon, upperLat);
+					   && doesCoordinatesFormABox(lowerLon, lowerLat, upperLon, upperLat)
+					   && isLowerCoordinateSmallerThanUpperCoordinate(lowerLon, lowerLat, upperLon, upperLat);
 
 		} catch (NumberFormatException | NullPointerException e) {
 			return false;
 		}
 	}
 
-	private boolean areCoordinatesInValidRange(double lowerLon, double lowerLat,
-											   double upperLon, double upperLat) {
+	private boolean isLowerCoordinateSmallerThanUpperCoordinate(double lowerLon,
+																double lowerLat,
+																double upperLon,
+																double upperLat) {
+		return (lowerLon < upperLon) && (lowerLat < upperLat);
+	}
+
+	private boolean areCoordinatesInValidRange(
+		double lowerLon, double lowerLat,
+		double upperLon, double upperLat
+	) {
 		return isCoordinateInValidRange(lowerLon, 180)
 				   && isCoordinateInValidRange(upperLon, 180)
 				   && isCoordinateInValidRange(lowerLat, 90)
