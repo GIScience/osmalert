@@ -10,8 +10,12 @@ import org.locationtech.jts.io.*;
 @JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true)
 public class Contribution {
 
+	private Contribution() {
+		current = new Current();
+	}
+
 	@JsonProperty("current")
-	private Current current;
+	private final Current current;
 
 	public boolean isWithin(Geometry boundingBox) throws ParseException {
 		//return boundingBox.getEnvelope().contains(new WKTReader().read(this.current.getGeometry()));
