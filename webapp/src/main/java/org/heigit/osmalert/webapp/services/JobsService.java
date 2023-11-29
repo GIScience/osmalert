@@ -25,10 +25,10 @@ public class JobsService {
 							.toList();
 	}
 
-	public boolean isJobRunning(String jobname) {
+	public boolean isJobRunning(String jobName) {
 		boolean isRunning = false;
 		for (Job job : jobRepository.findAll()) {
-			if (!isJobFailedFinished(job) && job.getJobName().equals(jobname)) {
+			if (!isJobFailedFinished(job) && job.getJobName().equals(jobName)) {
 				isRunning = true;
 				break;
 			}
@@ -60,11 +60,16 @@ public class JobsService {
 		}
 	}
 
-	private boolean areCoordinatesInValidRange(double lowerLon, double lowerLat, double upperLon, double upperLat) {
-		return (lowerLon >= -180 && lowerLon <= 180)
-				   && (upperLon >= -180 && upperLon <= 180)
-				   && (lowerLat >= -90 && lowerLat <= 90)
-				   && (upperLat >= -90 && upperLat <= 90);
+	private boolean areCoordinatesInValidRange(double lowerLon, double lowerLat,
+											   double upperLon, double upperLat) {
+		return isCoordinateInValidRange(lowerLon, 180)
+				   && isCoordinateInValidRange(upperLon, 180)
+				   && isCoordinateInValidRange(lowerLat, 90)
+				   && isCoordinateInValidRange(upperLat, 90);
+	}
+
+	private boolean isCoordinateInValidRange(double coordinate, int maxValue) {
+		return coordinate >= -maxValue && coordinate <= maxValue;
 	}
 
 	private boolean doesCoordinatesFormABox(double lowerLon, double lowerLat, double upperLon, double upperLat) {
