@@ -31,12 +31,11 @@ class AlertJobIntegrationTests {
 	);
 
 	@RegisterExtension
-	static FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
-													   .port(2025);
+	static final FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
+															 .port(2025);
 
 	static String contribution;
-	static Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(1.0, 2.0, 3.0, 4.0));
-	;
+	static final Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(1.0, 2.0, 3.0, 4.0));
 
 	static {
 		try (BufferedReader reader = new BufferedReader(

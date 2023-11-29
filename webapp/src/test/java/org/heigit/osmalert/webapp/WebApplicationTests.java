@@ -26,9 +26,11 @@ class WebApplicationTests {
 		assertThat(config.getFlinkMaxRetryAttempts()).isEqualTo(1);
 	}
 
+	/*
 	@Test
 	void contextLoads() {
 	}
+	*/
 
 	@Test
 	void dataHasBeenInitialized() {

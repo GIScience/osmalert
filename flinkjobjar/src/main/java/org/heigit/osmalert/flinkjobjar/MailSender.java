@@ -6,24 +6,21 @@ import org.simplejavamail.api.mailer.*;
 import org.simplejavamail.email.*;
 import org.simplejavamail.mailer.*;
 
-
 public class MailSender {
 
 	final private Mailer mailer;
 
-	private final String fromAddress = "osmalert@web.de";
-
-
+	private final String fromAddress;
 
 	public MailSender(String host, int port, String username, String password) {
 
 		this.mailer = MailerBuilder
-					 .withSMTPServer(host, port, username, password)
-					 .buildMailer();
+						  .withSMTPServer(host, port, username, password)
+						  .buildMailer();
+		this.fromAddress = "osmalert@web.de";
 	}
 
-
-    void sendMail(String recipient, String payload) {
+	void sendMail(String recipient, String payload) {
 
 		Recipient mailRecipient = new Recipient("user", recipient, Message.RecipientType.TO);
 
@@ -39,6 +36,5 @@ public class MailSender {
 
 		this.mailer.sendMail(email);
 	}
-
 
 }

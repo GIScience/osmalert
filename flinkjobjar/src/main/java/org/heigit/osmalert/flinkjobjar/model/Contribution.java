@@ -7,7 +7,7 @@ import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.json.*;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.*;
 
-@JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true, allowSetters = false)
+@JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true)
 public class Contribution {
 
 	@JsonProperty("current")

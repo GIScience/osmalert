@@ -7,18 +7,13 @@ import org.junit.jupiter.api.extension.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
 public class MailSenderIntegrationTests {
 
-
-	MailSender mailSender = new MailSender("localhost", 2025, "username", "password");
-
+	final MailSender mailSender = new MailSender("localhost", 2025, "username", "password");
 
 	@RegisterExtension
-	static FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
-														   .port(2025);
-
+	static final FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
+															 .port(2025);
 
 	@Test
 	void smokeTest() throws Exception {
@@ -35,6 +30,5 @@ public class MailSenderIntegrationTests {
 		assertEquals("Osmalert Notification", message.getSubject());
 		assertEquals("payload\r\n", message.getContent().toString());
 	}
-
 
 }

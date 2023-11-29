@@ -12,10 +12,10 @@ import static org.apache.flink.streaming.api.windowing.time.Time.*;
 import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
 public class AlertJob {
-	static String host = System.getenv("MAILERTOGO_SMTP_HOST").toString();
-	static int port = Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT"));
-	static String username = System.getenv("MAILERTOGO_SMTP_USER").toString();
-	static String password = System.getenv("MAILERTOGO_SMTP_PASSWORD").toString();
+	static final String host = System.getenv("MAILERTOGO_SMTP_HOST");
+	static final int port = Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT"));
+	static final String username = System.getenv("MAILERTOGO_SMTP_USER");
+	static final String password = System.getenv("MAILERTOGO_SMTP_PASSWORD");
 
 	public static void main(String[] args) throws Exception {
 
@@ -31,7 +31,7 @@ public class AlertJob {
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
 		double[] params = getBoundingBoxValues(getBoundingBoxStringArray(args[2]));
-		/**
+		/*
 		 * For Polygon use this
 		 * new WKTReader().read(args[2]);
 		 */
@@ -42,7 +42,7 @@ public class AlertJob {
 
 	static void configureAndRunJob(
 		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction mailSink, Geometry boundingBox
+		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction<Integer> mailSink, Geometry boundingBox
 	) throws Exception {
 
 		String sinkName = "osmalert_flink_mail_sink";
