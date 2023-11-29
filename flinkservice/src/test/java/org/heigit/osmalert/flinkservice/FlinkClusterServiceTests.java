@@ -26,7 +26,7 @@ class FlinkClusterServiceTests {
 
 	String jobName = "job_23";
 	String emailAddress = "user@example.org";
-	String boundingBox = "POLYGON ((13.0 0.0, 16.0 1.0, 16.0 2.0, 14.0 2.0, 13.0 0.0))";
+	String boundingBox = "1.0,2.0,3.0,4.0";
 
 	@Test
 	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")

@@ -6,7 +6,6 @@ import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.streaming.api.windowing.assigners.*;
 import org.heigit.osmalert.flinkjobjar.model.*;
 import org.locationtech.jts.geom.*;
-import org.locationtech.jts.io.*;
 
 import static org.apache.flink.api.common.eventtime.WatermarkStrategy.*;
 import static org.apache.flink.streaming.api.windowing.time.Time.*;
@@ -31,8 +30,12 @@ public class AlertJob {
 
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
-		//double[] params = getBoundingBoxValues(getBoundingBoxStringArray(args[2]));
-		Geometry boundingBox = new WKTReader().read(args[2]);
+		double[] params = getBoundingBoxValues(getBoundingBoxStringArray(args[2]));
+		/**
+		 * For Polygon use this
+		 * new WKTReader().read(args[2]);
+		 */
+		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(params[0], params[1], params[2], params[3]));
 		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink, boundingBox);
 	}
