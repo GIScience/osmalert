@@ -52,28 +52,23 @@ public class JobsService {
 			double upperLon = Double.parseDouble(coordinates[2]);
 			double upperLat = Double.parseDouble(coordinates[3]);
 
-			if (validateOneCoordinate(lowerLon, 180) && validateOneCoordinate(upperLon, 180) &&
-					validateOneCoordinate(lowerLat, 90) && validateOneCoordinate(upperLat, 90)) {
-				return doesCoordinatesFormABox(lowerLon, lowerLat, upperLon, upperLat);
-			}
-			return false;
+			return areCoordinatesInValidRange(lowerLon, lowerLat, upperLon, upperLat)
+					   && doesCoordinatesFormABox(lowerLon, lowerLat, upperLon, upperLat);
+
 		} catch (NumberFormatException | NullPointerException e) {
 			return false;
 		}
 	}
 
-	private boolean validateOneCoordinate(double coordinate, int max) {
-		return coordinate >= -max && coordinate <= max;
+	private boolean areCoordinatesInValidRange(double lowerLon, double lowerLat, double upperLon, double upperLat) {
+		return (lowerLon >= -180 && lowerLon <= 180)
+				   && (upperLon >= -180 && upperLon <= 180)
+				   && (lowerLat >= -90 && lowerLat <= 90)
+				   && (upperLat >= -90 && upperLat <= 90);
 	}
 
 	private boolean doesCoordinatesFormABox(double lowerLon, double lowerLat, double upperLon, double upperLat) {
-		if((lowerLat == upperLat) && (lowerLon == upperLon)){
-			return false;
-		}
-		if((lowerLat == upperLat) || (lowerLon == upperLon)){
-			return false;
-		}
-		return true;
+		return (lowerLat != upperLat) && (lowerLon != upperLon);
 	}
 
 	public String getJobStatus(long id) {
