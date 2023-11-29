@@ -13,7 +13,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String username;
 	private final String password;
 	private final String emailAddress;
-	private String boundingBox = "";
+	private final String boundingBox;
 
 	public MailSinkFunction(String host, int port, String username, String password, String emailAddress, String boundingBox) {
 		this.host = host;
