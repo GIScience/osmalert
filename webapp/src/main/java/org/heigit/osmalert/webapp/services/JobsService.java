@@ -47,25 +47,19 @@ public class JobsService {
 	public boolean validateCoordinates(String boundingBox) {
 		try {
 			String[] coordinates = boundingBox.split(",");
+			if (coordinates.length != 4) {
+				return false;
+			}
 			double lowerLon = Double.parseDouble(coordinates[0]);
 			double lowerLat = Double.parseDouble(coordinates[1]);
 			double upperLon = Double.parseDouble(coordinates[2]);
 			double upperLat = Double.parseDouble(coordinates[3]);
 
 			return areCoordinatesInValidRange(lowerLon, lowerLat, upperLon, upperLat)
-					   && doesCoordinatesFormABox(lowerLon, lowerLat, upperLon, upperLat)
-					   && isLowerCoordinateSmallerThanUpperCoordinate(lowerLon, lowerLat, upperLon, upperLat);
-
+					   && doesCoordinatesFormAValidBBox(lowerLon, lowerLat, upperLon, upperLat);
 		} catch (NumberFormatException | NullPointerException e) {
 			return false;
 		}
-	}
-
-	private boolean isLowerCoordinateSmallerThanUpperCoordinate(double lowerLon,
-																double lowerLat,
-																double upperLon,
-																double upperLat) {
-		return (lowerLon < upperLon) && (lowerLat < upperLat);
 	}
 
 	private boolean areCoordinatesInValidRange(
@@ -82,8 +76,8 @@ public class JobsService {
 		return coordinate >= -maxValue && coordinate <= maxValue;
 	}
 
-	private boolean doesCoordinatesFormABox(double lowerLon, double lowerLat, double upperLon, double upperLat) {
-		return (lowerLat != upperLat) && (lowerLon != upperLon);
+	private boolean doesCoordinatesFormAValidBBox(double lowerLon, double lowerLat, double upperLon, double upperLat) {
+		return (lowerLon < upperLon) && (lowerLat < upperLat);
 	}
 
 	public String getJobStatus(long id) {
