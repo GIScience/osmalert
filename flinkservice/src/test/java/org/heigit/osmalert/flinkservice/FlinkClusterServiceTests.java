@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FlinkClusterServiceTests {
 
 	@RegisterExtension
-	static MiniClusterExtension miniClusterExtension = new MiniClusterExtension(
+	static final MiniClusterExtension miniClusterExtension = new MiniClusterExtension(
 		new MiniClusterResourceConfiguration.Builder()
 			.setNumberSlotsPerTaskManager(2)
 			.setNumberTaskManagers(1)

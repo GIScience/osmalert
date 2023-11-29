@@ -25,7 +25,7 @@ subprojects { project ->
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
     }
 
@@ -48,9 +48,6 @@ subprojects { project ->
     }
 
 
-
-
-
     jacocoTestCoverageVerification {
         dependsOn test
 
@@ -69,4 +66,3 @@ subprojects { project ->
 wrapper {
     gradleVersion = '8.3'
 }
-

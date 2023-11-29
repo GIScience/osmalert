@@ -35,7 +35,7 @@ class FlinkRemoteJobServiceTests {
 	}
 
 	@Test
-	void getStatusOfUnSubmittedJob() throws Exception {
+	void getStatusOfUnSubmittedJob() {
 		Job job = new Job("job1", 1L);
 		assertThat(flinkRemoteJobService.getStatus(job))
 			.isEqualTo(RemoteJobStatus.CREATED);

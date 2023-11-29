@@ -34,7 +34,7 @@ class AlertJobIntegrationTests {
 	static final FakeSmtpJUnitExtension fakeMailServer = new FakeSmtpJUnitExtension()
 															 .port(2025);
 
-	static String contribution;
+	static final String contribution;
 	static final Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(1.0, 2.0, 3.0, 4.0));
 
 	static {

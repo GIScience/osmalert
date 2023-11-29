@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 /**
  * This configuration class is used to enable/disable features in the application
  * in order to facilitate trunk-based development.
- *
+ * <p>
  * Features can be enabled by adding them to the list of features in application properties.
  */
 @Component("toggles")
