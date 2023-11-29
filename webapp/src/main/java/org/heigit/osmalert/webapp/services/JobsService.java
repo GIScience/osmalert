@@ -67,7 +67,13 @@ public class JobsService {
 	}
 
 	private boolean doesCoordinatesFormABox(double lowerLon, double lowerLat, double upperLon, double upperLat) {
-		return lowerLon != upperLon && lowerLat != upperLat;
+		if((lowerLat == upperLat) && (lowerLon == upperLon)){
+			return false;
+		}
+		if((lowerLat == upperLat) || (lowerLon == upperLon)){
+			return false;
+		}
+		return true;
 	}
 
 	public String getJobStatus(long id) {

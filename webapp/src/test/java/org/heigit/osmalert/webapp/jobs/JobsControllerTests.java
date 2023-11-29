@@ -232,5 +232,29 @@ class JobsControllerTests {
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
 			   ));
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "checkIfCoordinatesFormAPoint")
+							.param("ownersEmail", "hello@world.com")
+							.param("boundingBox", "123.2,23.6,123.2,23.6"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid Coordinates")
+			   ));
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "CheckIfCoordinatesFormALonLine")
+							.param("ownersEmail", "hello@world.com")
+							.param("boundingBox", "123.2,23.6,125.2,23.6"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid Coordinates")
+			   ));
+		mockMvc.perform(post("/jobs")
+							.param("jobName", "CheckIfCoordinatesFormALatLine")
+							.param("ownersEmail", "hello@world.com")
+							.param("boundingBox", "123.2,23.6,123.2,25.6"))
+			   .andExpect(status().isBadRequest())
+			   .andExpect(content().string(
+				   Matchers.containsString("Invalid Coordinates")
+			   ));
 	}
 }
