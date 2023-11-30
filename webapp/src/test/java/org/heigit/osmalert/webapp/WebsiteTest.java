@@ -1,11 +1,12 @@
 package org.heigit.osmalert.webapp;
 
 import com.microsoft.playwright.*;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.boot.test.web.server.*;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,6 +43,12 @@ public class WebsiteTest {
 	void createContextAndPage() {
 		context = browser.newContext();
 		page = context.newPage();
+
+		page.navigate("http://localhost:" + port + "/login");
+		page.getByLabel("username").fill(username);
+		page.getByLabel("password").fill(password);
+		page.locator("button").click();
+		page.navigate("http://localhost:" + port);
 	}
 
 	@AfterEach
@@ -72,5 +79,46 @@ public class WebsiteTest {
 		page.getByLabel("password").fill(password);
 		page.locator("button").click();
 		assertEquals("http://localhost:" + port + "/", page.url());
+	}
+
+	@Test
+	void acceptValidJobTest() {
+		page.locator("//input[@id='jobName']").fill("job1");
+		page.locator("//input[@id='ownersEmail']").fill("123@web.de");
+		page.locator("//input[@id='boundingBox']").fill("123.4,12.3,170.5,67.2");
+		page.locator("#createNewJob").click();
+		page.waitForTimeout(2000);
+
+		Locator jobNameElement = page.locator("td:has-text('job1')");
+		Locator emailElement = page.locator("td:has-text('123@web.de')");
+
+		assertThat(jobNameElement).isVisible();
+		assertThat(emailElement).isVisible();
+	}
+
+	@Test
+	void rejectJobForInvalidOwnersEmailTest() {
+		page.locator("//input[@id='jobName']").fill("job2");
+		page.locator("//input[@id='ownersEmail']").fill("1234web.de");
+		page.locator("//input[@id='boundingBox']").fill("123.4,12.3,120.5,67.2");
+		page.locator("#createNewJob").click();
+		page.waitForTimeout(2000);
+
+		Locator emailElement = page.locator("td:has-text('1234web.de')");
+
+		assertThat(emailElement).isHidden();
+	}
+
+	@Test
+	void rejectJobForInvalidBoundingBoxTest() {
+		page.locator("//input[@id='jobName']").fill("job3");
+		page.locator("//input[@id='ownersEmail']").fill("123@web.de");
+		page.locator("//input[@id='boundingBox']").fill("12.2,12.2,13.2,12.2");
+		page.locator("#createNewJob").click();
+		page.waitForTimeout(2000);
+
+		Locator emailElement = page.locator("td:has-text('job3')");
+
+		assertThat(emailElement).isHidden();
 	}
 }
