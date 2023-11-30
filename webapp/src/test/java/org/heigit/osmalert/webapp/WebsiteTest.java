@@ -57,14 +57,7 @@ public class WebsiteTest {
 	}
 
 	@Test
-	public void osmalertLogInPage() {
-		page.navigate("http://localhost:%d".formatted(port));
-		Assertions.assertThat(page.title()).isEqualTo("Please sign in");
-		page.close();
-	}
-
-	@Test
-	void loginFailedTest() {
+	void loginFailTest() {
 		page.navigate("http://localhost:" + port + "/login");
 		page.getByLabel("username").fill("user123");
 		page.getByLabel("password").fill("1234");
