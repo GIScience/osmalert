@@ -107,13 +107,19 @@ public class WebsiteTest {
 	@Test
 	void rejectJobForInvalidBoundingBoxTest() {
 		page.locator("//input[@id='jobName']").fill("job3");
-		page.locator("//input[@id='ownersEmail']").fill("123@web.de");
+		page.locator("//input[@id='ownersEmail']").fill("ownersEmail@web.de");
 		page.locator("//input[@id='boundingBox']").fill("12.2,12.2,13.2,12.2");
 		page.locator("#createNewJob").click();
 		page.waitForTimeout(2000);
 
-		Locator emailElement = page.locator("td:has-text('job3')");
+		Locator jobNameElement = page.locator("td:has-text('job3')");
+		Locator ownersEmailElement = page.locator("td:has-text('ownersEmail@web.de')");
 
-		assertThat(emailElement).isHidden();
+		assertThat(jobNameElement).isHidden();
+		assertThat(ownersEmailElement).isHidden();
 	}
+
+
+
+
 }
