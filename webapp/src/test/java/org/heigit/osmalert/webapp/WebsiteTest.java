@@ -92,14 +92,16 @@ public class WebsiteTest {
 	@Test
 	void rejectJobForInvalidOwnersEmailTest() {
 		page.locator("//input[@id='jobName']").fill("job2");
-		page.locator("//input[@id='ownersEmail']").fill("1234web.de");
+		page.locator("//input[@id='ownersEmail']").fill("ownersEmailweb");
 		page.locator("//input[@id='boundingBox']").fill("123.4,12.3,120.5,67.2");
 		page.locator("#createNewJob").click();
 		page.waitForTimeout(2000);
 
-		Locator emailElement = page.locator("td:has-text('1234web.de')");
+		Locator jobNameElement = page.locator("td:has-text('job2')");
+		Locator ownersEmailElement = page.locator("td:has-text('ownersEmailweb.de')");
 
-		assertThat(emailElement).isHidden();
+		assertThat(jobNameElement).isHidden();
+		assertThat(ownersEmailElement).isHidden();
 	}
 
 	@Test
