@@ -119,6 +119,40 @@ public class WebsiteTest {
 		assertThat(ownersEmailElement).isHidden();
 	}
 
+	private void addJob(String jobName, String ownersEmail, String boundingBox) {
+		page.locator("//input[@id='jobName']").fill(jobName);
+		page.locator("//input[@id='ownersEmail']").fill(ownersEmail);
+		page.locator("//input[@id='boundingBox']").fill(boundingBox);
+		page.locator("#createNewJob").click();
+		page.waitForTimeout(2000);
+	}
+
+	@Test
+	void visualizeListOfSubmittedJobsTest() {
+		addJob("jobv1", "email@emailv1.de", "121.4,12.3,170.5,67.2");
+		addJob("jobv2", "email@emailv2.de", "132.4,12.3,170.5,67.2");
+		addJob("jobv3", "email@emailv3.de", "143.4,12.3,170.5,67.2");
+
+		Locator jobNameElementV1 = page.locator("td:has-text('jobv1')");
+		Locator emailElementV1 = page.locator("td:has-text('email@emailv1.de')");
+
+		Locator jobNameElementV2 = page.locator("td:has-text('jobv2')");
+		Locator emailElementV2 = page.locator("td:has-text('email@emailv2.de')");
+
+		Locator jobNameElementV3 = page.locator("td:has-text('jobv3')");
+		Locator emailElementV3 = page.locator("td:has-text('email@emailv3.de')");
+
+		assertThat(jobNameElementV1).isVisible();
+		assertThat(emailElementV1).isVisible();
+
+		assertThat(jobNameElementV2).isVisible();
+		assertThat(emailElementV2).isVisible();
+
+		assertThat(jobNameElementV3).isVisible();
+		assertThat(emailElementV3).isVisible();
+	}
+
+
 
 
 
