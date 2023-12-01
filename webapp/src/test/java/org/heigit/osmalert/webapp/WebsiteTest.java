@@ -152,8 +152,18 @@ public class WebsiteTest {
 		assertThat(emailElementV3).isVisible();
 	}
 
+	@Test
+	void rejectJobWithAlreadyExistingName() {
+		addJob("joba1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
+		addJob("joba1", "email@emaila2.de", "132.4,12.3,170.5,67.2");
 
+		Locator jobNameElementA1 = page.locator("td:has-text('joba1')");
+		Locator emailElementA1 = page.locator("td:has-text('email@emaila1.de')");
+		Locator emailElementA2 = page.locator("td:has-text('email@emaila2.de')");
 
-
-
+		assertThat(jobNameElementA1).isVisible();
+		assertThat(emailElementA1).isVisible();
+		assertThat(emailElementA2).isHidden();
+	}
+	
 }
