@@ -6,6 +6,7 @@ import java.util.*;
 
 import name.bychkov.junit5.*;
 import org.apache.flink.api.common.typeinfo.*;
+import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.testutils.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
 import org.apache.flink.streaming.api.datastream.*;
@@ -14,14 +15,23 @@ import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.test.junit5.*;
 import org.heigit.osmalert.flinkjobjar.model.*;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.*;
-import org.junitpioneer.jupiter.*;
 import org.locationtech.jts.geom.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
 
 class AlertJobIntegrationTests {
+	static Configuration configuration = new Configuration();
+
+	@BeforeAll
+	static void setConfiguration() {
+		configuration.setString("MAILERTOGO_SMTP_HOST", "localhost");
+		configuration.setString("MAILERTOGO_SMTP_PORT", "2025");
+		configuration.setString("MAILERTOGO_SMTP_USER", "whatever");
+		configuration.setString("MAILERTOGO_SMTP_PASSWORD", "whatever");
+	}
 
 	@RegisterExtension
 	static MiniClusterExtension miniClusterExtension = new MiniClusterExtension(
@@ -53,20 +63,19 @@ class AlertJobIntegrationTests {
 	}
 
 	@Test
-	//@DisabledUntil(reason = "Fake Mail Messages are filtered and need to be changed to valid messages", date = "2023-12-02")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "2025")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
 	void flinkJobCanBeRunAndMailIsSent() throws Exception {
-
-		//TODO: remove dependency of test on env variables and fields of AlertJob
-
-		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(configuration);
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
-
-		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, "user@example.org", "1,1,1,1");
+		Map<String, String> map = configuration.toMap();
+		MailSinkFunction mailSink = new MailSinkFunction(
+			map.get("MAILERTOGO_SMTP_HOST"),
+			Integer.parseInt(map.get("MAILERTOGO_SMTP_PORT")),
+			map.get("MAILERTOGO_SMTP_USER"),
+			map.get("MAILERTOGO_SMTP_PASSWORD"),
+			"user@example.org",
+			"1,1,1,1"
+		);
 		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())
@@ -74,15 +83,8 @@ class AlertJobIntegrationTests {
 	}
 
 	@Test
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "2025")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
 	void flinkStreamCountIsRight() throws Exception {
-
-		//TODO: remove dependency of test on env variables and fields of AlertJob
-
-		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
+		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(configuration);
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
 

@@ -28,6 +28,20 @@ class FlinkClusterServiceTests {
 	final String emailAddress = "user@example.org";
 	final String boundingBox = "1.0,2.0,3.0,4.0";
 
+	static Configuration config2 = new Configuration();
+
+	@BeforeAll
+	static void setConfig2() {
+		config2.setString("MAILERTOGO_SMTP_HOST", "localhost");
+		config2.setString("MAILERTOGO_SMTP_PORT", "2025");
+		config2.setString("MAILERTOGO_SMTP_USER", "whatever");
+		config2.setString("MAILERTOGO_SMTP_PASSWORD", "whatever");
+		config2.setString("KAFKA_USER", "whatever");
+		config2.setString("KAFKA_PASSWORD", "whatever");
+		config2.setString("KAFKA_TOPIC", "whatever");
+		config2.setString("KAFKA_BROKER", "whatever");
+	}
+
 	@Test
 	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
 	@SetEnvironmentVariable(key = "KAFKA_PASSWORD", value = "whatever")
@@ -83,10 +97,10 @@ class FlinkClusterServiceTests {
 
 	@Disabled("only for local usage against a local flink cluster at 8081")
 	@Test
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
+	/*@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "25")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
+	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")*/
 	void submitSomeJobs() throws Exception {
 
 		FlinkClusterService clusterService = new FlinkClusterService();

@@ -12,10 +12,6 @@ import static org.apache.flink.streaming.api.windowing.time.Time.*;
 import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
 public class AlertJob {
-	static final String host = System.getenv("MAILERTOGO_SMTP_HOST");
-	static final int port = Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT"));
-	static final String username = System.getenv("MAILERTOGO_SMTP_USER");
-	static final String password = System.getenv("MAILERTOGO_SMTP_PASSWORD");
 
 	public static void main(String[] args) throws Exception {
 
@@ -37,7 +33,14 @@ public class AlertJob {
 		 * new WKTReader().read(args[2]);
 		 */
 		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(params[0], params[2], params[1], params[3]));
-		MailSinkFunction mailSink = new MailSinkFunction(host, port, username, password, emailAddress, boundingBoxString);
+		MailSinkFunction mailSink = new MailSinkFunction(
+			System.getenv("MAILERTOGO_SMTP_HOST"),
+			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
+			System.getenv("MAILERTOGO_SMTP_USER"),
+			System.getenv("MAILERTOGO_SMTP_PASSWORD"),
+			emailAddress,
+			boundingBoxString
+		);
 		configureAndRunJob(jobName, streamOperator, environment, 60, mailSink, boundingBox);
 	}
 
@@ -51,7 +54,6 @@ public class AlertJob {
 		streamOperator
 			.map(AlertJob::log)
 			.map(Contribution::createContribution)
-			// Line below should add the necessary filtering, but Method isn't implemented yet
 			.filter(contrib -> contrib.isWithin(boundingBox))
 			.map(log -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
