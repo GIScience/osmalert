@@ -85,12 +85,7 @@ public class WebsiteTest {
 
 	@Test
 	void acceptValidJobTest() {
-		page.locator("//input[@id='jobName']").fill("job1");
-		page.locator("//input[@id='ownersEmail']").fill("123@web.de");
-		page.locator("//input[@id='boundingBox']").fill("123.4,12.3,170.5,67.2");
-		page.locator("#createNewJob").click();
-		page.waitForTimeout(2000);
-
+		addJob("job1", "123@web.de", "123.4,12.3,170.5,67.2");
 		Locator jobNameElement = page.locator("td:has-text('job1')");
 		Locator emailElement = page.locator("td:has-text('123@web.de')");
 
