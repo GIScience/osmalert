@@ -120,22 +120,25 @@ public class WebsiteTest {
 		addJob("jobv3", "email@emailv3.de", "143.4,12.3,170.5,67.2");
 
 		Locator jobNameElementV1 = page.locator("td:has-text('jobv1')");
-		Locator emailElementV1 = page.locator("td:has-text('email@emailv1.de')");
+		Locator ownersEmailElementV1 = page.locator("td:has-text('email@emailv1.de')");
 
 		Locator jobNameElementV2 = page.locator("td:has-text('jobv2')");
-		Locator emailElementV2 = page.locator("td:has-text('email@emailv2.de')");
+		Locator ownersEmailElementV2 = page.locator("td:has-text('email@emailv2.de')");
 
 		Locator jobNameElementV3 = page.locator("td:has-text('jobv3')");
-		Locator emailElementV3 = page.locator("td:has-text('email@emailv3.de')");
+		Locator ownersEmailElementV3 = page.locator("td:has-text('email@emailv3.de')");
+
+		int countStatus = page.locator("td:has-text('RUNNING')").count();
 
 		assertThat(jobNameElementV1).isVisible();
-		assertThat(emailElementV1).isVisible();
+		assertThat(ownersEmailElementV1).isVisible();
 
 		assertThat(jobNameElementV2).isVisible();
-		assertThat(emailElementV2).isVisible();
+		assertThat(ownersEmailElementV2).isVisible();
 
 		assertThat(jobNameElementV3).isVisible();
-		assertThat(emailElementV3).isVisible();
+		assertThat(ownersEmailElementV3).isVisible();
+		assertTrue(countStatus >= 3);
 	}
 
 	@Test
@@ -144,12 +147,14 @@ public class WebsiteTest {
 		addJob("joba1", "email@emaila2.de", "132.4,12.3,170.5,67.2");
 
 		Locator jobNameElementA1 = page.locator("td:has-text('joba1')");
-		Locator emailElementA1 = page.locator("td:has-text('email@emaila1.de')");
-		Locator emailElementA2 = page.locator("td:has-text('email@emaila2.de')");
+		Locator ownersEmailElementA1 = page.locator("td:has-text('email@emaila1.de')");
+		Locator ownersEmailElementA2 = page.locator("td:has-text('email@emaila2.de')");
+		String errorMessage = page.locator("#error-message-500").innerText();
 
 		assertThat(jobNameElementA1).isVisible();
-		assertThat(emailElementA1).isVisible();
-		assertThat(emailElementA2).isHidden();
+		assertThat(ownersEmailElementA1).isVisible();
+		assertThat(ownersEmailElementA2).isHidden();
+		assertEquals(": JobName already exists", errorMessage);
 	}
 	
 }
