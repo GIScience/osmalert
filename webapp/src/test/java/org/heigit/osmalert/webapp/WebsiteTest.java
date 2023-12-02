@@ -72,6 +72,15 @@ public class WebsiteTest {
 		page.getByLabel("password").fill(password);
 		page.locator("button").click();
 		assertEquals("http://localhost:" + port + "/", page.url());
+
+	}
+
+	private void addJob(String jobName, String ownersEmail, String boundingBox) {
+		page.locator("//input[@id='jobName']").fill(jobName);
+		page.locator("//input[@id='ownersEmail']").fill(ownersEmail);
+		page.locator("//input[@id='boundingBox']").fill(boundingBox);
+		page.locator("#createNewJob").click();
+		page.waitForTimeout(2000);
 	}
 
 	@Test
@@ -91,12 +100,7 @@ public class WebsiteTest {
 
 	@Test
 	void rejectJobForInvalidOwnersEmailTest() {
-		page.locator("//input[@id='jobName']").fill("job2");
-		page.locator("//input[@id='ownersEmail']").fill("ownersEmailweb");
-		page.locator("//input[@id='boundingBox']").fill("123.4,12.3,120.5,67.2");
-		page.locator("#createNewJob").click();
-		page.waitForTimeout(2000);
-
+		addJob("job2", "ownersEmailweb", "123.4,12.3,120.5,67.2");
 		Locator jobNameElement = page.locator("td:has-text('job2')");
 		Locator ownersEmailElement = page.locator("td:has-text('ownersEmailweb.de')");
 
@@ -106,25 +110,12 @@ public class WebsiteTest {
 
 	@Test
 	void rejectJobForInvalidBoundingBoxTest() {
-		page.locator("//input[@id='jobName']").fill("job3");
-		page.locator("//input[@id='ownersEmail']").fill("ownersEmail@web.de");
-		page.locator("//input[@id='boundingBox']").fill("12.2,12.2,13.2,12.2");
-		page.locator("#createNewJob").click();
-		page.waitForTimeout(2000);
-
+		addJob("job3", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
 		Locator jobNameElement = page.locator("td:has-text('job3')");
 		Locator ownersEmailElement = page.locator("td:has-text('ownersEmail@web.de')");
 
 		assertThat(jobNameElement).isHidden();
 		assertThat(ownersEmailElement).isHidden();
-	}
-
-	private void addJob(String jobName, String ownersEmail, String boundingBox) {
-		page.locator("//input[@id='jobName']").fill(jobName);
-		page.locator("//input[@id='ownersEmail']").fill(ownersEmail);
-		page.locator("//input[@id='boundingBox']").fill(boundingBox);
-		page.locator("#createNewJob").click();
-		page.waitForTimeout(2000);
 	}
 
 	@Test
