@@ -80,27 +80,30 @@ public class WebsiteTest {
 		page.locator("//input[@id='ownersEmail']").fill(ownersEmail);
 		page.locator("//input[@id='boundingBox']").fill(boundingBox);
 		page.locator("#createNewJob").click();
-		page.waitForTimeout(2000);
+		page.waitForTimeout(5000);
 	}
 
 	@Test
 	void acceptValidJobTest() {
 		addJob("job1", "123@web.de", "123.4,12.3,170.5,67.2");
 		Locator jobNameElement = page.locator("td:has-text('job1')");
-		Locator emailElement = page.locator("td:has-text('123@web.de')");
+		Locator ownersEmailElement = page.locator("td:has-text('123@web.de')");
 
 		assertThat(jobNameElement).isVisible();
-		assertThat(emailElement).isVisible();
+		assertThat(ownersEmailElement).isVisible();
 	}
 
 	@Test
 	void rejectJobForInvalidOwnersEmailTest() {
-		addJob("job2", "ownersEmailweb", "123.4,12.3,120.5,67.2");
+		addJob("job2", "ownersEmailweb", "123.4,12.3,170.5,67.2");
 		Locator jobNameElement = page.locator("td:has-text('job2')");
 		Locator ownersEmailElement = page.locator("td:has-text('ownersEmailweb.de')");
 
+		String errorMessage = page.locator("#error-message-500").innerText();
+
 		assertThat(jobNameElement).isHidden();
 		assertThat(ownersEmailElement).isHidden();
+		assertEquals(": Invalid Email", errorMessage);
 	}
 
 	@Test
@@ -108,9 +111,11 @@ public class WebsiteTest {
 		addJob("job3", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
 		Locator jobNameElement = page.locator("td:has-text('job3')");
 		Locator ownersEmailElement = page.locator("td:has-text('ownersEmail@web.de')");
+		String errorMessage = page.locator("#error-message-500").innerText();
 
 		assertThat(jobNameElement).isHidden();
 		assertThat(ownersEmailElement).isHidden();
+		assertEquals(": Invalid Coordinates", errorMessage);
 	}
 
 	@Test
