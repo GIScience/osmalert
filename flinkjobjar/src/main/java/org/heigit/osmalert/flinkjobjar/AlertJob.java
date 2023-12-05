@@ -70,28 +70,28 @@ public class AlertJob {
 		return contribution;
 	}
 
-	private static String getJobName(String[] args) {
+	public static String getJobName(String[] args) {
 		assert args[0] != null;
 		String jobName = "AlertJob_" + args[0];
 		System.out.println("=== " + jobName + " ===");
 		return jobName;
 	}
 
-	private static String getEmailAddress(String[] args) {
+	public static String getEmailAddress(String[] args) {
 		assert args[1] != null;
 		String emailAdress = args[1];
 		System.out.println("=== " + emailAdress + " ===");
 		return emailAdress;
 	}
 
-	private static double[] getBoundingBoxValues(String[] input) {
+	public static double[] getBoundingBoxValues(String[] input) {
 		double[] doubleArray = new double[4];
 		for (int i = 0; i < 4; i++)
 			doubleArray[i] = Double.parseDouble(input[i]);
 		return doubleArray;
 	}
 
-	private static String[] getBoundingBoxStringArray(String args) {
+	public static String[] getBoundingBoxStringArray(String args) {
 		assert args != null;
 		return args.split(",");
 	}

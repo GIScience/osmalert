@@ -15,7 +15,6 @@ import org.apache.flink.streaming.api.functions.sink.*;
 import org.apache.flink.test.junit5.*;
 import org.heigit.osmalert.flinkjobjar.model.*;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.*;
 import org.locationtech.jts.geom.*;
 
@@ -102,6 +101,54 @@ class AlertJobIntegrationTests {
 	void isContributionNotNull() throws JsonProcessingException {
 		Contribution contributionObj = Contribution.createContribution(contribution);
 		assertThat(contributionObj).isNotNull();
+	}
+
+	@Test
+	void getJobNameTest() {
+		String[] input = {"jobname", "email", "123.123"};
+		String[] emptyJobName = {null, "email@email.de"};
+		assertThat(getJobName(input)).isEqualTo("AlertJob_jobname");
+		try {
+			getJobName(emptyJobName);
+		} catch (AssertionError e) {
+			assertThat(e).isExactlyInstanceOf(AssertionError.class);
+		}
+	}
+
+	@Test
+	void getEmailAdressTest() {
+		String[] input = {"name", "email@email.de"};
+		String[] emptyEmailAddress = {"name", null};
+		assertThat(getEmailAddress(input)).isEqualTo(input[1]);
+		try {
+			getEmailAddress(emptyEmailAddress);
+		} catch (AssertionError e) {
+			assertThat(e).isExactlyInstanceOf(AssertionError.class);
+		}
+	}
+
+	@Test
+	void getBoundingBoxValuesTest() {
+		String[] input = {"1.0", "2.0", "3.0", "4.0"};
+		double[] result = getBoundingBoxValues(input);
+		assertThat(result[0]).isEqualTo(1.0);
+		assertThat(result[1]).isEqualTo(2.0);
+		assertThat(result[2]).isEqualTo(3.0);
+		assertThat(result[3]).isEqualTo(4.0);
+	}
+
+	@Test
+	void getBoundingBoxStringArrayTest() {
+		String[] result = getBoundingBoxStringArray("1.0,2.0,3.0,4.0");
+		assertThat(result[0]).isEqualTo("1.0");
+		assertThat(result[1]).isEqualTo("2.0");
+		assertThat(result[2]).isEqualTo("3.0");
+		assertThat(result[3]).isEqualTo("4.0");
+		try {
+			String[] r = getBoundingBoxStringArray(null);
+		} catch (AssertionError e) {
+			assertThat(e).isExactlyInstanceOf(AssertionError.class);
+		}
 	}
 
 	private static class MockSink implements SinkFunction<Integer> {
