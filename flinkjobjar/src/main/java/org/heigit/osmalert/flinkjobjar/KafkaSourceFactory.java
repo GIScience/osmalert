@@ -6,9 +6,9 @@ import org.apache.flink.connector.kafka.source.enumerator.initializer.*;
 
 import static java.lang.System.*;
 
-
 public class KafkaSourceFactory {
 
+	private KafkaSourceFactory() {}
 
 	static KafkaSource<String> getKafkaSource() {
 
@@ -22,9 +22,10 @@ public class KafkaSourceFactory {
 		return getKafkaContributionSource(broker, topic, user, password, group);
 	}
 
-
-	static KafkaSource<String> getKafkaContributionSource( String bootstrapServer, String topic,
-		String user, String password, String groupID) {
+	static KafkaSource<String> getKafkaContributionSource(
+		String bootstrapServer, String topic,
+		String user, String password, String groupID
+	) {
 
 
 		return KafkaSource
@@ -39,12 +40,11 @@ public class KafkaSourceFactory {
 				   .setProperty("sasl.mechanism", "PLAIN")
 				   .setProperty("sasl.jaas.config", saslJaasConfig(user, password))
 
-					//commit offset periodically to enable progress insights on broker
+				   //commit offset periodically to enable progress insights on broker
 				   .setProperty("enable.auto.commit", "true")
 				   .build();
 
 	}
-
 
 	static String saslJaasConfig(String user, String password) {
 		return "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" +
@@ -53,8 +53,5 @@ public class KafkaSourceFactory {
 				   password +
 				   "\";";
 	}
-
-
-
 
 }

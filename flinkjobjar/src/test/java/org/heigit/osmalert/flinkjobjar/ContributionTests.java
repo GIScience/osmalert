@@ -14,7 +14,12 @@ public class ContributionTests {
 
 	@Test
 	void isWithinGeometry() throws IOException, ParseException {
-		//Files.readString(Paths.get());
+		try {
+			Contribution emptycontribution = Contribution.createContribution(null);
+		} catch (AssertionError e) {
+			assertThat(e).isNotNull();
+		}
+
 		Contribution contribution1 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution1.json")));
 		Geometry boundingBox1 = new GeometryFactory().toGeometry(new Envelope(13, 16, 1, 2));
 		assertThat(contribution1.isWithin(boundingBox1)).isTrue();
@@ -26,5 +31,7 @@ public class ContributionTests {
 		Geometry boundingBox3 = new WKTReader().read("POLYGON ((-88 41, -86 41, -86 43, -88 43, -88 41))");
 		assertThat(contribution3.isWithin(boundingBox3)).isTrue();
 		assertThat(contribution3.isWithin(boundingBox1)).isFalse();
+
+		assertThat(contribution3.isWithin(null)).isFalse();
 	}
 }

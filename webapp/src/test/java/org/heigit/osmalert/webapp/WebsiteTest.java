@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.boot.test.web.server.*;
 
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -143,7 +142,7 @@ public class WebsiteTest {
 
 		assertThat(jobNameElementV3).isVisible();
 		assertThat(ownersEmailElementV3).isVisible();
-		assertTrue(countStatus >= 3);
+		assertEquals(countStatus, 3);
 	}
 
 	@Test
@@ -161,5 +160,5 @@ public class WebsiteTest {
 		assertThat(ownersEmailElementA2).isHidden();
 		assertEquals(": JobName already exists", errorMessage);
 	}
-	
+
 }

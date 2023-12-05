@@ -13,6 +13,8 @@ import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
 public class AlertJob {
 
+	private AlertJob() {}
+
 	public static void main(String[] args) throws Exception {
 
 		String sourceName = "osmalert_flink_kafka_source";
