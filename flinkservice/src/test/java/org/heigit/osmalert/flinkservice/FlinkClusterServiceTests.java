@@ -28,7 +28,7 @@ class FlinkClusterServiceTests {
 	final String emailAddress = "user@example.org";
 	final String boundingBox = "1.0,2.0,3.0,4.0";
 
-	static Configuration config2 = new Configuration();
+	static final Configuration config2 = new Configuration();
 
 	@BeforeAll
 	static void setConfig2() {

@@ -23,6 +23,7 @@ public class KafkaSourceFactoryTests {
 	void getKafkaSourceWithoutParameterTest() {
 		try {
 			KafkaSource<String> testobject = getKafkaSource();
+			assertThat(testobject).isNull();
 		} catch (Exception e) {
 			assertThat(e).isExactlyInstanceOf(NullPointerException.class);
 		}

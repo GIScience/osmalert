@@ -16,6 +16,7 @@ public class ContributionTests {
 	void isWithinGeometry() throws IOException, ParseException {
 		try {
 			Contribution emptycontribution = Contribution.createContribution(null);
+			assertThat(emptycontribution).isNull();
 		} catch (AssertionError e) {
 			assertThat(e).isNotNull();
 		}

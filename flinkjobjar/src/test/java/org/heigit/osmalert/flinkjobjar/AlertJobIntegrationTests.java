@@ -8,7 +8,6 @@ import name.bychkov.junit5.*;
 import org.apache.flink.api.common.typeinfo.*;
 import org.apache.flink.configuration.*;
 import org.apache.flink.runtime.testutils.*;
-import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
 import org.apache.flink.streaming.api.datastream.*;
 import org.apache.flink.streaming.api.environment.*;
 import org.apache.flink.streaming.api.functions.sink.*;
@@ -22,7 +21,9 @@ import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
 
 class AlertJobIntegrationTests {
-	static Configuration configuration = new Configuration();
+	private AlertJobIntegrationTests() {}
+
+	static final Configuration configuration = new Configuration();
 
 	@BeforeAll
 	static void setConfiguration() {
@@ -98,7 +99,7 @@ class AlertJobIntegrationTests {
 	}
 
 	@Test
-	void isContributionNotNull() throws JsonProcessingException {
+	void isContributionNotNull() {
 		Contribution contributionObj = Contribution.createContribution(contribution);
 		assertThat(contributionObj).isNotNull();
 	}
@@ -145,7 +146,8 @@ class AlertJobIntegrationTests {
 		assertThat(result[2]).isEqualTo("3.0");
 		assertThat(result[3]).isEqualTo("4.0");
 		try {
-			String[] r = getBoundingBoxStringArray(null);
+			String[] ret = getBoundingBoxStringArray(null);
+			assertThat(ret[0]).isNull();
 		} catch (AssertionError e) {
 			assertThat(e).isExactlyInstanceOf(AssertionError.class);
 		}

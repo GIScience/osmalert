@@ -27,10 +27,11 @@ class WebApplicationTests {
 	}
 
 	// TODO Remove empty test?
-	@Test
-	void contextLoads() {
+	/*@Test
+	void
+	contextLoads() {
 	}
-
+*/
 	@Test
 	void dataHasBeenInitialized() {
 		assertThat(repository.findAll()).hasSize(0);

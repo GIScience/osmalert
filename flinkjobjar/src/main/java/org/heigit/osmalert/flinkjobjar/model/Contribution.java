@@ -28,7 +28,7 @@ public class Contribution {
 		return false;
 	}
 
-	public static Contribution createContribution(String contribution) throws JsonProcessingException {
+	public static Contribution createContribution(String contribution) {
 		assert contribution != null;
 		ObjectMapper objectMapper = new JsonMapper();
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
