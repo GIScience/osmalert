@@ -80,7 +80,7 @@ public class WebsiteTest {
 		page.locator("//input[@id='ownersEmail']").fill(ownersEmail);
 		page.locator("//input[@id='boundingBox']").fill(boundingBox);
 		page.locator("#createNewJob").click();
-		page.waitForTimeout(5000);
+		page.waitForTimeout(10000);
 	}
 
 	@Test
