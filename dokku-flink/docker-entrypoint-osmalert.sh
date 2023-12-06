@@ -121,11 +121,8 @@ prepare_configuration
 
 
 #task manager
-echo "Starting Task Manager"
-exec $(drop_privs_cmd) "$FLINK_HOME/bin/taskmanager.sh" start-foreground -D jobmanager.rpc.address=0.0.0.0 &
-
-# give task manager some time to start
-sleep 5
+#echo "Starting Task Manager"
+#exec $(drop_privs_cmd) "$FLINK_HOME/bin/taskmanager.sh" start-foreground -D jobmanager.rpc.address=0.0.0.0 &
 
 #job manager
 echo "Starting Job Manager"
