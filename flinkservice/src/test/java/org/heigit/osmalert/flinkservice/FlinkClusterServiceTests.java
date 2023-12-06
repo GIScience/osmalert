@@ -28,21 +28,7 @@ class FlinkClusterServiceTests {
 	final String emailAddress = "user@example.org";
 	final String boundingBox = "1.0,2.0,3.0,4.0";
 
-	static final Configuration config2 = new Configuration();
-
-	@BeforeAll
-	static void setConfig2() {
-		config2.setString("MAILERTOGO_SMTP_HOST", "localhost");
-		config2.setString("MAILERTOGO_SMTP_PORT", "2025");
-		config2.setString("MAILERTOGO_SMTP_USER", "whatever");
-		config2.setString("MAILERTOGO_SMTP_PASSWORD", "whatever");
-		config2.setString("KAFKA_USER", "whatever");
-		config2.setString("KAFKA_PASSWORD", "whatever");
-		config2.setString("KAFKA_TOPIC", "whatever");
-		config2.setString("KAFKA_BROKER", "whatever");
-	}
-
-	@Test
+	@Nested
 	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
 	@SetEnvironmentVariable(key = "KAFKA_PASSWORD", value = "whatever")
 	@SetEnvironmentVariable(key = "KAFKA_TOPIC", value = "whatever")
@@ -52,42 +38,36 @@ class FlinkClusterServiceTests {
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "123")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
-	void aJobGraphCanBeCreated() throws Exception {
+	class enviromentalVariableTests {
+		@Test
+		void aJobGraphCanBeCreated() throws Exception {
 
-		// dummy config - never used
-		FlinkRestsConfiguration config = new FlinkRestsConfiguration("", -1, 0);
-		FlinkClusterService clusterService = new FlinkClusterService(config);
+			// dummy config - never used
+			FlinkRestsConfiguration config = new FlinkRestsConfiguration("", -1, 0);
+			FlinkClusterService clusterService = new FlinkClusterService(config);
 
-		JobGraph jobGraph = clusterService.createJobGraph("name", "emailAddress", boundingBox);
-		assertThat(jobGraph).isNotNull();
+			JobGraph jobGraph = clusterService.createJobGraph("name", "emailAddress", boundingBox);
+			assertThat(jobGraph).isNotNull();
 
-	}
+		}
 
-	@Test
-	@SetEnvironmentVariable(key = "KAFKA_USER", value = "whatever")
-	@SetEnvironmentVariable(key = "KAFKA_PASSWORD", value = "whatever")
-	@SetEnvironmentVariable(key = "KAFKA_TOPIC", value = "whatever")
-	@SetEnvironmentVariable(key = "KAFKA_BROKER", value = "whatever")
+		@Test
+		void testClusterSubmission(@InjectMiniCluster MiniCluster miniCluster) throws Exception {
 
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "25")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
-	void testClusterSubmission(@InjectMiniCluster MiniCluster miniCluster) throws Exception {
+			MiniClusterClient clusterClient = getMiniClusterClient(miniCluster);
+			FlinkClusterService clusterService = new FlinkClusterService(clusterClient);
 
-		MiniClusterClient clusterClient = getMiniClusterClient(miniCluster);
-		FlinkClusterService clusterService = new FlinkClusterService(clusterClient);
+			String jobId = clusterService.submitJarJobToCluster(jobName, emailAddress, boundingBox);
+			System.out.println("jobId = " + jobId);
 
-		String jobId = clusterService.submitJarJobToCluster(jobName, emailAddress, boundingBox);
-		System.out.println("jobId = " + jobId);
+			assertEquals(32, jobId.length());
+			assertTrue(clusterService.isNotFailed(jobId));
+			assertEquals(jobName, clusterService.getJobName(jobId));
 
-		assertEquals(32, jobId.length());
-		assertTrue(clusterService.isNotFailed(jobId));
-		assertEquals(jobName, clusterService.getJobName(jobId));
+			//TODO: check if flaky
 
-		//TODO: check if flaky
-
-		assertEquals(JobStatus.INITIALIZING, clusterService.getStatus(jobId));
+			assertEquals(JobStatus.INITIALIZING, clusterService.getStatus(jobId));
+		}
 	}
 
 	private static MiniClusterClient getMiniClusterClient(MiniCluster miniCluster) {
@@ -97,10 +77,6 @@ class FlinkClusterServiceTests {
 
 	@Disabled("only for local usage against a local flink cluster at 8081")
 	@Test
-	/*@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_HOST", value = "localhost")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "25")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
-	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")*/
 	void submitSomeJobs() throws Exception {
 
 		FlinkClusterService clusterService = new FlinkClusterService();

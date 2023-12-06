@@ -9,14 +9,17 @@ import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
 public class KafkaSourceFactoryTests {
 
-	@Test
+	@Nested
 	@SetEnvironmentVariable(value = "localhost", key = "KAFKA_USER")
 	@SetEnvironmentVariable(value = "2025", key = "KAFKA_PASSWORD")
 	@SetEnvironmentVariable(value = "adsf", key = "KAFKA_TOPIC")
 	@SetEnvironmentVariable(value = "asd", key = "KAFKA_BROKER")
-	void getKafkaSourceTest() {
-		KafkaSource<String> testobject = getKafkaSource();
-		assertThat(testobject).isNotNull();
+	class EnvironmentalVariables {
+		@Test
+		void getKafkaSourceTest() {
+			KafkaSource<String> testobject = getKafkaSource();
+			assertThat(testobject).isNotNull();
+		}
 	}
 
 	@Test
