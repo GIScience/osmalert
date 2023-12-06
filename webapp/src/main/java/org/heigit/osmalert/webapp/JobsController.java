@@ -35,14 +35,15 @@ public class JobsController {
 		@Valid @RequestParam String ownersEmail
 	) {
 
-		String normalizedJobName = normalizeJobName(jobName);
+		String normalizedJobName = normalizeString(jobName);
 		if (jobsService.isJobRunning(normalizedJobName)) {
 			throw new JobNameExistException();
 		} else {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
-			if (jobsService.validateCoordinates(boundingBox)) {
-				newJob.setBoundingBox(boundingBox);
+			String normalizedBoundingBox = normalizeString(boundingBox);
+			if (jobsService.validateCoordinates(normalizedBoundingBox)) {
+				newJob.setBoundingBox(normalizedBoundingBox);
 				jobsService.saveNewJob(newJob);
 			} else {
 				throw new InvalidCoordinatesException("Invalid Coordinates");

@@ -35,13 +35,21 @@ public class JobsServiceTests {
 
 	@Test
 	void checkNormalizeJobName() {
-		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("    jobName"));
-		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("    jobName          "));
-		assertThat("job name").isEqualTo(JobsService.normalizeJobName("job    Name"));
-		assertThat("jobname").isEqualTo(JobsService.normalizeJobName("JOBNAME"));
-		assertThat("job name ggg").isEqualTo(JobsService.normalizeJobName("    job   Name       ggg   "));
-		assertThat("").isEqualTo(JobsService.normalizeJobName("      "));
+		assertThat("jobname").isEqualTo(JobsService.normalizeString("    jobName"));
+		assertThat("jobname").isEqualTo(JobsService.normalizeString("    jobName          "));
+		assertThat("job name").isEqualTo(JobsService.normalizeString("job    Name"));
+		assertThat("jobname").isEqualTo(JobsService.normalizeString("JOBNAME"));
+		assertThat("job name ggg").isEqualTo(JobsService.normalizeString("    job   Name       ggg   "));
+		assertThat("").isEqualTo(JobsService.normalizeString("      "));
 	}
+
+	@Test
+	void checkNormalizeBBoxCoordinates() {
+		assertThat("123,13,124,15").isEqualTo(JobsService.normalizeString("123,13,124,15  "));
+		assertThat("123,13,124,15").isEqualTo(JobsService.normalizeString("   123,13,124,15"));
+		assertThat("123,13,124,15").isEqualTo(JobsService.normalizeString("123,13,124,15\n"));
+	}
+
 
 	@Test
 	void checkSaveNewJob() {

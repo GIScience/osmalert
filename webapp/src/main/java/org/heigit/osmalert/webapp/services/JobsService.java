@@ -40,8 +40,8 @@ public class JobsService {
 		return remoteJobService.getStatus(job) == RemoteJobStatus.FAILED || remoteJobService.getStatus(job) == RemoteJobStatus.FINISHED;
 	}
 
-	public static String normalizeJobName(String jobName) {
-		return StringUtils.normalizeSpace(jobName.toLowerCase());
+	public static String normalizeString(String stringToNormalize) {
+		return StringUtils.normalizeSpace(stringToNormalize.toLowerCase());
 	}
 
 	public boolean validateCoordinates(String boundingBox) {
