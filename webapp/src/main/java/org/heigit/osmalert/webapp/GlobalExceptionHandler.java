@@ -46,27 +46,9 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(response);
 	}
 
-	@ExceptionHandler(RemoteJobServiceException.class)
+	@ExceptionHandler({RemoteJobServiceException.class, SubmitJobException.class, InvalidCoordinatesException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<Map<String, String>> handleRemoteJobServiceException(RemoteJobServiceException e) {
-		Map<String, String> response = new HashMap<>();
-		response.put("error", "400");
-		response.put("message", e.getMessage());
-		return ResponseEntity.badRequest().body(response);
-	}
-
-	@ExceptionHandler(SubmitJobException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<Map<String, String>> handleJRemoteJobServiceException(SubmitJobException e) {
-		Map<String, String> response = new HashMap<>();
-		response.put("error", "400");
-		response.put("message", e.getMessage());
-		return ResponseEntity.badRequest().body(response);
-	}
-
-	@ExceptionHandler(InvalidCoordinatesException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	ResponseEntity<Map<String, String>> handleInvalidCoordinnateException(InvalidCoordinatesException e) {
+	public ResponseEntity<Map<String, String>> handleJobServiceException(Exception e) {
 		Map<String, String> response = new HashMap<>();
 		response.put("error", "400");
 		response.put("message", e.getMessage());
