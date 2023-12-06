@@ -119,14 +119,16 @@ copy_plugins_if_required
 
 prepare_configuration
 
-
-#task manager
-#echo "Starting Task Manager"
-#exec $(drop_privs_cmd) "$FLINK_HOME/bin/taskmanager.sh" start-foreground -D jobmanager.rpc.address=0.0.0.0 &
-
 #job manager
 echo "Starting Job Manager"
-exec $(drop_privs_cmd) "$FLINK_HOME/bin/jobmanager.sh" start-foreground -D jobmanager.rpc.address=0.0.0.0 -D rest.port=$PORT
+exec $(drop_privs_cmd) "$FLINK_HOME/bin/jobmanager.sh" start-foreground -D jobmanager.rpc.address=0.0.0.0 -D rest.port=$PORT &
+
+sleep 5
+
+#task manager
+echo "Starting Task Manager"
+exec $(drop_privs_cmd) "$FLINK_HOME/bin/taskmanager.sh" start-foreground -D jobmanager.rpc.address=0.0.0.0
+
 
 
 
