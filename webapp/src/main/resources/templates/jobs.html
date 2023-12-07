@@ -19,8 +19,9 @@
     <table style="width:100%">
         <tr>
             <th style="width: 33%">Job Name</th>
-            <th style="width: 33%">Mail</th>
+            <th style="width: 33%">Email</th>
             <th th:if="${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
+            <th style="width: 33%">Area of Interest</th>
             <th style="width: 33%">Status</th>
         </tr>
         <tr th:each="job: ${jobs}">
