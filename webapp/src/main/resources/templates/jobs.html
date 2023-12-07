@@ -39,7 +39,7 @@
 </div>
 
 <h2>New Job</h2>
-<form hx-on::after-request="this.reset()">
+<form id="form">
 
     <label for="jobName">Job Name</label>
     <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
@@ -74,11 +74,14 @@
     <strong><span id="error-code"></span></strong> <span id="error-message-500"></span>
 </div>
 <script>
-    document.body.addEventListener('htmx:afterRequest', function (event) {
+    var createNewJob = document.getElementById('createNewJob');
+    createNewJob.addEventListener('htmx:afterRequest', function (event) {
         const statusCode = event.detail.xhr.status;
         const errorContainer = document.getElementById('error-container');
         const errorCodeElement = document.getElementById('error-code');
         const errorMessageElement = document.getElementById('error-message-500');
+        const form = document.getElementById('form');
+
         if (!(statusCode >= 200 && statusCode < 300)) {
             errorContainer.style.display = 'block';
             const responseText = event.detail.xhr.responseText;
@@ -87,6 +90,7 @@
             errorMessageElement.textContent = ": " + errorData.message;
         } else {
             errorContainer.style.display = 'none';
+            form.reset()
         }
     });
 </script>
