@@ -1,10 +1,7 @@
 s3d-client create osmalert-flink
-s3d-dokku letsencrypt:disable osmalert-flink
 s3d-dokku builder-dockerfile:set osmalert-flink dockerfile-path dokku-flink/Dockerfile
 s3d-dokku resource:limit osmalert-flink --memory 4gb
-# s3d-dokku nginx:set osmalert-flink client-max-body-size 150m
-# s3-dokku plugin:install https://github.com/Zeilenwerk/dokku-nginx-max-upload-size.git
-# s3d-dokku config:set MAX_UPLOAD_SIZE=20M
+s3d-dokku nginx:set osmalert-flink client-max-body-size 0
 
 # Set all environment variables:
  s3d-client config:set osmalert-flink KAFKA_BROKER="pkc-75m1o.europe-west3.gcp.confluent.cloud:9092"
