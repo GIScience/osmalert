@@ -47,20 +47,27 @@ subprojects { project ->
         }))
     }
 
+    check {
+        dependsOn jacocoTestCoverageVerification
+    }
 
     jacocoTestCoverageVerification {
         dependsOn test
 
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, include: 'org/heigit/osmalert/**')
+        }))
+
         violationRules {
             rule {
                 limit {
-                    enabled = true
+                    counter = "INSTRUCTION"
+                    value = "COVEREDRATIO"
                     minimum = 0.75
                 }
             }
         }
     }
-
 }
 
 wrapper {
