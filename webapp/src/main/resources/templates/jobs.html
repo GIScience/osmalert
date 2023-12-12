@@ -28,7 +28,7 @@
             <td th:text="${job.jobName}">unknown</td>
             <td th:text="${job.getEmail()}">unknown</td>
             <td th:if="${@toggles.isEnabled('FLINK_ID')}" th:text="${job.flinkId}">unknown</td>
-            <td th:text="${job.getBoundingBox()}">unknown</td>
+            <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
             <td hx-get="/jobs/status"
                 hx-trigger="every 1s"
                 th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
@@ -39,8 +39,9 @@
 </div>
 
 <h2>New Job</h2>
-<form id="form">
 
+
+<form id="form" hx-on::after-request="conditionalReset(this)">
     <label for="jobName">Job Name</label>
     <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
     <div id="error-message" hx-boost="#jobName:invalid">Job name is required!</div>
@@ -74,25 +75,55 @@
     <strong><span id="error-code"></span></strong> <span id="error-message-500"></span>
 </div>
 <script>
-    var createNewJob = document.getElementById('createNewJob');
-    createNewJob.addEventListener('htmx:afterRequest', function (event) {
-        const statusCode = event.detail.xhr.status;
-        const errorContainer = document.getElementById('error-container');
-        const errorCodeElement = document.getElementById('error-code');
-        const errorMessageElement = document.getElementById('error-message-500');
-        const form = document.getElementById('form');
-
-        if (!(statusCode >= 200 && statusCode < 300)) {
-            errorContainer.style.display = 'block';
-            const responseText = event.detail.xhr.responseText;
-            const errorData = JSON.parse(responseText);
-            errorCodeElement.textContent = statusCode;
-            errorMessageElement.textContent = ": " + errorData.message;
-        } else {
-            errorContainer.style.display = 'none';
-            form.reset()
+    const conditionalReset = form => {
+        if (!toggles) {
+            form.reset();
         }
-    });
+    };
+
+    const toggles = [[${@toggles.isEnabled('createNewJob')}]];
+
+    if (toggles) {
+        const createNewJob = document.getElementById('createNewJob');
+        createNewJob.addEventListener('htmx:afterRequest', function (event) {
+            const statusCode = event.detail.xhr.status;
+            const errorContainer = document.getElementById('error-container');
+            const errorCodeElement = document.getElementById('error-code');
+            const errorMessageElement = document.getElementById('error-message-500');
+            const form = document.getElementById('form');
+
+            if (!(statusCode >= 200 && statusCode < 300)) {
+                errorContainer.style.display = 'block';
+                const responseText = event.detail.xhr.responseText;
+                const errorData = JSON.parse(responseText);
+                errorCodeElement.textContent = statusCode;
+                errorMessageElement.textContent = ": " + errorData.message;
+            } else {
+                errorContainer.style.display = 'none';
+                form.reset()
+            }
+        });
+    } else {
+        document.body.addEventListener('htmx:afterRequest', function (event) {
+            const statusCode = event.detail.xhr.status;
+            const errorContainer = document.getElementById('error-container');
+            const errorCodeElement = document.getElementById('error-code');
+            const errorMessageElement = document.getElementById('error-message-500');
+
+            if (!(statusCode >= 200 && statusCode < 300)) {
+                errorContainer.style.display = 'block';
+                const responseText = event.detail.xhr.responseText;
+                const errorData = JSON.parse(responseText);
+                errorCodeElement.textContent = statusCode;
+                errorMessageElement.textContent = ": " + errorData.message;
+            } else {
+                errorContainer.style.display = 'none';
+            }
+        });
+    }
+
+
 </script>
 </body>
 </html>
+
