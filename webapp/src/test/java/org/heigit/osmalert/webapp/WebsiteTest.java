@@ -9,7 +9,7 @@ import org.springframework.boot.test.web.server.*;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebsiteTest {
 
 	@LocalServerPort
