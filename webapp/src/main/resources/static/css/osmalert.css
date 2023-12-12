@@ -30,6 +30,11 @@ input#jobName:valid + #error-message {
 
 }
 
+table, th, td, tr {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
 #emailArea input#ownersEmail:valid + #error-message-email {
     display: none;
 }
