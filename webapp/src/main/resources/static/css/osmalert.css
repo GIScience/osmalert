@@ -30,11 +30,6 @@ input#jobName:valid + #error-message {
 
 }
 
-table, th, td, tr {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
 #emailArea input#ownersEmail:valid + #error-message-email {
     display: none;
 }
@@ -65,4 +60,22 @@ input#jobName:invalid + #error-message {
     color: red;
     font-weight: bold;
     font-size: 1.5rem;
+}
+
+.fixTableHead {
+    overflow-y: auto;
+    height: 110px;
+}
+.fixTableHead thead th {
+    position: sticky;
+    top: 0;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th,
+td {
+    padding: 8px 15px;
+    border: 2px solid;
 }

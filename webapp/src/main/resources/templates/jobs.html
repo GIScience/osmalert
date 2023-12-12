@@ -14,10 +14,12 @@
 <br>
 <h1 th:text="${@osmalert.webappTitle}" align="center"><b>OSM Alert</b></h1>
 
-<h2>Current Jobs</h2>
-
-<div id="joblist" th:fragment="joblist">
-    <table style="width:100%">
+<br>
+<br>
+<h3 align="center">Current Jobs</h3>
+<div class="fixTableHead" id="joblist" th:fragment="joblist">
+    <table>
+        <thead>
         <tr>
             <th style="width: 33%">Job Name</th>
             <th style="width: 33%">Email</th>
@@ -25,7 +27,9 @@
             <th style="width: 33%">Area of Interest</th>
             <th style="width: 33%">Status</th>
         </tr>
-        <tr th:each="job: ${jobs}">
+        </thead>
+        <tbody th:each="job: ${jobs}">
+        <tr>
             <td th:text="${job.jobName}">unknown</td>
             <td th:text="${job.getEmail()}">unknown</td>
             <td th:if="${@toggles.isEnabled('FLINK_ID')}" th:text="${job.flinkId}">unknown</td>
@@ -36,10 +40,13 @@
             >unknown
             </td>
         </tr>
+        </tbody>
     </table>
 </div>
 
-<h2>New Job</h2>
+<br>
+<br>
+<h3 align="center">New Job</h3>
 
 
 <form id="form" hx-on::after-request="conditionalReset(this)">
