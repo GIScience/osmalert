@@ -10,7 +10,7 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class WebsiteTest {
+public class WebsiteTests {
 
 	@LocalServerPort
 	private int port;
