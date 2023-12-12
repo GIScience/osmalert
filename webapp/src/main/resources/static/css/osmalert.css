@@ -1,6 +1,8 @@
 body {
+    margin: auto;
     padding: 5pt;
-    background: lightblue;
+    background: ghostwhite;
+    max-width: 1000px; /* Set the maximum width */
 }
 
 /* Copied from bare.min.css */
