@@ -77,17 +77,21 @@ public class JobsService {
 		int time = 1;
 		if (timeWindow != null && !timeWindow.isBlank()) {
 			time = Integer.parseInt(timeWindow);
-			switch (timeFormat) {
-				case "D":
-					time *= 24 * 60;
-					break;
-				case "H":
-					time *= 60;
-					break;
-				case "M":
-					break;
-				default:
-					time = 0;
+			if (time < 1) {
+				time = 0;
+			} else {
+				switch (timeFormat) {
+					case "D":
+						time *= 24 * 60;
+						break;
+					case "H":
+						time *= 60;
+						break;
+					case "M":
+						break;
+					default:
+						time = 0;
+				}
 			}
 		}
 		return time;

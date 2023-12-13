@@ -1,11 +1,11 @@
 package org.heigit.osmalert.webapp;
 
+import java.util.*;
+
 import jakarta.validation.*;
 import org.heigit.osmalert.webapp.exceptions.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,6 +20,9 @@ public class GlobalExceptionHandler {
 		} else if (e.getLocalizedMessage().contains("Invalid jobName")) {
 			response.put("error", "400");
 			response.put("message", "Invalid jobName");
+		} else if (e.getLocalizedMessage().contains("Invalid Time Window")) {
+			response.put("error", "400");
+			response.put("message", "Invalid Time Window");
 		} else {
 			response.put("error", "412");
 			response.put("message", "Unknown source");
@@ -55,4 +58,3 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.badRequest().body(response);
 	}
 }
-

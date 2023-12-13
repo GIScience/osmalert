@@ -35,12 +35,14 @@ public class JobsController {
 		@Valid @RequestParam String ownersEmail,
 		@RequestParam(required = false) String timeWindow,
 		@RequestParam(required = false) String timeFormat
-	) {
+	) throws InvalidTimeWindowException {
 
 		String normalizedJobName = normalizeString(jobName);
 		// 1 Minute default time
 		int time = jobsService.calculateTimeWindow(timeWindow, timeFormat);
-		if (time != 0) {
+		if (time == 0) {
+			throw new InvalidTimeWindowException("Invalid Time Window");
+		} else {
 			if (jobsService.isJobRunning(normalizedJobName)) {
 				throw new JobNameExistException();
 			} else {
