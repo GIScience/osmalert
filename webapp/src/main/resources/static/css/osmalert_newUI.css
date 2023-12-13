@@ -1,6 +1,8 @@
 body {
+    margin: auto;
     padding: 5pt;
-    background: lightblue;
+    background: ghostwhite;
+    max-width: 1000px; /* Set the maximum width */
 }
 
 /* Copied from bare.min.css */
@@ -58,4 +60,29 @@ input#jobName:invalid + #error-message {
     color: red;
     font-weight: bold;
     font-size: 1.5rem;
+}
+
+.fixTableHead {
+    overflow-y: auto;
+    height: 110px;
+}
+
+.fixTableHead thead th {
+    position: sticky;
+    top: 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px 15px;
+    border: 2px solid;
+}
+
+#webAppTitle, #currentJobsTitle, #newJobTitle, #error-container {
+    text-align: center;
 }

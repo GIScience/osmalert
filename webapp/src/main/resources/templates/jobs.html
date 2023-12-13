@@ -6,17 +6,18 @@
     <link rel="icon" type="image/png" href="/images/osm.png">
     <script src="/js/htmx-1.9.5.min.js"></script>
     <link href="/css/bare.min.css" rel="stylesheet">
-    <link href="/css/osmalert.css" rel="stylesheet">
+    <link th:if="${@toggles.isEnabled('UIImprovement')}" href="/css/osmalert_newUI.css" rel="stylesheet">
+    <link th:if="${@toggles.isDisabled('UIImprovement')}" href="/css/osmalert.css" rel="stylesheet">
 
 </head>
 <body>
 
 <br>
-<h1 th:text="${@osmalert.webappTitle}" align="center"><b>OSM Alert</b></h1>
+<h1 id="webAppTitle" th:text="${@osmalert.webappTitle}"><b>OSM Alert</b></h1>
 
 <br>
 <br>
-<h3 align="center">Current Jobs</h3>
+<h3 id="currentJobsTitle">Current Jobs</h3>
 <div class="fixTableHead" id="joblist" th:fragment="joblist">
     <table>
         <thead>
@@ -46,7 +47,7 @@
 
 <br>
 <br>
-<h3 align="center">New Job</h3>
+<h3 id="newJobTitle">New Job</h3>
 
 
 <form id="form" hx-on::after-request="conditionalReset(this)">
