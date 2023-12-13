@@ -17,16 +17,16 @@
 
 <br>
 <br>
-<h3 id="currentJobsTitle">Current Jobs</h3>
+<h3 id="currentJobsTitle" th:if="${@toggles.isDisabled('UIImprovement')}">Current Jobs</h3>
 <div class="fixTableHead" id="joblist" th:fragment="joblist">
     <table>
         <thead>
         <tr>
-            <th style="width: 33%">Job Name</th>
-            <th style="width: 33%">Email</th>
+            <th>Job Name</th>
+            <th>Email</th>
             <th th:if="${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
-            <th style="width: 33%">Area of Interest</th>
-            <th style="width: 33%">Status</th>
+            <th>Area of Interest</th>
+            <th>Status</th>
         </tr>
         </thead>
         <tbody th:each="job: ${jobs}">
@@ -47,7 +47,7 @@
 
 <br>
 <br>
-<h3 id="newJobTitle">New Job</h3>
+<h3 id="newJobTitle" th:if="${@toggles.isDisabled('UIImprovement')}">New Job</h3>
 
 
 <form id="form" hx-on::after-request="conditionalReset(this)">
