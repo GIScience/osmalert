@@ -50,20 +50,20 @@ public class FlinkClusterService {
 		this.flinkClient = flinkClient;
 	}
 
-	public String submitJarJobToCluster(String jobName, String emailAddress, String boundingBox) throws Exception {
+	public String submitJarJobToCluster(String jobName, String emailAddress, String boundingBox, String timeWindow) throws Exception {
 
-		JobGraph jobGraph = createJobGraph(jobName, emailAddress, boundingBox);
+		JobGraph jobGraph = createJobGraph(jobName, emailAddress, boundingBox, timeWindow);
 
 		JobID jobId = flinkClient.submitJob(jobGraph).get();
 		return jobId.toString();
 	}
 
-	JobGraph createJobGraph(String jobName, String emailAddress, String boundingBox) throws ProgramInvocationException {
+	JobGraph createJobGraph(String jobName, String emailAddress, String boundingBox, String timeWindow) throws ProgramInvocationException {
 		System.out.println("jobName = " + jobName);
 
 		PackagedProgram program = PackagedProgram.newBuilder()
 												 .setJarFile(getFlinkJobJar())
-												 .setArguments(jobName, emailAddress, boundingBox)
+												 .setArguments(jobName, emailAddress, boundingBox, timeWindow)
 												 .build();
 
 		return PackagedProgramUtils
