@@ -67,6 +67,7 @@ class AlertJobIntegrationTests {
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(configuration);
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
+		int timewindow = 1;
 		Map<String, String> map = configuration.toMap();
 		MailSinkFunction mailSink = new MailSinkFunction(
 			map.get("MAILERTOGO_SMTP_HOST"),
@@ -74,10 +75,10 @@ class AlertJobIntegrationTests {
 			map.get("MAILERTOGO_SMTP_USER"),
 			map.get("MAILERTOGO_SMTP_PASSWORD"),
 			"user@example.org",
-			"1,1,1,1",
-			1
+			"-90,-180,90,180",
+			timewindow
 		);
-		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
+		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);

@@ -29,7 +29,7 @@ public class AlertJob {
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
 		String boundingBoxString = args[2];
-		int time = getTimeWindow(args[3]);
+		int timeMinutes = getTimeWindow(args[3]);
 		double[] params = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
 		/*
 		 * For Polygon use this
@@ -43,9 +43,9 @@ public class AlertJob {
 			System.getenv("MAILERTOGO_SMTP_PASSWORD"),
 			emailAddress,
 			boundingBoxString,
-			time
+			timeMinutes
 		);
-		configureAndRunJob(jobName, streamOperator, environment, time, mailSink, boundingBox);
+		configureAndRunJob(jobName, streamOperator, environment, timeMinutes * 60, mailSink, boundingBox);
 	}
 
 	static void configureAndRunJob(
@@ -60,7 +60,7 @@ public class AlertJob {
 			.map(Contribution::createContribution)
 			.filter(contrib -> contrib.isWithin(boundingBox))
 			.map(log -> 1)
-			.windowAll(TumblingProcessingTimeWindows.of(minutes(windowSeconds)))
+			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
 			.addSink(mailSink)
 			.uid(sinkName)
