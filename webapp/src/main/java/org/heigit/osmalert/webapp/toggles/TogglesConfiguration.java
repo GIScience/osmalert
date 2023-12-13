@@ -30,6 +30,10 @@ public class TogglesConfiguration {
 		return features.contains(feature);
 	}
 
+	public boolean isDisabled(String feature) {
+		return !isEnabled(feature);
+	}
+
 	public void ifEnabled(String feature, Runnable runnable) {
 		if (isEnabled(feature)) {
 			runnable.run();
