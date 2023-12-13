@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-    <meta charset = "UTF-8">
-    <title th:text = "${@osmalert.webappTitle}"></title>
-    <link rel = "icon" type = "image/png" href = "/images/osm.png">
-    <script src = "/js/htmx-1.9.5.min.js"></script>
-    <link href = "/css/bare.min.css" rel = "stylesheet">
-    <link th:if = "${@toggles.isEnabled('UIImprovement')}" href = "/css/osmalert_newUI.css" rel = "stylesheet">
-    <link th:if = "${@toggles.isDisabled('UIImprovement')}" href = "/css/osmalert.css" rel = "stylesheet">
+    <meta charset="UTF-8">
+    <title th:text="${@osmalert.webappTitle}"></title>
+    <link rel="icon" type="image/png" href="/images/osm.png">
+    <script src="/js/htmx-1.9.5.min.js"></script>
+    <link href="/css/bare.min.css" rel="stylesheet">
+    <link th:if="${@toggles.isEnabled('UIImprovement')}" href="/css/osmalert_newUI.css" rel="stylesheet">
+    <link th:if="${@toggles.isDisabled('UIImprovement')}" href="/css/osmalert.css" rel="stylesheet">
 
 </head>
 <body>
 
 <br>
-<h1 id = "webAppTitle" th:text = "${@osmalert.webappTitle}"><b>OSM Alert</b></h1>
+<h1 id="webAppTitle" th:text="${@osmalert.webappTitle}"><b>OSM Alert</b></h1>
 
 <br>
 <br>
-<h3 id = "currentJobsTitle" th:if = "${@toggles.isDisabled('UIImprovement')}">Current Jobs</h3>
-<div class = "fixTableHead" id = "joblist" th:fragment = "joblist">
+<h3 id="currentJobsTitle" th:if="${@toggles.isDisabled('UIImprovement')}">Current Jobs</h3>
+<div class="fixTableHead" id="joblist" th:fragment="joblist">
     <table>
         <thead>
         <tr>
             <th>Job Name</th>
             <th>Email</th>
-            <th th:if = "${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
+            <th th:if="${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
             <th>Area of Interest</th>
             <th>Status</th>
         </tr>
         </thead>
-        <tbody th:each = "job: ${jobs}">
+        <tbody th:each="job: ${jobs}">
         <tr>
-            <td th:text = "${job.jobName}">unknown</td>
-            <td th:text = "${job.getEmail()}">unknown</td>
-            <td th:if = "${@toggles.isEnabled('FLINK_ID')}" th:text = "${job.flinkId}">unknown</td>
-            <td th:inline = "text">bbox=[[${job.getBoundingBox()}]]</td>
-            <td hx-get = "/jobs/status"
-                hx-trigger = "every 1s"
-                th:attr = "hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
+            <td th:text="${job.jobName}">unknown</td>
+            <td th:text="${job.getEmail()}">unknown</td>
+            <td th:if="${@toggles.isEnabled('FLINK_ID')}" th:text="${job.flinkId}">unknown</td>
+            <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
+            <td hx-get="/jobs/status"
+                hx-trigger="every 1s"
+                th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
             >unknown
             </td>
         </tr>
@@ -47,100 +47,70 @@
 
 <br>
 <br>
-<h3 id = "newJobTitle" th:if = "${@toggles.isDisabled('UIImprovement')}">New Job</h3>
+<h3 id="newJobTitle" th:if="${@toggles.isDisabled('UIImprovement')}">New Job</h3>
 
 
-<form id = "form" hx-on::after-request = "conditionalReset(this)">
+<form id="form">
 
-    <div id = "timeWindowField" th:if = "${@toggles.isEnabled('customTimeRange')}">
-        <label for = "timeWindow">Time Window</label>
-        <input type = "number" id = "timeWindow" name = "timeWindow">
+    <div id="timeWindowField" th:if="${@toggles.isEnabled('customTimeRange')}">
+        <label for="timeWindow">Time Window</label>
+        <input type="number" id="timeWindow" name="timeWindow">
     </div>
 
-    <label for = "timeFormat" th:if = "${@toggles.isEnabled('customTimeRange')}">Time Format</label>
-    <select name = "timeFormat" id = "timeFormat" th:if = "${@toggles.isEnabled('customTimeRange')}">
-        <optgroup label = "Time Format">
-            <option value = "M">Minutes</option>
-            <option value = "H">Hours</option>
-            <option value = "D">Days</option>
+    <label for="timeFormat" th:if="${@toggles.isEnabled('customTimeRange')}">Time Format</label>
+    <select name="timeFormat" id="timeFormat" th:if="${@toggles.isEnabled('customTimeRange')}">
+        <optgroup label="Time Format">
+            <option value="M">Minutes</option>
+            <option value="H">Hours</option>
+            <option value="D">Days</option>
         </optgroup>
     </select>
-    <label for = "jobName">Job Name</label>
-    <input type = "text" id = "jobName" name = "jobName" required pattern = ".*\S+.*" title = "Jobname is required"/>
-    <div id = "error-message" hx-boost = "#jobName:invalid">Job name is required!</div>
+    <label for="jobName">Job Name</label>
+    <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
+    <div id="error-message" hx-boost="#jobName:invalid">Job name is required!</div>
 
-    <div id = "emailArea">
-        <label for = "ownersEmail">Owner's E-Mail</label>
-        <input type = "text" id = "ownersEmail" name = "ownersEmail" required pattern = ".*\S+.*"
-               title = "ownersEmail is required"/>
-        <div id = "error-message-email">Owner's Email is empty!</div>
+    <div id="emailArea">
+        <label for="ownersEmail">Owner's E-Mail</label>
+        <input type="text" id="ownersEmail" name="ownersEmail" required pattern=".*\S+.*"
+               title="ownersEmail is required"/>
+        <div id="error-message-email">Owner's Email is empty!</div>
     </div>
-    <label for = "boundingBox">Bounding Box</label>
-    <input type = "text" id = "boundingBox" name = "boundingBox"/>
+    <label for="boundingBox">Bounding Box</label>
+    <input type="text" id="boundingBox" name="boundingBox"/>
 
     <button
-        id = "createNewJob"
-        hx-post = "/jobs"
-        hx-trigger = "click"
-        hx-target = "#joblist"
-        hx-swap = "outerHTML"
+        id="createNewJob"
+        hx-post="/jobs"
+        hx-trigger="click"
+        hx-target="#joblist"
+        hx-swap="outerHTML"
     >
         Create new Job
     </button>
 </form>
 
-<div id = "error-container" class = "alert alert-danger mt-4">
-    <strong><span id = "error-code"></span></strong> <span id = "error-message-500"></span>
+<div id="error-container" class="alert alert-danger mt-4">
+    <strong><span id="error-code"></span></strong> <span id="error-message-500"></span>
 </div>
 <script>
-    const conditionalReset = form => {
-        if (!toggles) {
-            form.reset();
+    document.getElementById('createNewJob').addEventListener('htmx:afterRequest', function (event) {
+        const statusCode = event.detail.xhr.status;
+        const errorContainer = document.getElementById('error-container');
+        const errorCodeElement = document.getElementById('error-code');
+        const errorMessageElement = document.getElementById('error-message-500');
+        const form = document.getElementById('form');
+
+        if (!(statusCode >= 200 && statusCode < 300)) {
+            errorContainer.style.display = 'block';
+            const responseText = event.detail.xhr.responseText;
+            const errorData = JSON.parse(responseText);
+            errorCodeElement.textContent = statusCode;
+            errorMessageElement.textContent = ": " + errorData.message;
+        } else {
+            errorContainer.style.display = 'none';
+            form.reset()
         }
-    };
-
-    const toggles = [[${@toggles.isEnabled('createNewJob')}]];
-
-    if (toggles) {
-        const createNewJob = document.getElementById('createNewJob');
-        createNewJob.addEventListener('htmx:afterRequest', function (event) {
-            const statusCode = event.detail.xhr.status;
-            const errorContainer = document.getElementById('error-container');
-            const errorCodeElement = document.getElementById('error-code');
-            const errorMessageElement = document.getElementById('error-message-500');
-            const form = document.getElementById('form');
-
-            if (!(statusCode >= 200 && statusCode < 300)) {
-                errorContainer.style.display = 'block';
-                const responseText = event.detail.xhr.responseText;
-                const errorData = JSON.parse(responseText);
-                errorCodeElement.textContent = statusCode;
-                errorMessageElement.textContent = ": " + errorData.message;
-            } else {
-                errorContainer.style.display = 'none';
-                form.reset()
-            }
-        });
-    } else {
-        document.body.addEventListener('htmx:afterRequest', function (event) {
-            const statusCode = event.detail.xhr.status;
-            const errorContainer = document.getElementById('error-container');
-            const errorCodeElement = document.getElementById('error-code');
-            const errorMessageElement = document.getElementById('error-message-500');
-
-            if (!(statusCode >= 200 && statusCode < 300)) {
-                errorContainer.style.display = 'block';
-                const responseText = event.detail.xhr.responseText;
-                const errorData = JSON.parse(responseText);
-                errorCodeElement.textContent = statusCode;
-                errorMessageElement.textContent = ": " + errorData.message;
-            } else {
-                errorContainer.style.display = 'none';
-            }
-        });
-    }
-
-
+    });
 </script>
 </body>
 </html>
