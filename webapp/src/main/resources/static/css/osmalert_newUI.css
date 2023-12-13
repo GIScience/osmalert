@@ -46,7 +46,7 @@ input#jobName:invalid + #error-message {
     position: absolute;
     top: 0;
     right: 10px;
-    display: block;
+    display: flex;
     color: red;
 }
 
@@ -96,5 +96,12 @@ td {
 .customTimeRange {
     justify-content: flex-start;
     display: flex;
+    width: fit-content;
+}
+
+.div-straightStyle {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
     width: fit-content;
 }

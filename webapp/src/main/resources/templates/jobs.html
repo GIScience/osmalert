@@ -69,7 +69,7 @@
         <div id = "error-message-email">Owner's Email is empty!</div>
     </div>
 
-    <div class = "customTimeRange" th:if = "${@toggles.isEnabled('customTimeRange')}">
+    <div class = "div-straightStyle" th:if = "${@toggles.isEnabled('customTimeRange')}">
         <span id = "timeWindowField">
             <label for = "timeWindow">Time Window</label>
             <input type = "number" id = "timeWindow" name = "timeWindow" min = "1" max = "1000">
@@ -84,8 +84,10 @@
         </select>
     </div>
 
-    <label for = "boundingBox">Bounding Box:</label>
-    <input type = "text" id = "boundingBox" name = "boundingBox"/>
+    <div class="div-straightStyle">
+        <label for="boundingBox">Bounding Box:</label>
+        <input type="text" id="boundingBox" name="boundingBox"/>
+    </div>
 
     <p id = "buttonTag" align = "right">
         <button
