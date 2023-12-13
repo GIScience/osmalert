@@ -33,8 +33,8 @@ public class JobsController {
 		@RequestParam String boundingBox,
 		@Valid @RequestParam String jobName,
 		@Valid @RequestParam String ownersEmail,
-		@RequestParam String timeWindow,
-		@RequestParam String timeFormat
+		@RequestParam(required = false) String timeWindow,
+		@RequestParam(required = false) String timeFormat
 	) {
 
 		String normalizedJobName = normalizeString(jobName);
