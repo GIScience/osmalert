@@ -1,5 +1,7 @@
 package org.heigit.osmalert.webapp.domain;
 
+import java.util.*;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -29,7 +31,7 @@ public class Job {
 		this.jobName = jobName;
 	}
 
-	public Job(String jobName, long id) {
+	public Job(String jobName, Long id) {
 		this.jobName = jobName;
 		this.id = id;
 	}
@@ -76,5 +78,19 @@ public class Job {
 
 	public String getTimeWindowString() {
 		return String.valueOf(timeWindow);
+	}
+
+	@SuppressWarnings("OverlyComplexMethod")
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Job job = (Job) o;
+		return Objects.equals(id, job.id) && Objects.equals(jobName, job.jobName) && Objects.equals(flinkId, job.flinkId) && Objects.equals(email, job.email) && Objects.equals(boundingBox, job.boundingBox);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(jobName, email, boundingBox);
 	}
 }
