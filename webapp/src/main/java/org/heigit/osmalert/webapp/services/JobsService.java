@@ -72,6 +72,23 @@ public class JobsService {
 				   && isCoordinateInValidRange(upperLat, 90);
 	}
 
+	public int calculateTimeWindow(String timeWindow, String timeFormat) {
+		int time = Integer.parseInt(timeWindow);
+		switch (timeFormat) {
+			case "D":
+				time *= 24 * 60;
+				break;
+			case "H":
+				time *= 60;
+				break;
+			case "M":
+				break;
+			default:
+				time = 0;
+		}
+		return time;
+	}
+
 	private boolean isCoordinateInValidRange(double coordinate, int maxValue) {
 		return coordinate >= -maxValue && coordinate <= maxValue;
 	}

@@ -61,7 +61,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "Post New Job")
 							.param("ownersEmail", "123@web.de")
-							.param("boundingBox", "123.4,12.3,170.5,67.2"))
+							.param("boundingBox", "123.4,12.3,170.5,67.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isOk())
 			   .andExpect(model().attributeExists("jobs"))
 			   .andExpect(view().name("jobs::joblist"));
@@ -76,7 +78,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "Post New Job")
 							.param("ownersEmail", "123@web.de")
-							.param("boundingBox", "123.4,12.2,123.2,56.7"))
+							.param("boundingBox", "123.4,12.2,123.2,56.7")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest());
 	}
 
@@ -109,17 +113,23 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkvalidjobname")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "check valid Jobname")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isOk());
 		mockMvc.perform(post("/jobs")
 							.param("jobName", " check Valid Job  Name2 ")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isOk());
 	}
 
@@ -130,7 +140,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "")
 							.param("ownersEmail", "Something@hallo.de")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid jobName")
@@ -143,7 +155,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName1")
 							.param("ownersEmail", "123a")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -152,7 +166,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "InvalidEmailJobName2")
 							.param("ownersEmail", "abc@def")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -161,7 +177,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "jobName3")
 							.param("ownersEmail", "@abc")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Email")
@@ -175,7 +193,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidEmail1")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isOk());
 	}
 
@@ -185,7 +205,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkValidBoundingBox")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,13.2,133.2,15.2"))
+							.param("boundingBox", "123.2,13.2,133.2,15.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isOk());
 	}
 
@@ -195,7 +217,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidBoundingBox")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,invalid,123.2,23.2"))
+							.param("boundingBox", "123.2,invalid,123.2,23.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -203,7 +227,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidLowerLeftLat")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,123.6,123.2,13.2"))
+							.param("boundingBox", "123.2,123.6,123.2,13.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -211,7 +237,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidLowerLeftLon")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "320.2,12.6,123.2,13.2"))
+							.param("boundingBox", "320.2,12.6,123.2,13.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -219,7 +247,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidUpperRightLat")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,23.6,123.2,-113.2"))
+							.param("boundingBox", "123.2,23.6,123.2,-113.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -227,7 +257,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkInvalidUpperRightLon")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,23.6,-550.2,13.2"))
+							.param("boundingBox", "123.2,23.6,-550.2,13.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -235,7 +267,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "checkIfCoordinatesFormAPoint")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,23.6,123.2,23.6"))
+							.param("boundingBox", "123.2,23.6,123.2,23.6")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -243,7 +277,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "CheckIfCoordinatesFormALonLine")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,23.6,125.2,23.6"))
+							.param("boundingBox", "123.2,23.6,125.2,23.6")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -251,7 +287,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "CheckIfCoordinatesFormALatLine")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,23.6,123.2,25.6"))
+							.param("boundingBox", "123.2,23.6,123.2,25.6")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -259,7 +297,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "CheckIfLowerLonIsSmallerThanUpperLon")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "174.2,23.6,123.2,25.6"))
+							.param("boundingBox", "174.2,23.6,123.2,25.6")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -267,7 +307,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "CheckIfLowerLatIsSmallerThanUpperLat")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,53.6,153.2,25.6"))
+							.param("boundingBox", "123.2,53.6,153.2,25.6")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -275,7 +317,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "CheckIfThereAreOnlyFourValues1")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,53.6,153.2,25.6,134.5"))
+							.param("boundingBox", "123.2,53.6,153.2,25.6,134.5")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
@@ -283,7 +327,9 @@ class JobsControllerTests {
 		mockMvc.perform(post("/jobs")
 							.param("jobName", "CheckIfThereAreOnlyFourValues2")
 							.param("ownersEmail", "hello@world.com")
-							.param("boundingBox", "123.2,53.6,153.2"))
+							.param("boundingBox", "123.2,53.6,153.2")
+							.param("timeWindow", "1")
+							.param("timeFormat", "M"))
 			   .andExpect(status().isBadRequest())
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")

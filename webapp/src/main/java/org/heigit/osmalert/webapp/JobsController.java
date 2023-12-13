@@ -32,21 +32,27 @@ public class JobsController {
 		Model model,
 		@RequestParam String boundingBox,
 		@Valid @RequestParam String jobName,
-		@Valid @RequestParam String ownersEmail
+		@Valid @RequestParam String ownersEmail,
+		@Valid @RequestParam String timeWindow,
+		@RequestParam String timeFormat
 	) {
 
 		String normalizedJobName = normalizeString(jobName);
-		if (jobsService.isJobRunning(normalizedJobName)) {
-			throw new JobNameExistException();
-		} else {
-			Job newJob = new Job(normalizedJobName);
-			newJob.setEmail(ownersEmail);
-			String normalizedBoundingBox = normalizeString(boundingBox);
-			if (jobsService.validateCoordinates(normalizedBoundingBox)) {
-				newJob.setBoundingBox(normalizedBoundingBox);
-				jobsService.saveNewJob(newJob);
+		int time = jobsService.calculateTimeWindow(timeWindow, timeFormat);
+		if (time != 0) {
+			if (jobsService.isJobRunning(normalizedJobName)) {
+				throw new JobNameExistException();
 			} else {
-				throw new InvalidCoordinatesException("Invalid Coordinates");
+				Job newJob = new Job(normalizedJobName);
+				newJob.setEmail(ownersEmail);
+				newJob.setTimeWindow(time);
+				String normalizedBoundingBox = normalizeString(boundingBox);
+				if (jobsService.validateCoordinates(normalizedBoundingBox)) {
+					newJob.setBoundingBox(normalizedBoundingBox);
+					jobsService.saveNewJob(newJob);
+				} else {
+					throw new InvalidCoordinatesException("Invalid Coordinates");
+				}
 			}
 		}
 		model.addAttribute("jobs", jobsService.getAllJobs());
