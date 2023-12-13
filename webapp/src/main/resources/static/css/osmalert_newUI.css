@@ -88,3 +88,9 @@ td {
 #webAppTitle, #currentJobsTitle, #newJobTitle, #error-container {
     text-align: center;
 }
+
+.customTimeRange {
+    justify-content: flex-start;
+    display: flex;
+    width: fit-content;
+}
