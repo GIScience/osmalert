@@ -85,8 +85,12 @@ td {
     text-align: center;
 }
 
-#webAppTitle, #currentJobsTitle, #newJobTitle, #error-container {
+#webAppTitle, #currentJobsTitle, #newJobTitle {
     text-align: center;
+}
+
+#error-container {
+    text-align: right;
 }
 
 .customTimeRange {
