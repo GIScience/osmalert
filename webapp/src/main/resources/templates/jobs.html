@@ -50,10 +50,26 @@
 <h3 id="newJobTitle" th:if="${@toggles.isDisabled('UIImprovement')}">New Job</h3>
 
 
-<form id="form" hx-on::after-request="conditionalReset(this)">
-    <label for="jobName">Job Name</label>
-    <input type="text" id="jobName" name="jobName" required pattern=".*\S+.*" title="Jobname is required"/>
-    <div id="error-message" hx-boost="#jobName:invalid">Job name is required!</div>
+<form id = "form" hx-on::after-request = "conditionalReset(this)">
+    <div id = "timeWindowField">
+        <label for = "timeWindow">Time Window</label>
+        <input type = "text" id = "timeWindow" name = "timeWindow" required pattern = "[0-9]+"
+               title = "Time window is required"/>
+        <div id = "error-message-timeWindow">Time Window is empty!</div>
+    </div>
+
+    <label for = "timeFormat">Time Format</label>
+    <select name = "timeFormat" id = "timeFormat">
+        <optgroup label = "Time Format">
+            <option value = "M">Minutes</option>
+            <option value = "H">Hours</option>
+            <option value = "D">Days</option>
+        </optgroup>
+    </select>
+
+    <label for = "jobName">Job Name</label>
+    <input type = "text" id = "jobName" name = "jobName" required pattern = ".*\S+.*" title = "Jobname is required"/>
+    <div id = "error-message" hx-boost = "#jobName:invalid">Job name is required!</div>
 
     <div id="emailArea">
         <label for="ownersEmail">Owner's E-Mail</label>
@@ -130,4 +146,3 @@
 </script>
 </body>
 </html>
-
