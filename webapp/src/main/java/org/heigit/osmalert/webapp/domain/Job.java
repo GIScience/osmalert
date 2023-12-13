@@ -21,6 +21,8 @@ public class Job {
 	//lowerLeftLongitude,upperRightLongitude,lowerLeftLatitude,upperRightLatitude
 	private String boundingBox;
 
+	private int timeWindow;
+
 	protected Job() {}
 
 	public Job(String jobName) {
@@ -62,5 +64,17 @@ public class Job {
 
 	public String getBoundingBox() {
 		return boundingBox;
+	}
+
+	public void setTimeWindow(int timeWindow) {
+		this.timeWindow = timeWindow;
+	}
+
+	public int getTimeWindow() {
+		return timeWindow;
+	}
+
+	public String getTimeWindowString() {
+		return String.valueOf(timeWindow);
 	}
 }
