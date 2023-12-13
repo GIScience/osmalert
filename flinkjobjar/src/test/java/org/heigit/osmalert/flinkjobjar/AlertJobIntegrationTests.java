@@ -74,7 +74,8 @@ class AlertJobIntegrationTests {
 			map.get("MAILERTOGO_SMTP_USER"),
 			map.get("MAILERTOGO_SMTP_PASSWORD"),
 			"user@example.org",
-			"1,1,1,1"
+			"1,1,1,1",
+			1
 		);
 		configureAndRunJob("job1", operator, environment, 3, mailSink, boundingBox);
 
@@ -151,6 +152,12 @@ class AlertJobIntegrationTests {
 		} catch (AssertionError e) {
 			assertThat(e).isExactlyInstanceOf(AssertionError.class);
 		}
+	}
+
+	@Test
+	void getTimeWindowTest() {
+		String time = "60";
+		assertThat(getTimeWindow(time)).isEqualTo(60);
 	}
 
 	private static class MockSink implements SinkFunction<Integer> {

@@ -14,14 +14,16 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String password;
 	private final String emailAddress;
 	private final String boundingBox;
+	private final int time;
 
-	public MailSinkFunction(String host, int port, String username, String password, String emailAddress, String boundingBox) {
+	public MailSinkFunction(String host, int port, String username, String password, String emailAddress, String boundingBox, int time) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
 		this.password = password;
 		this.emailAddress = emailAddress;
 		this.boundingBox = boundingBox;
+		this.time = time;
 	}
 
 	@Override
@@ -33,11 +35,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		System.out.println("##### memory: maximum memory MB : " + getRuntime().maxMemory() / 1_000_000);
 
 		long currentTimeMillis = System.currentTimeMillis();
-		long startTimeMillis = currentTimeMillis - (60 * 1000);
+		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
-		String emailContent = "Dear user,\n\nIn the last 60 seconds, there have been "
+		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange
 								  + "\n\nThank you,\nOSM Alert System";
 
