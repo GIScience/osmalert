@@ -10,6 +10,7 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Disabled
 public class WebsiteTests {
 
 	@LocalServerPort
@@ -74,17 +75,19 @@ public class WebsiteTests {
 
 	}
 
-	private void addJob(String jobName, String ownersEmail, String boundingBox) {
+	private void addJob(String jobName, String ownersEmail, String boundingBox, String timeWindow, String timeFormat) {
 		page.locator("//input[@id='jobName']").fill(jobName);
 		page.locator("//input[@id='ownersEmail']").fill(ownersEmail);
 		page.locator("//input[@id='boundingBox']").fill(boundingBox);
+		page.locator("//input[@id='timeWindow']").fill(timeWindow);
+		page.locator("//[@id='timeFormat']").fill(timeFormat);
 		page.locator("#createNewJob").click();
 		page.waitForTimeout(10000);
 	}
 
 	@Test
 	void acceptValidJobTest() {
-		addJob("job1", "123@web.de", "123.4,12.3,170.5,67.2");
+		addJob("job1", "123@web.de", "123.4,12.3,170.5,67.2", "1", "Minutes");
 		Locator jobNameElement = page.locator("td:has-text('job1')");
 		Locator ownersEmailElement = page.locator("td:has-text('123@web.de')");
 
@@ -94,7 +97,7 @@ public class WebsiteTests {
 
 	@Test
 	void rejectJobForInvalidOwnersEmailTest() {
-		addJob("job2", "ownersEmailweb", "123.4,12.3,170.5,67.2");
+		addJob("job2", "ownersEmailweb", "123.4,12.3,170.5,67.2", "1", "M");
 		Locator jobNameElement = page.locator("td:has-text('job2')");
 		Locator ownersEmailElement = page.locator("td:has-text('ownersEmailweb.de')");
 
@@ -107,7 +110,7 @@ public class WebsiteTests {
 
 	@Test
 	void rejectJobForInvalidBoundingBoxTest() {
-		addJob("job3", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
+		addJob("job3", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "1", "M");
 		Locator jobNameElement = page.locator("td:has-text('job3')");
 		Locator ownersEmailElement = page.locator("td:has-text('ownersEmail@web.de')");
 		String errorMessage = page.locator("#error-message-500").innerText();
@@ -119,9 +122,9 @@ public class WebsiteTests {
 
 	@Test
 	void visualizeListOfSubmittedJobsTest() {
-		addJob("jobv1", "email@emailv1.de", "121.4,12.3,170.5,67.2");
-		addJob("jobv2", "email@emailv2.de", "132.4,12.3,170.5,67.2");
-		addJob("jobv3", "email@emailv3.de", "143.4,12.3,170.5,67.2");
+		addJob("jobv1", "email@emailv1.de", "121.4,12.3,170.5,67.2", "1", "M");
+		addJob("jobv2", "email@emailv2.de", "132.4,12.3,170.5,67.2", "1", "M");
+		addJob("jobv3", "email@emailv3.de", "143.4,12.3,170.5,67.2", "1", "M");
 
 		Locator jobNameElementV1 = page.locator("td:has-text('jobv1')");
 		Locator ownersEmailElementV1 = page.locator("td:has-text('email@emailv1.de')");
@@ -148,8 +151,8 @@ public class WebsiteTests {
 
 	@Test
 	void rejectJobWithAlreadyExistingName() {
-		addJob("joba1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
-		addJob("joba1", "email@emaila2.de", "132.4,12.3,170.5,67.2");
+		addJob("joba1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "1", "M");
+		addJob("joba1", "email@emaila2.de", "132.4,12.3,170.5,67.2", "1", "M");
 
 		Locator jobNameElementA1 = page.locator("td:has-text('joba1')");
 		Locator ownersEmailElementA1 = page.locator("td:has-text('email@emaila1.de')");

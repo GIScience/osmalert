@@ -33,11 +33,12 @@ public class JobsController {
 		@RequestParam String boundingBox,
 		@Valid @RequestParam String jobName,
 		@Valid @RequestParam String ownersEmail,
-		@Valid @RequestParam String timeWindow,
+		@RequestParam String timeWindow,
 		@RequestParam String timeFormat
 	) {
 
 		String normalizedJobName = normalizeString(jobName);
+		// 1 Minute default time
 		int time = jobsService.calculateTimeWindow(timeWindow, timeFormat);
 		if (time != 0) {
 			if (jobsService.isJobRunning(normalizedJobName)) {

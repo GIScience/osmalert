@@ -51,11 +51,10 @@
 
 
 <form id = "form" hx-on::after-request = "conditionalReset(this)">
+
     <div id = "timeWindowField">
         <label for = "timeWindow">Time Window</label>
-        <input type = "text" id = "timeWindow" name = "timeWindow" required pattern = "[0-9]+"
-               title = "Time window is required"/>
-        <div id = "error-message-timeWindow">Time Window is empty!</div>
+        <input type = "number" id = "timeWindow" name = "timeWindow">
     </div>
 
     <label for = "timeFormat">Time Format</label>
