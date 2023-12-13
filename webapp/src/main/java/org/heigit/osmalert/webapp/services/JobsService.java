@@ -75,7 +75,7 @@ public class JobsService {
 	@SuppressWarnings("OverlyComplexMethod")
 	public int calculateTimeWindow(String timeWindow, String timeFormat) {
 		int time = 1;
-		if (timeWindow != null) {
+		if (!timeWindow.isBlank()) {
 			time = Integer.parseInt(timeWindow);
 			switch (timeFormat) {
 				case "D":
