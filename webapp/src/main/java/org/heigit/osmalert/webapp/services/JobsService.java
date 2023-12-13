@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import org.apache.commons.lang3.*;
+import org.heigit.osmalert.webapp.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.heigit.osmalert.webapp.exceptions.*;
 import org.springframework.stereotype.*;
@@ -72,29 +73,15 @@ public class JobsService {
 				   && isCoordinateInValidRange(upperLat, 90);
 	}
 
-	@SuppressWarnings("OverlyComplexMethod")
-	public int calculateTimeWindow(String timeWindow, String timeFormat) {
-		int time = 1;
+	public int calculateTimeWindow(String timeWindow, Time time) {
+		int calculatedTime = 1;
 		if (timeWindow != null && !timeWindow.isBlank()) {
-			time = Integer.parseInt(timeWindow);
-			if (time < 1) {
-				time = 0;
-			} else {
-				switch (timeFormat) {
-					case "D":
-						time *= 24 * 60;
-						break;
-					case "H":
-						time *= 60;
-						break;
-					case "M":
-						break;
-					default:
-						time = 0;
-				}
-			}
+			calculatedTime = Integer.parseInt(timeWindow);
+			if (calculatedTime < 1)
+				calculatedTime = 0;
+			calculatedTime = time.calculateMinutes(calculatedTime);
 		}
-		return time;
+		return calculatedTime;
 	}
 
 	private boolean isCoordinateInValidRange(double coordinate, int maxValue) {

@@ -38,28 +38,37 @@ public class JobsController {
 	) throws InvalidTimeWindowException {
 
 		String normalizedJobName = normalizeString(jobName);
-		// 1 Minute default time
-		int time = jobsService.calculateTimeWindow(timeWindow, timeFormat);
-		if (time == 0) {
-			throw new InvalidTimeWindowException("Invalid Time Window");
+		int calculatedTimeWindow = calculatedTimeWindow(timeFormat, timeWindow);
+		if (jobsService.isJobRunning(normalizedJobName)) {
+			throw new JobNameExistException();
 		} else {
-			if (jobsService.isJobRunning(normalizedJobName)) {
-				throw new JobNameExistException();
+			Job newJob = new Job(normalizedJobName);
+			newJob.setEmail(ownersEmail);
+			newJob.setTimeWindow(calculatedTimeWindow);
+			String normalizedBoundingBox = normalizeString(boundingBox);
+			if (jobsService.validateCoordinates(normalizedBoundingBox)) {
+				newJob.setBoundingBox(normalizedBoundingBox);
+				jobsService.saveNewJob(newJob);
 			} else {
-				Job newJob = new Job(normalizedJobName);
-				newJob.setEmail(ownersEmail);
-				newJob.setTimeWindow(time);
-				String normalizedBoundingBox = normalizeString(boundingBox);
-				if (jobsService.validateCoordinates(normalizedBoundingBox)) {
-					newJob.setBoundingBox(normalizedBoundingBox);
-					jobsService.saveNewJob(newJob);
-				} else {
-					throw new InvalidCoordinatesException("Invalid Coordinates");
-				}
+				throw new InvalidCoordinatesException("Invalid Coordinates");
 			}
 		}
 		model.addAttribute("jobs", jobsService.getAllJobs());
 		return "jobs::joblist";
+	}
+
+	public int calculatedTimeWindow(String timeFormat, String timeWindow) throws InvalidTimeWindowException {
+		Time time;
+		if (timeFormat == null)
+			time = Time.valueOf("M");
+		else
+			time = Time.valueOf(timeFormat);
+		// 1 Minute default time
+		int calculatedTimeWindow = jobsService.calculateTimeWindow(timeWindow, time);
+		if (calculatedTimeWindow == 0) {
+			throw new InvalidTimeWindowException("Invalid Time Window");
+		}
+		return calculatedTimeWindow;
 	}
 
 	@GetMapping("/status")
