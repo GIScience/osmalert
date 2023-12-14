@@ -161,77 +161,45 @@ public class WebsiteTests {
 	}
 
 	@Test
-	@Disabled
+	@Disabled("No Validation function in the jobservice to check if the email is valid or not")
 	void rejectJobForInvalidOwnersEmailTest() {
-		addJob("job2", "ownersEmailweb", "123.4,12.3,170.5,67.2");
-		Locator jobNameElement = page.locator("td:has-text('job2')");
-		Locator ownersEmailElement = page.locator("td:has-text('ownersEmailweb.de')");
+		Job expectedJob = createJob(null, "job1", "ownersEmailweb", "123.4,12.3,170.5,67.2");
 
-		String errorMessage = page.locator("#error-message-500").innerText();
+		addJob("job1", "ownersEmailweb", "123.4,12.3,170.5,67.2");
 
-		assertThat(jobNameElement).isHidden();
-		assertThat(ownersEmailElement).isHidden();
-		assertEquals(": Invalid Email", errorMessage);
+		verify(jobsService, times(0)).saveNewJob(expectedJob);
 	}
 
 	@Test
-	@Disabled
 	void rejectJobForInvalidBoundingBoxTest() {
-		addJob("job3", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
-		Locator jobNameElement = page.locator("td:has-text('job3')");
-		Locator ownersEmailElement = page.locator("td:has-text('ownersEmail@web.de')");
-		String errorMessage = page.locator("#error-message-500").innerText();
+		when(jobsService.validateCoordinates("12.2,12.2,13.2,12.2")).thenReturn(false);
 
-		assertThat(jobNameElement).isHidden();
-		assertThat(ownersEmailElement).isHidden();
-		assertEquals(": Invalid Coordinates", errorMessage);
+		createJob(0L, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
+
+		Job expectedJob = createJob(null, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
+
+		verify(jobsService, times(0)).saveNewJob(expectedJob);
 	}
 
 	@Test
-	@Disabled
-	void visualizeListOfSubmittedJobsTest() {
-		addJob("jobv1", "email@emailv1.de", "121.4,12.3,170.5,67.2");
-		addJob("jobv2", "email@emailv2.de", "132.4,12.3,170.5,67.2");
-		addJob("jobv3", "email@emailv3.de", "143.4,12.3,170.5,67.2");
-
-		Locator jobNameElementV1 = page.locator("td:has-text('jobv1')");
-		Locator ownersEmailElementV1 = page.locator("td:has-text('email@emailv1.de')");
-
-		Locator jobNameElementV2 = page.locator("td:has-text('jobv2')");
-		Locator ownersEmailElementV2 = page.locator("td:has-text('email@emailv2.de')");
-
-		Locator jobNameElementV3 = page.locator("td:has-text('jobv3')");
-		Locator ownersEmailElementV3 = page.locator("td:has-text('email@emailv3.de')");
-
-		int countStatus = page.locator("td:has-text('RUNNING')").count();
-
-		assertThat(jobNameElementV1).isVisible();
-		assertThat(ownersEmailElementV1).isVisible();
-
-		assertThat(jobNameElementV2).isVisible();
-		assertThat(ownersEmailElementV2).isVisible();
-
-		assertThat(jobNameElementV3).isVisible();
-		assertThat(ownersEmailElementV3).isVisible();
-		// TODO change to actual job number and remove flaky by mocking an actual flink service
-		assertTrue(countStatus >= 2);
-	}
-
-	@Test
-	@Disabled
 	void rejectJobWithAlreadyExistingName() {
-		addJob("joba1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
-		addJob("joba1", "email@emaila2.de", "132.4,12.3,170.5,67.2");
+		clearInvocations(jobsService);
+		when(jobsService.getAllJobs()).thenReturn(
+			List.of(
+				createJob(1L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2")
+			)
+		);
+		Job job1 = createJob(null, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
+		Job job2 = createJob(2L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
 
-		Locator jobNameElementA1 = page.locator("td:has-text('joba1')");
-		Locator ownersEmailElementA1 = page.locator("td:has-text('email@emaila1.de')");
-		Locator ownersEmailElementA2 = page.locator("td:has-text('email@emaila2.de')");
-		String errorMessage = page.locator("#error-message-500").innerText();
+		addJob("job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
 
-		assertThat(jobNameElementA1).isVisible();
-		assertThat(ownersEmailElementA1).isVisible();
-		assertThat(ownersEmailElementA2).isHidden();
-		assertEquals(": JobName already exists", errorMessage);
+		when(jobsService.isJobRunning("joba1")).thenReturn(true);
+
+		addJob("job1", "email@emaila2.de", "121.4,12.3,170.5,67.2");
+
+		assertJobRow("1", "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
+		verify(jobsService, times(1)).saveNewJob(job1);
+		verify(jobsService, times(0)).saveNewJob(job2);
 	}
-
 }
