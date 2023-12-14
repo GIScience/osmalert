@@ -1,43 +1,43 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-    <meta charset = "UTF-8">
-    <title th:text = "${@osmalert.webappTitle}"></title>
-    <link rel = "icon" type = "image/png" href = "/images/osm.png">
-    <script src = "/js/htmx-1.9.5.min.js"></script>
-    <link href = "/css/bare.min.css" rel = "stylesheet">
-    <link th:if = "${@toggles.isEnabled('UIImprovement')}" href = "/css/osmalert_newUI.css" rel = "stylesheet">
-    <link th:if = "${@toggles.isDisabled('UIImprovement')}" href = "/css/osmalert.css" rel = "stylesheet">
+    <meta charset="UTF-8">
+    <title th:text="${@osmalert.webappTitle}"></title>
+    <link rel="icon" type="image/png" href="/images/osm.png">
+    <script src="/js/htmx-1.9.5.min.js"></script>
+    <link href="/css/bare.min.css" rel="stylesheet">
+    <link th:if="${@toggles.isEnabled('UIImprovement')}" href="/css/osmalert_newUI.css" rel="stylesheet">
+    <link th:if="${@toggles.isDisabled('UIImprovement')}" href="/css/osmalert.css" rel="stylesheet">
 
 </head>
 <body>
 
 <br>
-<h1 id = "webAppTitle" th:text = "${@osmalert.webappTitle}"><b>OSM Alert</b></h1>
+<h1 id="webAppTitle" th:text="${@osmalert.webappTitle}"><b>OSM Alert</b></h1>
 
 <br>
 <br>
-<h3 id = "currentJobsTitle" th:if = "${@toggles.isDisabled('UIImprovement')}">Current Jobs</h3>
-<div class = "fixTableHead" id = "joblist" th:fragment = "joblist">
+<h3 id="currentJobsTitle" th:if="${@toggles.isDisabled('UIImprovement')}">Current Jobs</h3>
+<div class="fixTableHead" id="joblist" th:fragment="joblist">
     <table>
         <thead>
         <tr>
             <th>Job Name</th>
             <th>Email</th>
-            <th th:if = "${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
+            <th th:if="${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
             <th>Area of Interest</th>
             <th>Status</th>
         </tr>
         </thead>
-        <tbody th:each = "job: ${jobs}" th:id = "${job.id}">
+        <tbody th:each="job: ${jobs}" th:id="${job.id}">
         <tr>
-            <td th:text = "${job.jobName}">unknown</td>
-            <td th:text = "${job.getEmail()}">unknown</td>
-            <td th:if = "${@toggles.isEnabled('FLINK_ID')}" th:text = "${job.flinkId}">unknown</td>
-            <td th:inline = "text">bbox=[[${job.getBoundingBox()}]]</td>
-            <td hx-get = "/jobs/status"
-                hx-trigger = "every 1s"
-                th:attr = "hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
+            <td th:text="${job.jobName}">unknown</td>
+            <td th:text="${job.getEmail()}">unknown</td>
+            <td th:if="${@toggles.isEnabled('FLINK_ID')}" th:text="${job.flinkId}">unknown</td>
+            <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
+            <td hx-get="/jobs/status"
+                hx-trigger="every 1s"
+                th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
             >unknown
             </td>
         </tr>
@@ -47,39 +47,39 @@
 
 <br>
 <br>
-<h3 id = "newJobTitle" th:if = "${@toggles.isDisabled('UIImprovement')}">New Job</h3>
+<h3 id="newJobTitle" th:if="${@toggles.isDisabled('UIImprovement')}">New Job</h3>
 
-<form id = "form">
+<form id="form">
 
-    <div id = "job">
-        <label for = "jobName">Name:</label>
-        <input type = "text"
-               id = "jobName"
-               name = "jobName"
+    <div id="job" class="div-straightStyle">
+        <label for="jobName">Name:</label>
+        <input type="text"
+               id="jobName"
+               name="jobName"
                required
-               pattern = ".*\S+.*"
-               title = "Jobname is required"/>
-        <div id = "error-message" hx-boost = "#jobName:invalid">Job name is required!</div>
+               pattern=".*\S+.*"
+               title="Jobname is required"/>
+        <div id="error-message" hx-boost="#jobName:invalid">Job name is required!</div>
     </div>
 
-    <div id = "emailArea">
-        <label for = "ownersEmail">E-Mail:</label>
-        <input type = "text" id = "ownersEmail" name = "ownersEmail" required pattern = ".*\S+.*"
-               title = "ownersEmail is required"/>
-        <div id = "error-message-email">Owner's Email is empty!</div>
+    <div id="emailArea" class="div-straightStyle">
+        <label for="ownersEmail">E-Mail:</label>
+        <input type="text" id="ownersEmail" name="ownersEmail" required pattern=".*\S+.*"
+               title="ownersEmail is required"/>
+        <div id="error-message-email">Owner's Email is empty!</div>
     </div>
 
-    <div class = "div-straightStyle" th:if = "${@toggles.isEnabled('customTimeRange')}">
-        <span id = "timeWindowField">
-            <label for = "timeWindow">Time Window</label>
-            <input type = "number" id = "timeWindow" name = "timeWindow" min = "1" max = "1000">
+    <div class="div-straightStyle" th:if="${@toggles.isEnabled('customTimeRange')}">
+        <span id="timeWindowField">
+            <label for="timeWindow">Time Window:</label>
+            <input type="number" id="timeWindow" name="timeWindow" min="1" max="1000">
         </span>
 
-        <select aria-label = "timeFormat" id = "timeFormat" name = "timeFormat">
-            <optgroup label = "Time Format">
-                <option value = "M">Minutes</option>
-                <option value = "H">Hours</option>
-                <option value = "D">Days</option>
+        <select aria-label="timeFormat" id="timeFormat" name="timeFormat">
+            <optgroup label="Time Format">
+                <option value="M">Minutes</option>
+                <option value="H">Hours</option>
+                <option value="D">Days</option>
             </optgroup>
         </select>
     </div>
@@ -89,21 +89,21 @@
         <input type="text" id="boundingBox" name="boundingBox"/>
     </div>
 
-    <p id = "buttonTag" align = "right">
+    <p id="buttonTag" align="right">
         <button
-            id = "createNewJob"
-            hx-post = "/jobs"
-            hx-trigger = "click"
-            hx-target = "#joblist"
-            hx-swap = "outerHTML"
+            id="createNewJob"
+            hx-post="/jobs"
+            hx-trigger="click"
+            hx-target="#joblist"
+            hx-swap="outerHTML"
         >
             New Job
         </button>
     </p>
 </form>
 
-<div id = "error-container" class = "alert alert-danger mt-4">
-    <strong><span id = "error-code"></span></strong> <span id = "error-message-500"></span>
+<div id="error-container" class="alert alert-danger mt-4">
+    <strong><span id="error-code"></span></strong> <span id="error-message-500"></span>
 </div>
 <script>
     document.getElementById('createNewJob').addEventListener('htmx:afterRequest', function (event) {

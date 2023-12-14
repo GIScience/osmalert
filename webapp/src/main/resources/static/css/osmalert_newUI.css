@@ -5,6 +5,20 @@ body {
     max-width: 1000px; /* Set the maximum width */
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-height: 500px;
+}
+
+th,
+td {
+    padding: 8px 15px;
+    border: 2px solid;
+    width: 25%;
+    text-align: center;
+}
+
 /* Copied from bare.min.css */
 button {
     cursor: pointer;
@@ -25,6 +39,16 @@ button {
     -webkit-appearance: none
 }
 
+label {
+    width: fit-content;
+}
+
+.div-straightStyle {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+}
+
 input#jobName:valid + #error-message {
     display: none;
 
@@ -35,17 +59,17 @@ input#jobName:valid + #error-message {
 }
 
 input#jobName:invalid + #error-message {
-    position: absolute;
+    float: right;
+    width: 400px;
     top: 0;
-    right: 10px;
     display: block;
     color: red;
 }
 
 #emailArea input#ownersEmail:invalid + #error-message-email {
-    position: absolute;
+    float: right;
+    width: 400px;
     top: 0;
-    right: 10px;
     display: flex;
     color: red;
 }
@@ -72,36 +96,10 @@ input#jobName:invalid + #error-message {
     top: 0;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th,
-td {
-    padding: 8px 15px;
-    border: 2px solid;
-    width: 25%;
-    text-align: center;
-}
-
 #webAppTitle, #currentJobsTitle, #newJobTitle {
     text-align: center;
 }
 
 #error-container {
     text-align: right;
-}
-
-.customTimeRange {
-    justify-content: flex-start;
-    display: flex;
-    width: fit-content;
-}
-
-.div-straightStyle {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    width: fit-content;
 }
