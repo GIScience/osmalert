@@ -1,16 +1,16 @@
 package org.heigit.osmalert.webapp;
 
 public enum Time {
-	D("Day") {
-		@Override
-		public int calculateMinutes(int time) {
-			return time * 24 * 60;
-		}
-	},
+	// D("Day") {
+	// 	@Override
+	// 	public int calculateMinutes(int time) {
+	// 		return time * 24 * 60;
+	// 	}
+	// },
 	H("Hour") {
 		@Override
 		public int calculateMinutes(int time) {
-			return time * 24;
+			return time * 60;
 		}
 	},
 	M("Minute") {
