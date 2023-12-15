@@ -25,10 +25,11 @@ folder "Confluent Cloud Datacenter"  {
 
 component "Web Browser" <<External Component>> as browser
 
+component "web.de SMTP service" as mail #pink
 
 folder "Heroku Cloud Datacenter"  {
 
-    component "Mailer To Go SMTP service" <<Heroku Addon>> as mail #pink
+
 
     "Osmalert WebService" ---> "Flink Cluster" : "deploys jobs to "
 
@@ -54,14 +55,14 @@ folder "Heroku Cloud Datacenter"  {
         kafka --> job2 : OSM contributions
         kafka --> job3
 
-        job1 --> mail
-        job2 --> mail
-        job3 --> mail
+
 
     }
 
 
 }
-
+        job1 --> mail
+        job2 --> mail
+        job3 --> mail
 
 @enduml
