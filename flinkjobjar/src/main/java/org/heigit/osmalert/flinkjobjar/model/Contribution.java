@@ -31,7 +31,7 @@ public class Contribution {
 		Geometry geometry = new GeometryFactory().createPoint();
 		try {
 			geometry = new WKTReader().read(this.current.getGeometry());
-		} catch (ParseException e) {}
+		} catch (Exception e) {}
 		return geometry;
 	}
 
