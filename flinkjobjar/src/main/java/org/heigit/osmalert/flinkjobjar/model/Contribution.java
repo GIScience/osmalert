@@ -17,15 +17,22 @@ public class Contribution {
 	@JsonProperty("current")
 	private final Current current;
 
-	public boolean isWithin(Geometry boundingBox) throws ParseException {
-		//return boundingBox.getEnvelope().contains(new WKTReader().read(this.current.getGeometry()));
+	public boolean isWithin(Geometry boundingBox) {
 		if (boundingBox != null) {
-			Geometry geometry = new WKTReader().read(this.current.getGeometry());
+			Geometry geometry = getGeometry();
 			for (Coordinate coordinate : geometry.getCoordinates())
 				if (boundingBox.contains(new GeometryFactory().createPoint(coordinate)))
 					return true;
 		}
 		return false;
+	}
+
+	private Geometry getGeometry() {
+		Geometry geometry = new GeometryFactory().createPoint();
+		try {
+			geometry = new WKTReader().read(this.current.getGeometry());
+		} catch (ParseException e) {}
+		return geometry;
 	}
 
 	public static Contribution createContribution(String contribution) {
