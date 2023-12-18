@@ -28,10 +28,8 @@ table {
 }
 
 .existing-jobs-table {
-    /*max-height: 125px;*/
     max-height: 275px;
     overflow-y: scroll;
-    /*border: 1px solid #ffdd00;*/
 }
 
 /* Make the header sticky */
@@ -39,7 +37,6 @@ th {
     position: sticky;
     top: 0;
     z-index: 1;
-    /*background-color: #f2f2f2;*/
 }
 
 th, td {
