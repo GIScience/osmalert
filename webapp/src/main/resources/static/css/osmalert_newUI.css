@@ -24,11 +24,14 @@ table {
     table-layout: fixed;
     border-collapse: collapse;
     word-wrap: break-word;
+    max-height: 275px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .existing-jobs-table {
     max-height: 275px;
     overflow-y: scroll;
+    /*border: 1px solid #ffdd00;*/
 }
 
 /* Make the header sticky */
@@ -36,7 +39,7 @@ th {
     position: sticky;
     top: 0;
     z-index: 1;
-    background-color: #f2f2f2;
+    /*background-color: #f2f2f2;*/
 }
 
 th, td {
@@ -44,7 +47,19 @@ th, td {
     width: 25%;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
-    border: 1px solid #3498db;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #3498db;
+    color: #fff;
+}
+
+
+tbody th {
+    overflow-y: scroll;
+
 }
 
 button {
@@ -112,8 +127,28 @@ input {
     font-family: 'Open Sans', sans-serif;
 }
 
+select#timeFormat {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    top: 40px;
+    left: -40px;
+    appearance: menulist-button;
+    background: white;
+    border: 1px solid black;
+}
+
+input#timeWindow {
+    width: 7%;
+}
+
 input#jobName, input#ownersEmail {
     margin-left: 128px;
+}
+
+button#createNewJob {
+    position: relative;
+    right: -90%;
 }
 
 .error-message {
@@ -153,10 +188,4 @@ input#ownersEmail:invalid + #error-message-email {
     display: none;
     color: red;
     text-align: right;
-}
-
-.customTimeRange {
-    justify-content: flex-start;
-    display: flex;
-    width: fit-content;
 }
