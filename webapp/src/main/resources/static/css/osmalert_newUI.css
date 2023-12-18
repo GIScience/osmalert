@@ -21,7 +21,9 @@ h1 {
 
 table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
+    word-wrap: break-word;
 }
 
 .existing-jobs-table {
