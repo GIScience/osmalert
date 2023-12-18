@@ -25,10 +25,10 @@ table {
     border-collapse: collapse;
     word-wrap: break-word;
     max-height: 275px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .existing-jobs-table {
+    /*max-height: 125px;*/
     max-height: 275px;
     overflow-y: scroll;
     /*border: 1px solid #ffdd00;*/
@@ -47,6 +47,7 @@ th, td {
     width: 25%;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
+    border: 1px solid #3498db;
 }
 
 thead th {
