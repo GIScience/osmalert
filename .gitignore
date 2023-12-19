@@ -72,4 +72,5 @@ cython_debug/
 # pyenv
 .python-version
 
-/set_kafka_config_at_heroku.sh
+# locally stored idea run configs
+*.run.xml
