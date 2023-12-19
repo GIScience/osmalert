@@ -29,9 +29,12 @@ component "web.de SMTP service" as mail #pink
 
 folder "Heroku Cloud Datacenter"  {
 
+component "Job Jar" as jobjar
 
 
-    "Osmalert WebService" ---> "Flink Cluster" : "deploys jobs to "
+    "Osmalert WebService" --> jobjar
+
+    jobjar ---> "Flink Cluster"
 
     folder "Osmalert WebService" <<Heroku Component>>  {
 
