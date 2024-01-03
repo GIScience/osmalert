@@ -25,7 +25,6 @@
                 <tr>
                     <th>Job Name</th>
                     <th>Email</th>
-                    <th th:if="${@toggles.isEnabled('FLINK_ID')}">Flink ID</th>
                     <th>Area of Interest</th>
                     <th th:if="${@toggles.isEnabled('SHOW_TIME')}">Email Interval in Minutes</th>
                     <th>Status</th>
@@ -35,7 +34,6 @@
                 <tr>
                     <td th:text="${job.jobName}">unknown</td>
                     <td th:text="${job.getEmail()}">unknown</td>
-                    <td th:if="${@toggles.isEnabled('FLINK_ID')}" th:text="${job.flinkId}">unknown</td>
                     <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
                     <td th:if="${@toggles.isEnabled('SHOW_TIME')}" th:text="${job.getTimeWindow()}">unknown</td>
                     <td hx-get="/jobs/status"
