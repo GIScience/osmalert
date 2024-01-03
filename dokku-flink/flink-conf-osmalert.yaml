@@ -87,7 +87,7 @@ taskmanager.memory.process.size: 1728m
 
 # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
 
-taskmanager.numberOfTaskSlots: 3
+taskmanager.numberOfTaskSlots: 20
 
 # The parallelism used for programs that did not specify and other parallelism.
 

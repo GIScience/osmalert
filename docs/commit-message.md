@@ -23,6 +23,8 @@ one of
  * `feature` 
  * `test` 
  * `refactor` 
+ * `cleanup` 
+ * `config` 
 
 ## Module 
 
@@ -31,7 +33,7 @@ one of
   * `flinkjobjar` 
   * `flinkservice` 
   * `webapp` 
-  * `heroku-flink` 
+  * `dokku-flink` 
 
 
 ## Example

@@ -98,23 +98,18 @@ heroku logs --tail -a osmalert-web
 Now the web app is accessible at:
 `https://osmalert-web-0773365646a7.herokuapp.com`
 
-#### Docker Container for Flink Job Manager
+#### Dokku Container for Flink Job Manager
+
+__For this to work you need access to HeiGIT's S3d!!!__
 
 ```bash
-cd heroku-flink/job-manager
-heroku login
+cd dokku-flink/
 
-./deploy_flink_to_heroku.sh
-
-heroku logs --tail -a osmalert-flink-docker
+./deploy_flink_to_dokku.sh
 ```
 
 Now the flink dashboard is accessible at:
-https://osmalert-flink-docker-d0c317ac495f.herokuapp.com
-
-### Deployment through GitHub Action
-
-Run action "Deploy App" on https://github.com/???
+http://osmalert-flink.heigit-apps.org
 
 ### Viewing the Logs
 
