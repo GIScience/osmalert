@@ -78,7 +78,7 @@ class AlertJobIntegrationTests {
 			"-90,-180,90,180",
 			timewindow
 		);
-		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox);
+		configureAndRunJob(operator, environment, mailSink, "job1", timewindow, boundingBox);
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);
@@ -92,7 +92,7 @@ class AlertJobIntegrationTests {
 
 		MockSink mockSink = new MockSink();
 
-		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox);
+		configureAndRunJob(operator, environment, mockSink, "job1", 3, boundingBox);
 
 		for (Integer value : MockSink.values) {
 			boolean match = (value <= 3);

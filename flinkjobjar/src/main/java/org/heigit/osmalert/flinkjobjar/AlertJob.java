@@ -40,6 +40,7 @@ public class AlertJob {
 		 * new WKTReader().read(args[2]);
 		 */
 		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(boundingBoxValues[0], boundingBoxValues[2], boundingBoxValues[1], boundingBoxValues[3]));
+
 		MailSinkFunction mailSink = new MailSinkFunction(
 			System.getenv("MAILERTOGO_SMTP_HOST"),
 			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
@@ -49,12 +50,12 @@ public class AlertJob {
 			boundingBoxString,
 			timeMinutes
 		);
-		configureAndRunJob(jobName, streamOperator, environment, timeMinutes * 60, mailSink, boundingBox);
+		configureAndRunJob(streamOperator, environment, mailSink, jobName, timeMinutes * 60, boundingBox);
 	}
 
 	static void configureAndRunJob(
-		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction<Integer> mailSink, Geometry boundingBox
+		SingleOutputStreamOperator<String> streamOperator, StreamExecutionEnvironment environment, SinkFunction<Integer> mailSink,
+		String jobName, int windowSeconds, Geometry boundingBox
 	) throws Exception {
 
 		String sinkName = "osmalert_flink_mail_sink";
