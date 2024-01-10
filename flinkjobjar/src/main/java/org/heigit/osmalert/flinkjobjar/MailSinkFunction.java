@@ -44,7 +44,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange
+								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\nhttp://bboxfinder.com/"
 								  //+ (value > AverageTime.getAverageChanges() ? unusualChanges : "")
 								  + "\n\nThank you,\nOSM Alert System";
 
