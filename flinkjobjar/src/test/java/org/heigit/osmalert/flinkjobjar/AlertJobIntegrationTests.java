@@ -100,6 +100,11 @@ class AlertJobIntegrationTests {
 		}
 	}
 
+	@Test
+	void isContributionNotNull() {
+		Contribution contributionObj = Contribution.createContribution(contribution);
+		assertThat(contributionObj).isNotNull();
+	}
 
 	private static class MockSink implements SinkFunction<Integer> {
 		public static final List<Integer> values = new ArrayList<>();

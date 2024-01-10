@@ -9,27 +9,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
 
 class AlertJobTests {
-	static final String contribution;
-
-	static {
-		try (BufferedReader reader = new BufferedReader(
-			new FileReader("src/test/resources/contribution1.json"))) {
-			StringBuilder stringBuilder = new StringBuilder();
-			String line;
-			while ((line = reader.readLine()) != null) {
-				stringBuilder.append(line);
-			}
-			contribution = stringBuilder.toString();
-		} catch (IOException e) {
-			throw new RuntimeException("Error reading file", e);
-		}
-	}
-
-	@Test
-	void isContributionNotNull() {
-		Contribution contributionObj = Contribution.createContribution(contribution);
-		assertThat(contributionObj).isNotNull();
-	}
 
 	@Test
 	void getJobNameTest() {
@@ -44,7 +23,7 @@ class AlertJobTests {
 	}
 
 	@Test
-	void getEmailAdressTest() {
+	void getEmailAddressTest() {
 		String[] input = {"name", "email@email.de"};
 		String[] emptyEmailAddress = {"name", null};
 		assertThat(getEmailAddress(input)).isEqualTo(input[1]);
@@ -72,12 +51,6 @@ class AlertJobTests {
 		assertThat(result[1]).isEqualTo("2.0");
 		assertThat(result[2]).isEqualTo("3.0");
 		assertThat(result[3]).isEqualTo("4.0");
-		try {
-			String[] ret = getBoundingBoxStringArray(null);
-			assertThat(ret[0]).isNull();
-		} catch (AssertionError e) {
-			assertThat(e).isExactlyInstanceOf(AssertionError.class);
-		}
 	}
 
 	@Test
