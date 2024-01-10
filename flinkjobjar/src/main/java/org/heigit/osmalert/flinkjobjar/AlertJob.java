@@ -30,7 +30,7 @@ public class AlertJob {
 		String emailAddress = getEmailAddress(args);
 		int timeMinutes = getTimeWindow(args);
 
-		String boundingBoxString = args[2];
+		String boundingBoxString = getBoundingBoxString(args);
 		double[] boundingBoxValues = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
 
 		/*
@@ -48,6 +48,10 @@ public class AlertJob {
 			timeMinutes
 		);
 		configureAndRunJob(jobName, streamOperator, environment, timeMinutes * 60, mailSink, boundingBox);
+	}
+
+	public static String getBoundingBoxString(String[] args) {
+		return args[2];
 	}
 
 	static void configureAndRunJob(
