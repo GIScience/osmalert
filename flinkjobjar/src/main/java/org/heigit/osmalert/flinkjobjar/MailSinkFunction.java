@@ -37,10 +37,15 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
+		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + AverageTime.getAverageChanges() + "\r";
+
+		AverageTime.calculateAverage(value);
+
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange
+								  //+ (value > AverageTime.getAverageChanges() ? unusualChanges : "")
 								  + "\n\nThank you,\nOSM Alert System";
 
 		this.sendMail(emailContent, this.emailAddress);
