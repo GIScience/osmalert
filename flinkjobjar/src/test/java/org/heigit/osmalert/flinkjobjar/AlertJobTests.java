@@ -15,12 +15,6 @@ class AlertJobTests {
 	}
 
 	@Test
-	void getJobNameTest() {
-		String[] input = {"jobname", "email", "123.123", "80"};
-		assertThat(getJobName(input)).isEqualTo("AlertJob_jobname");
-	}
-
-	@Test
 	void getEmailAddressTest() {
 		String[] input = {"name", "email@email.de", "1.0,2.0,3.0,4.0", "79"};
 		String[] emptyEmailAddress = {"name", null};

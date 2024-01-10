@@ -82,13 +82,6 @@ public class AlertJob {
 		return contribution;
 	}
 
-	public static String getJobName(String[] args) {
-		assert args[0] != null;
-		String jobName = "AlertJob_" + args[0];
-		System.out.println("=== " + jobName + " ===");
-		return jobName;
-	}
-
 	public static String getEmailAddress(String[] args) {
 		assert args[1] != null;
 		String emailAddress = args[1];
