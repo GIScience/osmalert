@@ -54,14 +54,14 @@
                        required
                        pattern=".*\S+.*"
                        title="Job name is required"/>
-                <div class="error-message" id="error-message" hx-boost="#jobName:invalid">Job name is required!
+                <div class="error-message" id="error-message" hx-boost="#jobName:invalid">Job name is required.
                 </div>
             </div>
             <div id="emailArea" class="div-straightStyle">
                 <label for="ownersEmail">E-Mail:</label>
                 <input type="text" id="ownersEmail" name="ownersEmail" required pattern=".*\S+.*"
                        title="ownersEmail is required"/>
-                <div class="error-message" id="error-message-email">Owner's Email is empty!</div>
+                <div class="error-message" id="error-message-email">Owner's Email is empty.</div>
             </div>
 
             <div>
@@ -81,6 +81,7 @@
             <div class="div-straightStyle">
                 <label for="boundingBox">Bounding Box:</label>
                 <input type="text" id="boundingBox" name="boundingBox"/>
+                <a class="bbox-hyperlink" href="http://bboxfinder.com/" target="_blank">Go to bbox finder</a>
             </div>
 
             <div id="buttonTag">

@@ -157,10 +157,15 @@ button#createNewJob {
     margin-left: 50px;
 }
 
+.bbox-hyperlink {
+    float: right;
+    width: 30%;
+    margin-top: 15px;
+    margin-left: 50px;
+}
 
 input#jobName:valid + #error-message {
     display: none;
-
 }
 
 input#ownersEmail:valid + #error-message-email {
