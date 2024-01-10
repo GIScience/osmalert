@@ -94,16 +94,16 @@ public class AlertJob {
 		return emailAddress;
 	}
 
-	public static double[] getBoundingBoxValues(String[] input) {
+	public static double[] getBoundingBoxValues(String[] args) {
 		double[] doubleArray = new double[4];
 		for (int i = 0; i < 4; i++)
-			doubleArray[i] = Double.parseDouble(input[i]);
+			doubleArray[i] = Double.parseDouble(args[i]);
 		return doubleArray;
 	}
 
-	public static String[] getBoundingBoxStringArray(String args) {
-		assert args != null;
-		return args.split(",");
+	public static String[] getBoundingBoxStringArray(String boundingBoxString) {
+		assert boundingBoxString != null;
+		return boundingBoxString.split(",");
 	}
 
 	public static int getTimeWindow(String[] args) {
