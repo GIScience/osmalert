@@ -45,6 +45,7 @@ public class JobsController {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
 			newJob.setTimeWindow(calculatedTimeWindow);
+			newJob.setTimeFormat(timeFormat);
 			String normalizedBoundingBox = normalizeString(boundingBox);
 			if (jobsService.validateCoordinates(normalizedBoundingBox)) {
 				newJob.setBoundingBox(normalizedBoundingBox);

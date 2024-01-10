@@ -25,6 +25,8 @@ public class Job {
 
 	private int timeWindow;
 
+	private String timeFormat;
+
 	protected Job() {}
 
 	public Job(String jobName) {
@@ -78,6 +80,17 @@ public class Job {
 
 	public String getTimeWindowString() {
 		return String.valueOf(timeWindow);
+	}
+
+	public void setTimeFormat(String timeFormat) {
+		this.timeFormat = timeFormat;
+	}
+
+	public String getFormattedTimeWindow() {
+		if (this.timeFormat.equalsIgnoreCase("H")) {
+			return (timeWindow / 60) + " Hours";
+		}
+		return (timeWindow) + " Minutes";
 	}
 
 	@SuppressWarnings("OverlyComplexMethod")
