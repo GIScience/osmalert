@@ -1,8 +1,5 @@
 package org.heigit.osmalert.flinkjobjar;
 
-import java.io.*;
-
-import org.heigit.osmalert.flinkjobjar.model.*;
 import org.junit.jupiter.api.*;
 
 import static org.assertj.core.api.Assertions.*;
@@ -44,9 +41,9 @@ class AlertJobTests {
 	}
 
 	@Test
-	void getTimeWindowTest() {
-		String time = "60";
-		assertThat(getTimeWindow(time)).isEqualTo(60);
+	void getTimeWindowTest_NEW() {
+		String[] args = {"email", "name", "1,2,3,4", "60"};
+		assertThat(getTimeWindow(args)).isEqualTo(60);
 	}
 
 }

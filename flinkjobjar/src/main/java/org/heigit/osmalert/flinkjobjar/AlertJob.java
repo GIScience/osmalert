@@ -28,14 +28,16 @@ public class AlertJob {
 
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
+		int timeMinutes = getTimeWindow(args);
+
 		String boundingBoxString = args[2];
-		int timeMinutes = getTimeWindow(args[3]);
-		double[] params = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
+		double[] boundingBoxValues = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
+
 		/*
 		 * For Polygon use this
 		 * new WKTReader().read(args[2]);
 		 */
-		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(params[0], params[2], params[1], params[3]));
+		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(boundingBoxValues[0], boundingBoxValues[2], boundingBoxValues[1], boundingBoxValues[3]));
 		MailSinkFunction mailSink = new MailSinkFunction(
 			System.getenv("MAILERTOGO_SMTP_HOST"),
 			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
@@ -100,9 +102,8 @@ public class AlertJob {
 		return args.split(",");
 	}
 
-	public static int getTimeWindow(String args) {
-		assert args != null;
-		return Integer.parseInt(args);
+	public static int getTimeWindow(String[] args) {
+		assert args[3] != null;
+		return Integer.parseInt(args[3]);
 	}
-
 }
