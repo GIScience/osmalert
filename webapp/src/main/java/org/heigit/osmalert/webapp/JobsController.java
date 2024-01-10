@@ -1,5 +1,6 @@
 package org.heigit.osmalert.webapp;
 
+import io.micrometer.common.util.*;
 import jakarta.validation.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.heigit.osmalert.webapp.exceptions.*;
@@ -45,7 +46,7 @@ public class JobsController {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
 			newJob.setTimeWindow(calculatedTimeWindow);
-			newJob.setTimeFormat(timeFormat);
+			calculateAndSetFormattedTimeWindow(newJob, timeFormat, calculatedTimeWindow);
 			String normalizedBoundingBox = normalizeString(boundingBox);
 			if (jobsService.validateCoordinates(normalizedBoundingBox)) {
 				newJob.setBoundingBox(normalizedBoundingBox);
@@ -56,6 +57,15 @@ public class JobsController {
 		}
 		model.addAttribute("jobs", jobsService.getAllJobs());
 		return "jobs::joblist";
+	}
+
+	public static void calculateAndSetFormattedTimeWindow(Job newJob, String timeFormat, int timeWindow) {
+		if (StringUtils.isNotBlank(timeFormat)) {
+			if (timeFormat.equalsIgnoreCase("H")) {
+				newJob.setFormattedTimeWindow((timeWindow / 60) + " Hours");
+			} else
+				newJob.setFormattedTimeWindow((timeWindow) + " Minutes");
+		}
 	}
 
 	public int calculatedTimeWindow(String timeFormat, String timeWindow) throws InvalidTimeWindowException {

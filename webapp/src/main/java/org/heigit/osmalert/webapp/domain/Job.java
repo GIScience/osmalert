@@ -25,7 +25,7 @@ public class Job {
 
 	private int timeWindow;
 
-	private String timeFormat;
+	private String formattedTimeWindow;
 
 	protected Job() {}
 
@@ -74,23 +74,16 @@ public class Job {
 		this.timeWindow = timeWindow;
 	}
 
-	public int getTimeWindow() {
-		return timeWindow;
-	}
-
 	public String getTimeWindowString() {
 		return String.valueOf(timeWindow);
 	}
 
-	public void setTimeFormat(String timeFormat) {
-		this.timeFormat = timeFormat;
+	public void setFormattedTimeWindow(String formattedTimeWindow) {
+		this.formattedTimeWindow = formattedTimeWindow;
 	}
 
 	public String getFormattedTimeWindow() {
-		if (this.timeFormat.equalsIgnoreCase("H")) {
-			return (timeWindow / 60) + " Hours";
-		}
-		return (timeWindow) + " Minutes";
+		return formattedTimeWindow;
 	}
 
 	@SuppressWarnings("OverlyComplexMethod")

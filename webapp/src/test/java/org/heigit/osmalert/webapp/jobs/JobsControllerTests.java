@@ -3,6 +3,7 @@ package org.heigit.osmalert.webapp.jobs;
 import java.util.*;
 
 import org.hamcrest.*;
+import org.heigit.osmalert.webapp.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
@@ -292,5 +293,15 @@ class JobsControllerTests {
 			   .andExpect(content().string(
 				   Matchers.containsString("Invalid Coordinates")
 			   ));
+	}
+
+	@Test
+	void calculateAndSetFormattedTimeWindowTests(){
+		Job job = new Job("Test Job");
+		JobsController.calculateAndSetFormattedTimeWindow(job, "H", 120);
+		assertThat(job.getFormattedTimeWindow()).isEqualTo("2 Hours");
+
+		JobsController.calculateAndSetFormattedTimeWindow(job, "M", 16);
+		assertThat(job.getFormattedTimeWindow()).isEqualTo("16 Minutes");
 	}
 }
