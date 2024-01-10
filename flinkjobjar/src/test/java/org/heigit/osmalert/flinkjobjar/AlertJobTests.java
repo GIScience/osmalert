@@ -7,24 +7,21 @@ import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
 
 class AlertJobTests {
 
+	private final JobParams jobParams = new JobParams(new String[]{"jobname", "email@email.de", "1.0,2.0,3.0,4.0", "80"});
+
 	@Test
 	void getJobNameFromParams() {
-		String[] input = {"jobname", "email", "123.123", "80"};
-		JobParams jobParams = new JobParams(input);
 		assertThat(jobParams.getJobName()).isEqualTo("AlertJob_jobname");
 	}
 
 	@Test
 	void getEmailAddressTest() {
-		String[] input = {"name", "email@email.de", "1.0,2.0,3.0,4.0", "79"};
-		String[] emptyEmailAddress = {"name", null};
-		assertThat(getEmailAddress(input)).isEqualTo(input[1]);
+		assertThat(jobParams.getEmailAddress()).isEqualTo("email@email.de");
 	}
 
 	@Test
 	void getBoundingBoxString() {
-		String[] input = {"name", "email", "1.0,2.0,3.0,4.0", "79"};
-		assertThat(AlertJob.getBoundingBoxString(input)).isEqualTo("1.0,2.0,3.0,4.0");
+		assertThat(jobParams.getBoundingBoxString()).isEqualTo("1.0,2.0,3.0,4.0");
 	}
 
 	@Test
@@ -47,9 +44,8 @@ class AlertJobTests {
 	}
 
 	@Test
-	void getTimeWindowTest_NEW() {
-		String[] args = {"email", "name", "1,2,3,4", "60"};
-		assertThat(getTimeWindow(args)).isEqualTo(60);
+	void getTimeWindowTest() {
+		assertThat(jobParams.getTimeWindow()).isEqualTo(80);
 	}
 
 }

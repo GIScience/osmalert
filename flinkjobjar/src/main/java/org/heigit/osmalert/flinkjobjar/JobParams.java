@@ -12,4 +12,18 @@ public class JobParams {
 		System.out.println("=== " + jobName + " ===");
 		return jobName;
 	}
+
+	public String getEmailAddress() {
+		String emailAddress = args[1];
+		System.out.println("=== " + emailAddress + " ===");
+		return emailAddress;
+	}
+
+	public String getBoundingBoxString() {
+		return args[2];
+	}
+
+	public int getTimeWindow() {
+		return Integer.parseInt(args[3]);
+	}
 }

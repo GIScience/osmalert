@@ -29,9 +29,9 @@ public class AlertJob {
 		JobParams jobParams = new JobParams(args);
 
 		String jobName = jobParams.getJobName();
-		String emailAddress = getEmailAddress(args);
-		int timeMinutes = getTimeWindow(args);
-		String boundingBoxString = getBoundingBoxString(args);
+		String emailAddress = jobParams.getEmailAddress();
+		int timeMinutes = jobParams.getTimeWindow();
+		String boundingBoxString = jobParams.getBoundingBoxString();
 
 		double[] boundingBoxValues = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
 
@@ -50,10 +50,6 @@ public class AlertJob {
 			timeMinutes
 		);
 		configureAndRunJob(jobName, streamOperator, environment, timeMinutes * 60, mailSink, boundingBox);
-	}
-
-	public static String getBoundingBoxString(String[] args) {
-		return args[2];
 	}
 
 	static void configureAndRunJob(
@@ -82,13 +78,6 @@ public class AlertJob {
 		return contribution;
 	}
 
-	public static String getEmailAddress(String[] args) {
-		assert args[1] != null;
-		String emailAddress = args[1];
-		System.out.println("=== " + emailAddress + " ===");
-		return emailAddress;
-	}
-
 	public static double[] getBoundingBoxValues(String[] args) {
 		double[] doubleArray = new double[4];
 		for (int i = 0; i < 4; i++)
@@ -101,8 +90,4 @@ public class AlertJob {
 		return boundingBoxString.split(",");
 	}
 
-	public static int getTimeWindow(String[] args) {
-		assert args[3] != null;
-		return Integer.parseInt(args[3]);
-	}
 }
