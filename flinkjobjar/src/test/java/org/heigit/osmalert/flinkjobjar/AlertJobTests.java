@@ -45,7 +45,7 @@ class AlertJobTests {
 
 	@Test
 	void getTimeWindowTest() {
-		assertThat(jobParams.getTimeWindow()).isEqualTo(80);
+		assertThat(jobParams.getTimeWindowInMinutes()).isEqualTo(80);
 	}
 
 }

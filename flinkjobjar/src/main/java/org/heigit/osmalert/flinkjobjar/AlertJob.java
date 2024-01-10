@@ -28,9 +28,24 @@ public class AlertJob {
 
 		JobParams jobParams = new JobParams(args);
 
+		MailSinkFunction mailSink = new MailSinkFunction(
+			System.getenv("MAILERTOGO_SMTP_HOST"),
+			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
+			System.getenv("MAILERTOGO_SMTP_USER"),
+			System.getenv("MAILERTOGO_SMTP_PASSWORD"),
+			jobParams.getEmailAddress(),
+			jobParams.getBoundingBoxString(),
+			jobParams.getTimeWindowInMinutes()
+		);
+		configureAndRunJob(streamOperator, environment, mailSink, jobParams);
+	}
+
+	static void configureAndRunJob(
+		SingleOutputStreamOperator<String> streamOperator, StreamExecutionEnvironment environment, SinkFunction<Integer> mailSink,
+		JobParams jobParams
+	) throws Exception {
 		String jobName = jobParams.getJobName();
-		String emailAddress = jobParams.getEmailAddress();
-		int timeMinutes = jobParams.getTimeWindow();
+		int timeWindow = jobParams.getTimeWindowInMinutes();
 		String boundingBoxString = jobParams.getBoundingBoxString();
 
 		double[] boundingBoxValues = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
@@ -41,18 +56,9 @@ public class AlertJob {
 		 */
 		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(boundingBoxValues[0], boundingBoxValues[2], boundingBoxValues[1], boundingBoxValues[3]));
 
-		MailSinkFunction mailSink = new MailSinkFunction(
-			System.getenv("MAILERTOGO_SMTP_HOST"),
-			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
-			System.getenv("MAILERTOGO_SMTP_USER"),
-			System.getenv("MAILERTOGO_SMTP_PASSWORD"),
-			emailAddress,
-			boundingBoxString,
-			timeMinutes
-		);
-		configureAndRunJob(streamOperator, environment, mailSink, jobName, timeMinutes * 60, boundingBox);
+		configureAndRunJob(streamOperator, environment, mailSink, jobName, timeWindow * 60, boundingBox);
 	}
-
+	
 	static void configureAndRunJob(
 		SingleOutputStreamOperator<String> streamOperator, StreamExecutionEnvironment environment, SinkFunction<Integer> mailSink,
 		String jobName, int windowSeconds, Geometry boundingBox

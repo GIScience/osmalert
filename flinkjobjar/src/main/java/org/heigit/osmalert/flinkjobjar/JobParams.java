@@ -23,7 +23,7 @@ public class JobParams {
 		return args[2];
 	}
 
-	public int getTimeWindow() {
+	public int getTimeWindowInMinutes() {
 		return Integer.parseInt(args[3]);
 	}
 }
