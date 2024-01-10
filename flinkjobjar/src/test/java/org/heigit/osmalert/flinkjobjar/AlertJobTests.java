@@ -8,9 +8,15 @@ import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
 class AlertJobTests {
 
 	@Test
+	void getJobNameFromParams() {
+		String[] input = {"jobname", "email", "123.123", "80"};
+		JobParams jobParams = new JobParams(input);
+		assertThat(jobParams.getJobName()).isEqualTo("AlertJob_jobname");
+	}
+
+	@Test
 	void getJobNameTest() {
 		String[] input = {"jobname", "email", "123.123", "80"};
-		String[] emptyJobName = {null, "email@email.de"};
 		assertThat(getJobName(input)).isEqualTo("AlertJob_jobname");
 	}
 

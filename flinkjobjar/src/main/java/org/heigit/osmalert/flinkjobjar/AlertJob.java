@@ -26,11 +26,13 @@ public class AlertJob {
 																.uid(sourceName)
 																.name(sourceName);
 
-		String jobName = getJobName(args);
+		JobParams jobParams = new JobParams(args);
+
+		String jobName = jobParams.getJobName();
 		String emailAddress = getEmailAddress(args);
 		int timeMinutes = getTimeWindow(args);
-
 		String boundingBoxString = getBoundingBoxString(args);
+
 		double[] boundingBoxValues = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
 
 		/*
