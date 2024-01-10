@@ -83,9 +83,9 @@ public class AlertJob {
 
 	public static String getEmailAddress(String[] args) {
 		assert args[1] != null;
-		String emailAdress = args[1];
-		System.out.println("=== " + emailAdress + " ===");
-		return emailAdress;
+		String emailAddress = args[1];
+		System.out.println("=== " + emailAddress + " ===");
+		return emailAddress;
 	}
 
 	public static double[] getBoundingBoxValues(String[] input) {

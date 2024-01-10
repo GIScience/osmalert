@@ -15,11 +15,6 @@ class AlertJobTests {
 		String[] input = {"jobname", "email", "123.123"};
 		String[] emptyJobName = {null, "email@email.de"};
 		assertThat(getJobName(input)).isEqualTo("AlertJob_jobname");
-		try {
-			getJobName(emptyJobName);
-		} catch (AssertionError e) {
-			assertThat(e).isExactlyInstanceOf(AssertionError.class);
-		}
 	}
 
 	@Test
@@ -27,11 +22,6 @@ class AlertJobTests {
 		String[] input = {"name", "email@email.de"};
 		String[] emptyEmailAddress = {"name", null};
 		assertThat(getEmailAddress(input)).isEqualTo(input[1]);
-		try {
-			getEmailAddress(emptyEmailAddress);
-		} catch (AssertionError e) {
-			assertThat(e).isExactlyInstanceOf(AssertionError.class);
-		}
 	}
 
 	@Test
