@@ -26,7 +26,6 @@ public class AlertJob {
 																.uid(sourceName)
 																.name(sourceName);
 
-		AverageTime.initAverageChanges(10, 1);
 		String jobName = getJobName(args);
 		String emailAddress = getEmailAddress(args);
 		String boundingBoxString = args[2];

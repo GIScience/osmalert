@@ -29,6 +29,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	@Override
 	public void invoke(Integer value, Context context) {
 
+		AverageTime averageTime = AverageTime.getInstance();
 		System.out.println("##### MailSink input: " + value);
 
 		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
@@ -37,16 +38,18 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
-		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + AverageTime.getAverageChanges() + "\r";
+		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + averageTime.getAverageChanges() + "\n";
 
-		AverageTime.calculateAverage(value);
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\nhttp://bboxfinder.com/"
-								  //+ (value > AverageTime.getAverageChanges() ? unusualChanges : "")
+								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\nhttp://bboxfinder.com/\n"
+								  // adding 5 % threshold above
+								  + (value > averageTime.getAverageChanges() * 1.05 ? unusualChanges : "")
 								  + "\n\nThank you,\nOSM Alert System";
+
+		averageTime.calculateAverage(value);
 
 		this.sendMail(emailContent, this.emailAddress);
 	}
