@@ -6,6 +6,7 @@ import com.microsoft.playwright.*;
 import org.heigit.osmalert.webapp.domain.*;
 import org.heigit.osmalert.webapp.services.*;
 import org.junit.jupiter.api.*;
+import org.junit.platform.commons.util.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
 import org.springframework.boot.test.mock.mockito.*;
@@ -121,7 +122,7 @@ public class WebsiteTests {
 			() -> page.click("#createNewJob")
 		);
 
-		Job expectedJob = createJob(null, "job1", "123@web.de", "123.4,12.3,170.5,67.2");
+		Job expectedJob = createJob(null, "job1", "123@web.de", "123.4,12.3,170.5,67.2", "");
 
 		verify(jobsService, times(1)).saveNewJob(expectedJob);
 		verify(jobsService).saveNewJob(expectedJob);
@@ -130,40 +131,39 @@ public class WebsiteTests {
 
 	@Test
 	void jobsInRepositoryAreDisplayedCorrectly() {
-		when(jobsService.getAllJobs()).thenReturn(
-			List.of(
-				createJob(1L, "job1", "jl1@test.com", "1,2,3,4"),
-				createJob(2L, "job2", "jl2@test.com", "5,6,7,8"),
-				createJob(3L, "job3", "jl3@test.com", "9,10,11,12")
-			)
-		);
+		when(jobsService.getAllJobs()).thenReturn(List.of(
+			createJob(1L, "job1", "jl1@test.com", "1,2,3,4", "2 Hours"),
+			createJob(2L, "job2", "jl2@test.com", "5,6,7,8", ""),
+			createJob(3L, "job3", "jl3@test.com", "9,10,11,12", "14 Minutes")));
 
 		page.navigate("http://localhost:" + port);
 
-		assertJobRow("1", "job1", "jl1@test.com", "1,2,3,4");
-		assertJobRow("2", "job2", "jl2@test.com", "5,6,7,8");
-		assertJobRow("3", "job3", "jl3@test.com", "9,10,11,12");
+		assertJobRow("1", "job1", "jl1@test.com", "1,2,3,4", "2 Hours");
+		assertJobRow("2", "job2", "jl2@test.com", "5,6,7,8", "1 Minutes");
+		assertJobRow("3", "job3", "jl3@test.com", "9,10,11,12", "14 Minutes");
 	}
 
-	private void assertJobRow(String id, String jobName, String email, String boundingBox) {
+	private void assertJobRow(String id, String jobName, String email, String boundingBox, String timeWindow) {
 		Locator jobLocator = page.locator("tbody[id='" + id + "']");
 		assertThat(jobLocator).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + jobName + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + email + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + boundingBox + "')")).isVisible();
+		assertThat(jobLocator.locator("td:has-text('" + timeWindow + "')")).isVisible();
 	}
 
-	private static Job createJob(Long id, String jobName, String email, String boundingBox) {
+	private static Job createJob(Long id, String jobName, String email, String boundingBox, String formattedTimeWindow) {
 		Job job = new Job(jobName, id);
 		job.setEmail(email);
 		job.setBoundingBox(boundingBox);
+		job.setFormattedTimeWindow(StringUtils.isBlank(formattedTimeWindow) ? "1 Minutes" : formattedTimeWindow);
 		return job;
 	}
 
 	@Test
 	@Disabled("No Validation function in the jobservice to check if the email is valid or not")
 	void rejectJobForInvalidOwnersEmailTest() {
-		Job expectedJob = createJob(null, "job1", "ownersEmailweb", "123.4,12.3,170.5,67.2");
+		Job expectedJob = createJob(null, "job1", "ownersEmailweb", "123.4,12.3,170.5,67.2", "");
 
 		addJob("job1", "ownersEmailweb", "123.4,12.3,170.5,67.2");
 
@@ -174,9 +174,9 @@ public class WebsiteTests {
 	void rejectJobForInvalidBoundingBoxTest() {
 		when(jobsService.validateCoordinates("12.2,12.2,13.2,12.2")).thenReturn(false);
 
-		createJob(0L, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
+		createJob(0L, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "");
 
-		Job expectedJob = createJob(null, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2");
+		Job expectedJob = createJob(null, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "");
 
 		verify(jobsService, times(0)).saveNewJob(expectedJob);
 	}
@@ -184,13 +184,9 @@ public class WebsiteTests {
 	@Test
 	void rejectJobWithAlreadyExistingName() {
 		clearInvocations(jobsService);
-		when(jobsService.getAllJobs()).thenReturn(
-			List.of(
-				createJob(1L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2")
-			)
-		);
-		Job job1 = createJob(null, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
-		Job job2 = createJob(2L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
+		when(jobsService.getAllJobs()).thenReturn(List.of(createJob(1L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "")));
+		Job job1 = createJob(null, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "");
+		Job job2 = createJob(2L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "");
 
 		addJob("job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
 
@@ -198,7 +194,7 @@ public class WebsiteTests {
 
 		addJob("job1", "email@emaila2.de", "121.4,12.3,170.5,67.2");
 
-		assertJobRow("1", "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
+		assertJobRow("1", "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "1 Minutes");
 		verify(jobsService, times(1)).saveNewJob(job1);
 		verify(jobsService, times(0)).saveNewJob(job2);
 	}
