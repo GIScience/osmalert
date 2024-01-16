@@ -36,7 +36,7 @@ public class JobsController {
 		@Valid @RequestParam String ownersEmail,
 		@RequestParam(required = false) String timeWindow,
 		@RequestParam(required = false) String timeFormat
-	) throws InvalidTimeWindowException {
+	) {
 
 		String normalizedJobName = normalizeString(jobName);
 		int calculatedTimeWindow = calculatedTimeWindow(timeFormat, timeWindow);
@@ -68,18 +68,14 @@ public class JobsController {
 		}
 	}
 
-	public int calculatedTimeWindow(String timeFormat, String timeWindow) throws InvalidTimeWindowException {
+	public int calculatedTimeWindow(String timeFormat, String timeWindow) {
 		Time time;
 		if (timeFormat == null)
 			time = Time.valueOf("M");
 		else
 			time = Time.valueOf(timeFormat);
 		// 1 Minute default time
-		int calculatedTimeWindow = jobsService.calculateTimeWindow(timeWindow, time);
-		if (calculatedTimeWindow == 0) {
-			throw new InvalidTimeWindowException("Invalid Time Window");
-		}
-		return calculatedTimeWindow;
+        return jobsService.calculateTimeWindow(timeWindow, time);
 	}
 
 	@GetMapping("/status")
