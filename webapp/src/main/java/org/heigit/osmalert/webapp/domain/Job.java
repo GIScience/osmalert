@@ -23,7 +23,7 @@ public class Job {
 	//lowerLeftLongitude,upperRightLongitude,lowerLeftLatitude,upperRightLatitude
 	private String boundingBox;
 
-	@PositiveOrZero(message = "Invalid Time Window")
+	@Positive(message = "Invalid Time Window")
 	private int timeWindow;
 
 	private String formattedTimeWindow;
@@ -37,6 +37,7 @@ public class Job {
 	public Job(String jobName, Long id) {
 		this.jobName = jobName;
 		this.id = id;
+		this.timeWindow = 1;
 	}
 
 	public String getJobName() {
