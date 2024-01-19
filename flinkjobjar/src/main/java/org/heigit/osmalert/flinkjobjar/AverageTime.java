@@ -4,6 +4,7 @@ public class AverageTime {
 	private double averageChanges;
 	private double averageWeight;
 	private static AverageTime self;
+	private static final double derivate = 1.05;
 
 	private AverageTime(double defaultChanges, int numberAverageChanges) {
 		this.averageChanges = Math.max(defaultChanges, 0);
@@ -40,5 +41,9 @@ public class AverageTime {
 		if (self != null)
 			returnAverageChanges = this.averageChanges;
 		return returnAverageChanges;
+	}
+
+	public static double getDerivate() {
+		return derivate;
 	}
 }
