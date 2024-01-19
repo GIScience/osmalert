@@ -22,8 +22,8 @@
                 <tr>
                     <th>Job Name</th>
                     <th>Email</th>
-                    <th>Area of Interest</th>
                     <th th:if="${@toggles.isEnabled('SHOW_TIME')}">Time Window</th>
+                    <th>Area of Interest</th>
                     <th>Status</th>
                 </tr>
                 </thead>
@@ -31,8 +31,8 @@
                 <tr>
                     <td th:text="${job.jobName}">unknown</td>
                     <td th:text="${job.getEmail()}">unknown</td>
-                    <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
                     <td th:if="${@toggles.isEnabled('SHOW_TIME')}" th:text="${job.getFormattedTimeWindow()}">unknown</td>
+                    <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
                     <td hx-get="/jobs/status"
                         hx-trigger="every 1s"
                         th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
