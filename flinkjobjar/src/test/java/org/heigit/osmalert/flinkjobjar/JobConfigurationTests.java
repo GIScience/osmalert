@@ -46,4 +46,9 @@ public class JobConfigurationTests {
 		double[] boundingBox = {4.279, 48.829, 16.419, 53.495};
 		assertThat(jobConfiguration.getBoundingBox()).isEqualTo(boundingBox);
 	}
+
+	@Test
+	void getTimeWindowInSecondsTest() {
+		assertThat(jobConfiguration.getTimeWindowInSeconds()).isEqualTo(Integer.parseInt(params[3]) * 60);
+	}
 }
