@@ -40,4 +40,10 @@ public class JobConfigurationTests {
 	void getTimeWindowTest() {
 		assertThat(jobConfiguration.getTimeWindow()).isEqualTo(Integer.parseInt(params[3]));
 	}
+
+	@Test
+	void getBoundingBoxTest() {
+		double[] boundingBox = {4.279, 48.829, 16.419, 53.495};
+		assertThat(jobConfiguration.getBoundingBox()).isEqualTo(boundingBox);
+	}
 }
