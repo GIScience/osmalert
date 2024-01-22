@@ -5,7 +5,7 @@ public class JobConfiguration {
 	private final String jobName;
 	private final String emailAddress;
 	private final double[] boundingBox;
-	private String boundingBoxString;
+	private final String boundingBoxString;
 	private final int timeWindow;
 
 	public JobConfiguration(String[] params) {
@@ -38,10 +38,6 @@ public class JobConfiguration {
 
 	public String setBoundingBoxStringArray(String[] args) {
 		return args[2];
-	}
-
-	public void setBoundingBoxStringArray(String boundingBoxString) {
-		this.boundingBoxString = boundingBoxString;
 	}
 
 	public int setTimeWindow(String[] args) {
