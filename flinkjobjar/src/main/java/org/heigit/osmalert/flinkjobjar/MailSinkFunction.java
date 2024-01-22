@@ -40,11 +40,12 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + averageTime.getAverageChanges() + "\n";
 
+		String linkAdaptedForBBoxFinder = "http://bboxfinder.com/" + AdaptBoundingBoxForBBoxfinder(this.boundingBox);
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\nhttp://bboxfinder.com/\n"
+								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + linkAdaptedForBBoxFinder + "\n"
 								  // adding 5 % threshold above
 								  + (value > averageTime.getAverageChanges() * AverageTime.getDerivate() ? unusualChanges : "")
 								  + "\n\nThank you,\nOSM Alert System";
@@ -52,6 +53,18 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		averageTime.calculateAverage(value);
 
 		this.sendMail(emailContent, this.emailAddress);
+	}
+
+	public static String AdaptBoundingBoxForBBoxfinder(String boundingBox) {
+		String[] parts = boundingBox.split(",");
+
+		String temp = parts[0];
+		parts[0] = parts[1];
+		parts[1] = temp;
+		temp = parts[2];
+		parts[2] = parts[3];
+		parts[3] = temp;
+		return String.join(",", parts);
 	}
 
 	private MailSender getMailSender() {
