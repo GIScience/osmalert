@@ -38,7 +38,7 @@ public class JobConfigurationTests {
 
 	@Test
 	void getTimeWindowTest() {
-		assertThat(jobConfiguration.getTimeWindow()).isEqualTo(Integer.parseInt(params[3]));
+		assertThat(jobConfiguration.getTimeWindowInMinutes()).isEqualTo(Integer.parseInt(params[3]));
 	}
 
 	@Test

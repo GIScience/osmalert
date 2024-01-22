@@ -45,9 +45,9 @@ public class AlertJob {
 			System.getenv("MAILERTOGO_SMTP_PASSWORD"),
 			jobConfiguration.getEmailAddress(),
 			jobConfiguration.getBoundingBoxString(),
-			jobConfiguration.getTimeWindow()
+			jobConfiguration.getTimeWindowInMinutes()
 		);
-		configureAndRunJob(jobConfiguration.getJobName(), streamOperator, environment, jobConfiguration.getTimeWindow() * 60, mailSink, boundingBox);
+		configureAndRunJob(jobConfiguration.getJobName(), streamOperator, environment, jobConfiguration.getTimeWindowInMinutes() * 60, mailSink, boundingBox);
 	}
 
 	static void configureAndRunJob(

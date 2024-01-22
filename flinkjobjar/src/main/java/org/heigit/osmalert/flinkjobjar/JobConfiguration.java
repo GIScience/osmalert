@@ -54,5 +54,5 @@ public class JobConfiguration {
 
 	public String getBoundingBoxString() {return this.boundingBoxString;}
 
-	public int getTimeWindow() {return this.timeWindow;}
+	public int getTimeWindowInMinutes() {return this.timeWindow;}
 }
