@@ -26,26 +26,28 @@ public class AlertJob {
 																.uid(sourceName)
 																.name(sourceName);
 
-		String jobName = getJobName(args);
-		String emailAddress = getEmailAddress(args);
-		String boundingBoxString = args[2];
-		int timeMinutes = getTimeWindow(args[3]);
-		double[] params = getBoundingBoxValues(getBoundingBoxStringArray(boundingBoxString));
+		JobConfiguration jobConfiguration = new JobConfiguration((args));
 		/*
 		 * For Polygon use this
 		 * new WKTReader().read(args[2]);
 		 */
-		Geometry boundingBox = new GeometryFactory().toGeometry(new Envelope(params[0], params[2], params[1], params[3]));
+		Geometry boundingBox = new GeometryFactory().toGeometry(
+			new Envelope(
+				jobConfiguration.getBoundingBoxValues(0),
+				jobConfiguration.getBoundingBoxValues(2),
+				jobConfiguration.getBoundingBoxValues(1),
+				jobConfiguration.getBoundingBoxValues(3)
+			));
 		MailSinkFunction mailSink = new MailSinkFunction(
 			System.getenv("MAILERTOGO_SMTP_HOST"),
 			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
 			System.getenv("MAILERTOGO_SMTP_USER"),
 			System.getenv("MAILERTOGO_SMTP_PASSWORD"),
-			emailAddress,
-			boundingBoxString,
-			timeMinutes
+			jobConfiguration.getEmailAddress(),
+			jobConfiguration.getBoundingBoxString(),
+			jobConfiguration.getTimeWindow()
 		);
-		configureAndRunJob(jobName, streamOperator, environment, timeMinutes * 60, mailSink, boundingBox);
+		configureAndRunJob(jobConfiguration.getJobName(), streamOperator, environment, jobConfiguration.getTimeWindow() * 60, mailSink, boundingBox);
 	}
 
 	static void configureAndRunJob(
@@ -73,36 +75,4 @@ public class AlertJob {
 		System.out.println("contribution = " + contribution);
 		return contribution;
 	}
-
-	public static String getJobName(String[] args) {
-		assert args[0] != null;
-		String jobName = "AlertJob_" + args[0];
-		System.out.println("=== " + jobName + " ===");
-		return jobName;
-	}
-
-	public static String getEmailAddress(String[] args) {
-		assert args[1] != null;
-		String emailAdress = args[1];
-		System.out.println("=== " + emailAdress + " ===");
-		return emailAdress;
-	}
-
-	public static double[] getBoundingBoxValues(String[] input) {
-		double[] doubleArray = new double[4];
-		for (int i = 0; i < 4; i++)
-			doubleArray[i] = Double.parseDouble(input[i]);
-		return doubleArray;
-	}
-
-	public static String[] getBoundingBoxStringArray(String args) {
-		assert args != null;
-		return args.split(",");
-	}
-
-	public static int getTimeWindow(String args) {
-		assert args != null;
-		return Integer.parseInt(args);
-	}
-
 }
