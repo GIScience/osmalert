@@ -53,6 +53,7 @@ dependencies {
     implementation 'org.apache.flink:flink-clients:1.17.1'
     implementation 'org.apache.flink:flink-connector-kafka:1.17.1'
     //implementation 'org.apache.flink:flink-cep:1.17.0'
+    implementation 'org.json:json:20210307'
 
     implementation 'org.locationtech.jts:jts-core:1.15.0'
 
@@ -67,5 +68,4 @@ dependencies {
     testImplementation 'org.junit-pioneer:junit-pioneer:2.1.0'
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
-
 }

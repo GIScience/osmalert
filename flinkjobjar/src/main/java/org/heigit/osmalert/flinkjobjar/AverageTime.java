@@ -1,5 +1,9 @@
 package org.heigit.osmalert.flinkjobjar;
 
+import java.io.*;
+
+import org.json.*;
+
 public class AverageTime {
 	private double averageChanges;
 	private double averageWeight;
@@ -11,9 +15,10 @@ public class AverageTime {
 		this.averageWeight = Math.max(numberAverageChanges, 0);
 	}
 
-	public static AverageTime getInstance() {
-		if (self == null)
-			self = new AverageTime(0, 0);
+	public static AverageTime getInstance(String boundingBox) throws IOException, InterruptedException, JSONException {
+		if (self == null) {
+			self = new AverageTime(OSMContributionsHistoricalData.getContributionsCountHistoricalAverage(boundingBox), 0);
+		}
 		return self;
 	}
 
