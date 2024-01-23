@@ -3,24 +3,15 @@ package org.heigit.osmalert.flinkjobjar;
 import java.io.*;
 import java.net.*;
 import java.net.http.*;
-import java.time.*;
-import java.time.format.*;
 
 import org.json.*;
 
 public class OSMContributionsHistoricalData {
 
-	static double getContributionsCountHistoricalAverage(String boundingBox) throws IOException, InterruptedException, JSONException {
+	static double getContributionsCountHistoricalAverage(String boundingBox, String fromDate, String toDate) throws IOException, InterruptedException, JSONException {
 
-		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, calculateDateInPast(2), calculateDateInPast(24)));
+		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate));
 		return calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"));
-	}
-
-	private static String calculateDateInPast(int weeksToSubtract){
-		LocalDate currentDate = LocalDate.now();
-		LocalDate minusWeeks = currentDate.minusWeeks(weeksToSubtract);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		return minusWeeks.format(formatter);
 	}
 
 	private static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray) {
@@ -32,7 +23,11 @@ public class OSMContributionsHistoricalData {
 		return pastContributionsCountSum / osmContributionsCountJsonArray.length();
 	}
 
-	public static String getContributionsCountInBB(String boundingBox, String fromDate, String toDate) throws IOException, InterruptedException {
+	public static String getContributionsCountInBB(
+		String boundingBox,
+		String fromDate,
+		String toDate
+	) throws IOException, InterruptedException {
 
 
 		String apiUrl = "https://api.ohsome.org/v1/contributions/count?bboxes=" + boundingBox + "&filter=type%3Away%20and%20natural%3D*&format=json&time=" + fromDate + "%2F" + toDate + "%2FP1D";

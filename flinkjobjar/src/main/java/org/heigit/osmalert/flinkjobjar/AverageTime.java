@@ -1,8 +1,12 @@
 package org.heigit.osmalert.flinkjobjar;
 
 import java.io.*;
+import java.time.*;
+import java.time.format.*;
 
 import org.json.*;
+
+import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
 public class AverageTime {
 	private double averageChanges;
@@ -17,7 +21,14 @@ public class AverageTime {
 
 	public static AverageTime getInstance(String boundingBox) throws IOException, InterruptedException, JSONException {
 		if (self == null) {
-			self = new AverageTime(OSMContributionsHistoricalData.getContributionsCountHistoricalAverage(boundingBox), 0);
+			self = new AverageTime(
+				getContributionsCountHistoricalAverage(
+					boundingBox,
+					calculateDateInPast(LocalDate.now(), 24),
+					calculateDateInPast(LocalDate.now(), 2)
+				),
+				0
+			);
 		}
 		return self;
 	}
@@ -51,4 +62,11 @@ public class AverageTime {
 	public static double getDerivate() {
 		return derivate;
 	}
+
+	public static String calculateDateInPast(LocalDate currentDate, int weeksToSubtract) {
+		LocalDate minusWeeks = currentDate.minusWeeks(weeksToSubtract);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return minusWeeks.format(formatter);
+	}
+
 }
