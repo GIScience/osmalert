@@ -14,7 +14,7 @@ public class OSMContributionsHistoricalData {
 		return calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"));
 	}
 
-	private static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray) {
+	static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray) {
 
 		//TODO: Convert into user input time window granularity
 		double pastContributionsCountSum = 0;
