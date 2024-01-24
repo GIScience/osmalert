@@ -20,8 +20,6 @@ public class OSMContributionsHistoricalData {
 	}
 
 	static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray, int timeIntervals) {
-
-		//TODO: Convert into user input time window granularity
 		double pastContributionsCountSum = 0;
 		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++)
 			pastContributionsCountSum += osmContributionsCountJsonArray.getJSONObject(i).getInt("value");
@@ -33,7 +31,7 @@ public class OSMContributionsHistoricalData {
 		String fromDate,
 		String toDate
 	) throws IOException, InterruptedException {
-
+		// TODO change filter
 		String apiUrl = "https://api.ohsome.org/v1/contributions/count?bboxes=" + boundingBox + "&filter=type%3Away%20and%20natural%3D*&format=json&time=" + fromDate + "%2F" + toDate + "%2FP1D";
 		HttpClient client = HttpClient.newHttpClient();
 
