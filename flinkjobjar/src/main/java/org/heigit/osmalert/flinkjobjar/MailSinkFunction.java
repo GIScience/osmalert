@@ -1,10 +1,8 @@
 package org.heigit.osmalert.flinkjobjar;
 
-import java.io.*;
 import java.util.*;
 
 import org.apache.flink.streaming.api.functions.sink.*;
-import org.json.*;
 
 import static java.lang.Runtime.*;
 
@@ -29,7 +27,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	}
 
 	@Override
-	public void invoke(Integer value, Context context) throws IOException, InterruptedException, JSONException {
+	public void invoke(Integer value, Context context) {
 
 		AverageTime averageTime = AverageTime.getInstance();
 		System.out.println("##### MailSink input: " + value);
