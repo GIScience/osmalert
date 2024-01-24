@@ -1,5 +1,6 @@
 package org.heigit.osmalert.flinkjobjar;
 
+import java.io.*;
 import java.util.*;
 
 import org.apache.flink.streaming.api.functions.sink.*;
@@ -15,8 +16,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String emailAddress;
 	private final String boundingBox;
 	private final int time;
+	private static AverageTime averageTime;
 
-	public MailSinkFunction(String host, int port, String username, String password, String emailAddress, String boundingBox, int time) {
+	public MailSinkFunction(
+		String host, int port, String username, String password, String emailAddress, String boundingBox, int time
+	) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
@@ -28,8 +32,13 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 	@Override
 	public void invoke(Integer value, Context context) {
-
-		AverageTime averageTime = AverageTime.getInstance();
+		if (averageTime == null) {
+			try {
+				averageTime = AverageTime.setInstance(boundingBox, time * 60);
+			} catch (IOException | InterruptedException e) {
+				averageTime = AverageTime.getInstance();
+			}
+		}
 		System.out.println("##### MailSink input: " + value);
 
 		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
@@ -73,5 +82,4 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		mailSender.sendMail(emailAddress, payload);
 		System.out.println("=== MAIL SENT! ===");
 	}
-
 }

@@ -16,19 +16,21 @@ public class AverageTime {
 	// week * days (7) * hours (24) * minutes (60) * seconds (60)
 	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
 
-	private AverageTime(double defaultChanges, int numberAverageChanges) {
+	private AverageTime(double defaultChanges, double numberAverageChanges) {
 		this.averageChanges = Math.max(defaultChanges, 0);
 		this.averageWeight = Math.max(numberAverageChanges, 0);
 	}
 
 	public static AverageTime getInstance() {
 		if (self == null) {
-			self = new AverageTime(0, 0);
+			setInstance(0, 0);
 		}
 		return self;
 	}
 
 	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds) throws IOException, InterruptedException {
+		if (boundingBox == null || timeWindowSeconds == 0)
+			throw new IOException();
 		self = setInstance(
 			getContributionsCountHistoricalAverage(
 				boundingBox,
@@ -36,12 +38,12 @@ public class AverageTime {
 				calculateDateInPast(LocalDate.now(), weekEnd),
 				numberChanges / timeWindowSeconds
 			),
-			numberChanges / timeWindowSeconds
+			(double) numberChanges / timeWindowSeconds
 		);
 		return self;
 	}
 
-	public static AverageTime setInstance(double averageChanges, int numberOfChanges) {
+	public static AverageTime setInstance(double averageChanges, double numberOfChanges) {
 		self = new AverageTime(averageChanges, numberOfChanges);
 		return self;
 	}

@@ -23,6 +23,7 @@ public class OSMContributionsHistoricalData {
 		double pastContributionsCountSum = 0;
 		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++)
 			pastContributionsCountSum += osmContributionsCountJsonArray.getJSONObject(i).getInt("value");
+		System.out.println("Contribution=" + pastContributionsCountSum + "\nTimeInterval=" + timeIntervals);
 		return pastContributionsCountSum / timeIntervals;
 	}
 
