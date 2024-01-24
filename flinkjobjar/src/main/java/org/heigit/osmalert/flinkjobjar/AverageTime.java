@@ -36,7 +36,8 @@ public class AverageTime {
 				boundingBox,
 				calculateDateInPast(LocalDate.now(), weekStart),
 				calculateDateInPast(LocalDate.now(), weekEnd),
-				numberChanges / timeWindowSeconds
+				numberChanges / timeWindowSeconds,
+				timeWindowSeconds / 60
 			),
 			(double) numberChanges / timeWindowSeconds
 		);
