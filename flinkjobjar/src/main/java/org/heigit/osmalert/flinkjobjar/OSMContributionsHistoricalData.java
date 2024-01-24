@@ -11,20 +11,21 @@ public class OSMContributionsHistoricalData {
 	static double getContributionsCountHistoricalAverage(
 		String boundingBox,
 		String fromDate,
-		String toDate
+		String toDate,
+		int timeIntervals
 	) throws IOException, InterruptedException {
 
 		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate));
-		return calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"));
+		return calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
 	}
 
-	static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray) {
+	static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray, int timeIntervals) {
 
 		//TODO: Convert into user input time window granularity
 		double pastContributionsCountSum = 0;
 		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++)
 			pastContributionsCountSum += osmContributionsCountJsonArray.getJSONObject(i).getInt("value");
-		return pastContributionsCountSum / osmContributionsCountJsonArray.length();
+		return pastContributionsCountSum / timeIntervals;
 	}
 
 	public static String getContributionsCountInBB(
