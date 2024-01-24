@@ -13,22 +13,22 @@ public class OSMContributionsHistoricalDataTests {
 	void getContributionsCountHistoricalAverageTest() throws IOException, InterruptedException, JSONException {
 
 		Assertions.assertEquals(
-			getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5),
-			760.6
+			34497.0,
+			getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24)
 		);
 
 		Assertions.assertEquals(
-			getContributionsCountHistoricalAverage("123.2,13.2,133.2,15.2", "2023-12-01", "2023-12-10", 9),
-			22.666666666666668
+			46.22222222222222,
+			getContributionsCountHistoricalAverage("123.2,13.2,133.2,15.2", "2023-12-01", "2023-12-10", 9, 60 * 24)
 		);
 	}
 
 	@Test
 	void getContributionsCountInBBTest() throws IOException, InterruptedException {
-		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-02"));
+		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-02", 60 * 24));
 		Assertions.assertEquals(
-			((JSONObject) contributionsCountObject.getJSONArray("result").get(0)).getInt("value"),
-			759
+			32317.0,
+			((JSONObject) contributionsCountObject.getJSONArray("result").get(0)).getInt("value")
 		);
 	}
 

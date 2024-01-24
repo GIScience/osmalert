@@ -36,6 +36,7 @@ public class OSMContributionsHistoricalData {
 	) throws IOException, InterruptedException {
 		// TODO change filter
 		String apiUrl = "https://api.ohsome.org/v1/contributions/count?bboxes=" + boundingBox + "&filter=type:node or type:way&format=json&time=" + fromDate + "%2f" + toDate + "%2FPT" + timeIntervalInMinutes + "M&timeout=300";
+		apiUrl = apiUrl.replace(" ", "%20");
 		HttpClient client = HttpClient.newHttpClient();
 
 		HttpRequest request = HttpRequest.newBuilder()

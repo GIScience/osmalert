@@ -47,7 +47,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
-		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + averageTime.getAverageChanges() + "\n";
+		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + averageTime.getAverageChanges() + "\n, which is measured over 2 weeks";
 
 		String linkAdaptedForBBoxFinder = "http://bboxfinder.com/#" + AdaptBoundingBoxForBBoxfinder(this.boundingBox);
 
