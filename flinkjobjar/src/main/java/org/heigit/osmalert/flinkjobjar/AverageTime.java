@@ -31,15 +31,13 @@ public class AverageTime {
 	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds) throws IOException, InterruptedException {
 		if (boundingBox == null || timeWindowSeconds == 0)
 			throw new IOException();
-		self = setInstance(
-			getContributionsCountHistoricalAverage(
-				boundingBox,
-				calculateDateInPast(LocalDate.now(), weekStart),
-				calculateDateInPast(LocalDate.now(), weekEnd),
-				numberChanges / timeWindowSeconds,
-				timeWindowSeconds / 60
-			),
-			(double) numberChanges / timeWindowSeconds
+		self = setInstance(0, 0);
+		getContributionsCountHistoricalAverage(
+			boundingBox,
+			calculateDateInPast(LocalDate.now(), weekStart),
+			calculateDateInPast(LocalDate.now(), weekEnd),
+			numberChanges / timeWindowSeconds,
+			timeWindowSeconds * 60
 		);
 		return self;
 	}

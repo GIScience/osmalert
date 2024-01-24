@@ -8,7 +8,7 @@ import org.json.*;
 
 public class OSMContributionsHistoricalData {
 
-	static double getContributionsCountHistoricalAverage(
+	static void getContributionsCountHistoricalAverage(
 		String boundingBox,
 		String fromDate,
 		String toDate,
@@ -17,15 +17,13 @@ public class OSMContributionsHistoricalData {
 	) throws IOException, InterruptedException {
 
 		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate, timeIntervalInMinutes));
-		return calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
+		calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
 	}
 
-	static double calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray, int timeIntervals) {
-		double pastContributionsCountSum = 0;
+	static void calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray, int timeIntervals) {
+		AverageTime averageTime = AverageTime.getInstance();
 		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++)
-			pastContributionsCountSum += osmContributionsCountJsonArray.getJSONObject(i).getInt("value");
-		System.out.println("Contribution=" + pastContributionsCountSum + "\nTimeInterval=" + timeIntervals);
-		return pastContributionsCountSum / timeIntervals;
+			averageTime.calculateAverage(osmContributionsCountJsonArray.getJSONObject(i).getInt("value"));
 	}
 
 	public static String getContributionsCountInBB(
