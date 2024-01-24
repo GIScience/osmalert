@@ -12,7 +12,7 @@ public class AverageTime {
 	private double averageChanges;
 	private double averageWeight;
 	private static AverageTime self;
-	private static final double derivate = 1.05;
+	private static final double derivative = 1.05;
 
 	private AverageTime(double defaultChanges, int numberAverageChanges) {
 		this.averageChanges = Math.max(defaultChanges, 0);
@@ -59,8 +59,8 @@ public class AverageTime {
 		return returnAverageChanges;
 	}
 
-	public static double getDerivate() {
-		return derivate;
+	public static double getDerivative() {
+		return derivative;
 	}
 
 	public static String calculateDateInPast(LocalDate currentDate, int weeksToSubtract) {

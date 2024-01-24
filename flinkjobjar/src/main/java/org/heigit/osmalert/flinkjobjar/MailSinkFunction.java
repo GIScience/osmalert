@@ -49,7 +49,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + linkAdaptedForBBoxFinder + "\n"
 								  // adding 5 % threshold above
-								  + (value > averageTime.getAverageChanges() * AverageTime.getDerivate() ? unusualChanges : "")
+								  + (value > averageTime.getAverageChanges() * AverageTime.getDerivative() ? unusualChanges : "")
 								  + "\n\nThank you,\nOSM Alert System";
 
 		averageTime.calculateAverage(value);
