@@ -8,7 +8,11 @@ import org.json.*;
 
 public class OSMContributionsHistoricalData {
 
-	static double getContributionsCountHistoricalAverage(String boundingBox, String fromDate, String toDate) throws IOException, InterruptedException, JSONException {
+	static double getContributionsCountHistoricalAverage(
+		String boundingBox,
+		String fromDate,
+		String toDate
+	) throws IOException, InterruptedException {
 
 		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate));
 		return calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"));
@@ -29,7 +33,6 @@ public class OSMContributionsHistoricalData {
 		String toDate
 	) throws IOException, InterruptedException {
 
-
 		String apiUrl = "https://api.ohsome.org/v1/contributions/count?bboxes=" + boundingBox + "&filter=type%3Away%20and%20natural%3D*&format=json&time=" + fromDate + "%2F" + toDate + "%2FP1D";
 		HttpClient client = HttpClient.newHttpClient();
 
@@ -41,4 +44,3 @@ public class OSMContributionsHistoricalData {
 		return response.body();
 	}
 }
-

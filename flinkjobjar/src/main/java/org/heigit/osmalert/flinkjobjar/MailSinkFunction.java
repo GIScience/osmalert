@@ -31,7 +31,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	@Override
 	public void invoke(Integer value, Context context) throws IOException, InterruptedException, JSONException {
 
-		AverageTime averageTime = AverageTime.getInstance(this.boundingBox);
+		AverageTime averageTime = AverageTime.getInstance();
 		System.out.println("##### MailSink input: " + value);
 
 		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);

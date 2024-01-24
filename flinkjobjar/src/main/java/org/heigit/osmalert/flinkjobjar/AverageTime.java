@@ -4,8 +4,6 @@ import java.io.*;
 import java.time.*;
 import java.time.format.*;
 
-import org.json.*;
-
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
 public class AverageTime {
@@ -19,17 +17,27 @@ public class AverageTime {
 		this.averageWeight = Math.max(numberAverageChanges, 0);
 	}
 
-	public static AverageTime getInstance(String boundingBox) throws IOException, InterruptedException, JSONException {
+	public static AverageTime getInstance() {
 		if (self == null) {
-			self = new AverageTime(
-				getContributionsCountHistoricalAverage(
-					boundingBox,
-					calculateDateInPast(LocalDate.now(), 24),
-					calculateDateInPast(LocalDate.now(), 2)
-				),
-				0
-			);
+			self = new AverageTime(0, 0);
 		}
+		return self;
+	}
+
+	private static final int weekStart = 24;
+	private static final int weekEnd = 2;
+	// week * days (7) * hours (24) * minutes (60) * seconds (60)
+	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
+
+	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds) throws IOException, InterruptedException {
+		self = setInstance(
+			getContributionsCountHistoricalAverage(
+				boundingBox,
+				calculateDateInPast(LocalDate.now(), weekStart),
+				calculateDateInPast(LocalDate.now(), weekEnd)
+			),
+			0
+		);
 		return self;
 	}
 

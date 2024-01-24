@@ -27,6 +27,8 @@ public class AlertJob {
 																.name(sourceName);
 
 		JobConfiguration jobConfiguration = new JobConfiguration((args));
+
+		AverageTime.setInstance(jobConfiguration.getBoundingBoxString());
 		/*
 		 * For Polygon use this
 		 * new WKTReader().read(args[2]);
