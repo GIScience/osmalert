@@ -29,14 +29,14 @@ public class AverageTime {
 	// week * days (7) * hours (24) * minutes (60) * seconds (60)
 	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
 
-	public static AverageTime setInstance(String boundingBox) throws IOException, InterruptedException {
+	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds) throws IOException, InterruptedException {
 		self = setInstance(
 			getContributionsCountHistoricalAverage(
 				boundingBox,
 				calculateDateInPast(LocalDate.now(), weekStart),
 				calculateDateInPast(LocalDate.now(), weekEnd)
 			),
-			0
+			numberChanges / timeWindowSeconds
 		);
 		return self;
 	}
