@@ -40,7 +40,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + averageTime.getAverageChanges() + "\n";
 
-		String linkAdaptedForBBoxFinder = "http://bboxfinder.com/" + AdaptBoundingBoxForBBoxfinder(this.boundingBox);
+		String linkAdaptedForBBoxFinder = "http://bboxfinder.com/#" + AdaptBoundingBoxForBBoxfinder(this.boundingBox);
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
