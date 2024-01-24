@@ -57,14 +57,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 	public static String AdaptBoundingBoxForBBoxfinder(String boundingBox) {
 		String[] parts = boundingBox.split(",");
-
-		String temp = parts[0];
-		parts[0] = parts[1];
-		parts[1] = temp;
-		temp = parts[2];
-		parts[2] = parts[3];
-		parts[3] = temp;
-		return String.join(",", parts);
+		return String.join(",", parts[1], parts[0], parts[3], parts[2]);
 	}
 
 	private MailSender getMailSender() {
