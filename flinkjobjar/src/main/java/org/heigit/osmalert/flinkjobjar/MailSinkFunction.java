@@ -49,7 +49,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
-		String unusualChanges = "There were " + value + "changes, which is an unusual high amount of changes compared to the average of "
+		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes compared to the average of "
 									+ averageTime.getAverageChanges();
 
 
