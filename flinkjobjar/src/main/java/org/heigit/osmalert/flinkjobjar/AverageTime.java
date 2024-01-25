@@ -13,6 +13,8 @@ public class AverageTime {
 	private static final double derivative = 1.05;
 	private static final int weekStart = 4;
 	private static final int weekEnd = 2;
+	private String historicDataStart;
+	private String historicDataEnd;
 	// week * days (7) * hours (24) * minutes (60) * seconds (60)
 	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
 
@@ -32,12 +34,14 @@ public class AverageTime {
 		if (boundingBox == null || timeWindowSeconds == 0)
 			throw new IOException();
 		self = setInstance(0, 0);
+		self.historicDataStart = calculateDateInPast(LocalDate.now(), weekStart);
+		self.historicDataEnd = calculateDateInPast(LocalDate.now(), weekEnd);
 		getContributionsCountHistoricalAverage(
 			boundingBox,
-			calculateDateInPast(LocalDate.now(), weekStart),
-			calculateDateInPast(LocalDate.now(), weekEnd),
+			self.historicDataStart,
+			self.historicDataEnd,
 			numberChanges / timeWindowSeconds,
-			timeWindowSeconds * 60
+			timeWindowSeconds / 60
 		);
 		return self;
 	}
@@ -78,4 +82,11 @@ public class AverageTime {
 		return minusWeeks.format(formatter);
 	}
 
+	public String getHistoricDataStart() {
+		return this.historicDataStart;
+	}
+
+	public String getHistoricDataEnd() {
+		return this.historicDataEnd;
+	}
 }

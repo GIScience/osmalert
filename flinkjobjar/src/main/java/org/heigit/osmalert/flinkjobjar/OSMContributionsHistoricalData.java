@@ -22,8 +22,9 @@ public class OSMContributionsHistoricalData {
 
 	static void calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray, int timeIntervals) {
 		AverageTime averageTime = AverageTime.getInstance();
-		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++)
+		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++) {
 			averageTime.calculateAverage(osmContributionsCountJsonArray.getJSONObject(i).getInt("value"));
+		}
 	}
 
 	public static String getContributionsCountInBB(

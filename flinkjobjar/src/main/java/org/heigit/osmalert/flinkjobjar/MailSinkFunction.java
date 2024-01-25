@@ -17,6 +17,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String boundingBox;
 	private final int time;
 	private static AverageTime averageTime;
+	private boolean firstEmail;
 
 	public MailSinkFunction(
 		String host, int port, String username, String password, String emailAddress, String boundingBox, int time
@@ -28,6 +29,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		this.emailAddress = emailAddress;
 		this.boundingBox = boundingBox;
 		this.time = time;
+		this.firstEmail = true;
 	}
 
 	@Override
@@ -47,8 +49,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
-		String unusualChanges = "There was an unusual high amount of changes " + value + " higher than the average of " + averageTime.getAverageChanges() + "\nThe initial average is calculated from 4 to 2 weeks before the current day.";
+		String unusualChanges = "There were " + value + "changes, which is an unusual high amount of changes compared to the average of "
+									+ averageTime.getAverageChanges();
 
+
+		String inital = getInitialMessage();
 		String linkAdaptedForBBoxFinder = "http://bboxfinder.com/#" + AdaptBoundingBoxForBBoxfinder(this.boundingBox);
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
@@ -57,11 +62,24 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + linkAdaptedForBBoxFinder + "\n"
 								  // adding 5 % threshold above
 								  + (value > averageTime.getAverageChanges() * AverageTime.getDerivative() ? unusualChanges : "")
+								  + inital
 								  + "\n\nThank you,\nOSM Alert System";
 
 		averageTime.calculateAverage(value);
 
 		this.sendMail(emailContent, this.emailAddress);
+	}
+
+	private String getInitialMessage() {
+		String initial = "";
+		if (firstEmail) {
+			firstEmail = false;
+			if (averageTime.getAverageChanges() == 0)
+				initial += "\nA Problem occurred retrieving the historical Data.";
+			else
+				initial += "\nThe initial average is calculated with data from " + averageTime.getHistoricDataStart() + " to " + averageTime.getHistoricDataEnd() + " with a value of " + averageTime.getAverageChanges() + ".";
+		}
+		return initial;
 	}
 
 	public static String AdaptBoundingBoxForBBoxfinder(String boundingBox) {
