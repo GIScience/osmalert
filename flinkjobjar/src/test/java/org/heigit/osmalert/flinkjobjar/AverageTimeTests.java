@@ -1,8 +1,8 @@
 package org.heigit.osmalert.flinkjobjar;
 
-import org.junit.jupiter.api.*;
-
 import java.time.*;
+
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +34,18 @@ public class AverageTimeTests {
 		average.calculateAverage(1);
 		assertEquals(8.5, average.getAverageChanges());
 
+	}
+
+	@Test
+	public void getRoundedAverageTest() {
+		average.calculateAverage(15);
+		assertEquals(15, average.getRoundedAverageChanges(1));
+		average.calculateAverage(2);
+		assertEquals(8.5, average.getRoundedAverageChanges(1));
+		average.calculateAverage(5);
+		assertEquals(7.3, average.getRoundedAverageChanges(1));
+		average.calculateAverage(9);
+		assertEquals(7.8, average.getRoundedAverageChanges(1));
 	}
 
 	@Test
