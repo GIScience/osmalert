@@ -177,9 +177,9 @@ class JobsControllerTests {
 
 	@Test
 	void createPatternTest() {
-		String keyInvalid = null;
+		String keyInvalid = "";
 		String keyValid = "KEY";
-		String valueInvalid = null;
+		String valueInvalid = "";
 		String valueValid = "VALUE";
 		assertThat("").isEqualTo(createPattern(keyInvalid, valueInvalid));
 		assertThat("").isEqualTo(createPattern(keyInvalid, valueValid));
