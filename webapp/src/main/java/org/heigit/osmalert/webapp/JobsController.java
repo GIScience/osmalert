@@ -42,12 +42,14 @@ public class JobsController {
 
 		String normalizedJobName = normalizeString(jobName);
 		int calculatedTimeWindow = calculatedTimeWindow(timeFormat, timeWindow);
+		String pattern = createPattern(key, value);
 		if (jobsService.isJobRunning(normalizedJobName)) {
 			throw new JobNameExistException();
 		} else {
 			Job newJob = new Job(normalizedJobName);
 			newJob.setEmail(ownersEmail);
 			newJob.setTimeWindow(calculatedTimeWindow);
+			newJob.setPattern(pattern);
 			calculateAndSetFormattedTimeWindow(newJob, timeFormat, calculatedTimeWindow);
 			String normalizedBoundingBox = normalizeString(boundingBox);
 			if (jobsService.validateCoordinates(normalizedBoundingBox)) {
@@ -59,6 +61,12 @@ public class JobsController {
 		}
 		model.addAttribute("jobs", jobsService.getAllJobs());
 		return "jobs::joblist";
+	}
+
+	public String createPattern(String key, String value) {
+		if (key == null)
+			return "";
+		return key + "=" + (value == null ? "*" : value);
 	}
 
 	public static void calculateAndSetFormattedTimeWindow(Job newJob, String timeFormat, int timeWindow) {

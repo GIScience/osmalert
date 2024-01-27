@@ -108,7 +108,7 @@ public class Job {
 		return patter;
 	}
 
-	public void setPatter(String patter) {
+	public void setPattern(String patter) {
 		this.patter = patter;
 	}
 }
