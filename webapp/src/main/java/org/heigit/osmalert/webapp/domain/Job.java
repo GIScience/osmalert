@@ -28,7 +28,7 @@ public class Job {
 
 	private String formattedTimeWindow;
 
-	private String patter;
+	private String pattern;
 
 	protected Job() {}
 
@@ -104,11 +104,11 @@ public class Job {
 		return Objects.hash(jobName, email, boundingBox);
 	}
 
-	public String getPatter() {
-		return patter;
+	public String getPattern() {
+		return pattern;
 	}
 
-	public void setPattern(String patter) {
-		this.patter = patter;
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 }
