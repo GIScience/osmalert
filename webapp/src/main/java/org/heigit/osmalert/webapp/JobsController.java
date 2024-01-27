@@ -66,7 +66,7 @@ public class JobsController {
 	public static String createPattern(String key, String value) {
 		if (key == null || key.isEmpty())
 			return "";
-		return key + "=" + (value == null ? "*" : value);
+		return key + "=" + (value.isEmpty() ? "*" : value);
 	}
 
 	public static void calculateAndSetFormattedTimeWindow(Job newJob, String timeFormat, int timeWindow) {
