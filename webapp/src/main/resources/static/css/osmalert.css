@@ -136,6 +136,30 @@ select#timeFormat {
     border: 1px solid black;
 }
 
+input#checkboxFilter {
+    width: 40px;
+    height: fit-content;
+    left: 25px;
+    position: relative;
+}
+
+span#CheckBoxFiltering {
+    width: fit-content;
+    height: fit-content;
+    left: 40px;
+    white-space: nowrap;
+}
+
+span#FilterInput {
+    visibility: hidden;
+}
+
+input#checkboxFilter:checked + span#FilterInput {
+    visibility: visible;
+    position: relative;
+    left: 40px;
+}
+
 input#timeWindow {
     width: 7%;
 }
