@@ -28,6 +28,8 @@ public class Job {
 
 	private String formattedTimeWindow;
 
+	private String patter;
+
 	protected Job() {}
 
 	public Job(String jobName) {
@@ -100,5 +102,13 @@ public class Job {
 	@Override
 	public int hashCode() {
 		return Objects.hash(jobName, email, boundingBox);
+	}
+
+	public String getPatter() {
+		return patter;
+	}
+
+	public void setPatter(String patter) {
+		this.patter = patter;
 	}
 }
