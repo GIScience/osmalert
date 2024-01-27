@@ -35,7 +35,9 @@ public class JobsController {
 		@Valid @RequestParam String jobName,
 		@Valid @RequestParam String ownersEmail,
 		@RequestParam(required = false) String timeWindow,
-		@RequestParam(required = false) String timeFormat
+		@RequestParam(required = false) String timeFormat,
+		@RequestParam(required = false) String value,
+		@RequestParam(required = false) String key
 	) {
 
 		String normalizedJobName = normalizeString(jobName);
@@ -75,7 +77,7 @@ public class JobsController {
 		else
 			time = Time.valueOf(timeFormat);
 		// 1 Minute default time
-        return jobsService.calculateTimeWindow(timeWindow, time);
+		return jobsService.calculateTimeWindow(timeWindow, time);
 	}
 
 	@GetMapping("/status")
