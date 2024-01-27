@@ -33,8 +33,8 @@
                     <td th:text="${job.jobName}">unknown</td>
                     <td th:text="${job.getEmail()}">unknown</td>
                     <td th:text="${job.getFormattedTimeWindow()}">unknown</td>
-                    <td th:text="${job.getPattern()}">unknown</td>
                     <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
+                    <td th:text="${job.getPattern()}">unknown</td>
                     <td hx-get="/jobs/status"
                         hx-trigger="every 1s"
                         th:attr="hx-vals=${'{&quot;jobId&quot;: &quot;' + job.id + '&quot;}'}"
