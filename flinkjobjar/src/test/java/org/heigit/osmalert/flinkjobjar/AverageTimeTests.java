@@ -39,13 +39,13 @@ public class AverageTimeTests {
 	@Test
 	public void getRoundedAverageTest() {
 		average.calculateAverage(15);
-		assertEquals(15, average.getRoundedAverageChanges(1));
+		assertEquals(15, average.getRoundedAverageChanges());
 		average.calculateAverage(2);
-		assertEquals(8.5, average.getRoundedAverageChanges(1));
+		assertEquals(8.5, average.getRoundedAverageChanges());
 		average.calculateAverage(5);
-		assertEquals(7.3, average.getRoundedAverageChanges(1));
+		assertEquals(7.3, average.getRoundedAverageChanges());
 		average.calculateAverage(9);
-		assertEquals(7.8, average.getRoundedAverageChanges(1));
+		assertEquals(7.8, average.getRoundedAverageChanges());
 	}
 
 	@Test

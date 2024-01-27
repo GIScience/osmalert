@@ -1,7 +1,6 @@
 package org.heigit.osmalert.flinkjobjar;
 
 import java.io.*;
-import java.math.*;
 import java.time.*;
 import java.time.format.*;
 
@@ -73,13 +72,8 @@ public class AverageTime {
 		return returnAverageChanges;
 	}
 
-	public double getRoundedAverageChanges(int places) {
-		double averageChanges = this.getAverageChanges();
-		if (places < 0) throw new IllegalArgumentException();
-
-		BigDecimal bigDecimal = BigDecimal.valueOf(averageChanges);
-		bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
-		return bigDecimal.doubleValue();
+	public double getRoundedAverageChanges() {
+		return (double) Math.round(averageChanges * 10) / 10;
 	}
 
 	public static double getDerivative() {
