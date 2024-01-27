@@ -31,7 +31,7 @@
                 <tr>
                     <td th:text="${job.jobName}">unknown</td>
                     <td th:text="${job.getEmail()}">unknown</td>
-                    <td th:if="${@toggles.isEnabled('SHOW_TIME')}" th:text="${job.getFormattedTimeWindow()}">unknown
+                    <td th:text="${job.getFormattedTimeWindow()}">unknown
                     </td>
                     <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
                     <td hx-get="/jobs/status"
