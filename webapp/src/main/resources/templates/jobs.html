@@ -31,7 +31,8 @@
                 <tr>
                     <td th:text="${job.jobName}">unknown</td>
                     <td th:text="${job.getEmail()}">unknown</td>
-                    <td th:if="${@toggles.isEnabled('SHOW_TIME')}" th:text="${job.getFormattedTimeWindow()}">unknown</td>
+                    <td th:if="${@toggles.isEnabled('SHOW_TIME')}" th:text="${job.getFormattedTimeWindow()}">unknown
+                    </td>
                     <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
                     <td hx-get="/jobs/status"
                         hx-trigger="every 1s"
@@ -82,6 +83,19 @@
                 <label for="boundingBox">Bounding Box:</label>
                 <input type="text" id="boundingBox" name="boundingBox"/>
                 <a class="bbox-hyperlink" href="http://bboxfinder.com/" target="_blank">Go to bbox finder</a>
+            </div>
+
+            <div th:if="${@toggles.isEnabled('FILTERPATTERN')}">
+                <span class="div-straightStyle" id="CheckBoxFiltering">
+                <label for="checkboxFilter">Tag Filter:</label>
+                <input id="checkboxFilter" name="filterPattern" type="checkbox">
+                    <span class="div-straightStyle" id="FilterInput">
+                        <label for="keyLabel">Key:</label>
+                        <input id="keyLabel" name="key" type="text">
+                        <label for="valueLabel">Value:</label>
+                        <input id="valueLabel" name="key" type="text">
+                    </span>
+                </span>
             </div>
 
             <div id="buttonTag">
