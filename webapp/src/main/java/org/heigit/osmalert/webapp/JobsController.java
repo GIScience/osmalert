@@ -64,7 +64,7 @@ public class JobsController {
 	}
 
 	public static String createPattern(String key, String value) {
-		if (key == null)
+		if (key == null || key.isEmpty())
 			return "";
 		return key + "=" + (value == null ? "*" : value);
 	}
