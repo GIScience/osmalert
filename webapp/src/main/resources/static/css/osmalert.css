@@ -136,10 +136,17 @@ select#timeFormat {
     border: 1px solid black;
 }
 
+.Filter-hyperlink {
+    float: right;
+    width: 30%;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
 input#checkboxFilter {
-    width: 40px;
+    width: fit-content;
     height: fit-content;
-    left: 25px;
+    left: 20px;
     position: relative;
 }
 
@@ -154,11 +161,23 @@ span#FilterInput {
     visibility: hidden;
 }
 
-input#checkboxFilter:checked + span#FilterInput {
+label#keyLabel {
+    pointer-events: none;
+}
+
+label#valueLabel {
+    pointer-events: none;
+}
+
+input#checkboxFilter:checked + span#FilterInput :not(.Filter-hyperlink) {
     visibility: visible;
     position: relative;
-    left: 40px;
+    width: fit-content;
+    height: fit-content;
+    left: 20px;
+    margin-left: 0;
 }
+
 
 input#timeWindow {
     width: 7%;
