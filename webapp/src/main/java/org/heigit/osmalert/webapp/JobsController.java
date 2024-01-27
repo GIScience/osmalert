@@ -63,7 +63,7 @@ public class JobsController {
 		return "jobs::joblist";
 	}
 
-	public String createPattern(String key, String value) {
+	public static String createPattern(String key, String value) {
 		if (key == null)
 			return "";
 		return key + "=" + (value == null ? "*" : value);

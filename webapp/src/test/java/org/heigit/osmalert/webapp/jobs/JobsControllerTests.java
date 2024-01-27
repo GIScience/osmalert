@@ -15,6 +15,7 @@ import org.springframework.security.test.context.support.*;
 import org.springframework.test.web.servlet.*;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.heigit.osmalert.webapp.JobsController.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -175,6 +176,18 @@ class JobsControllerTests {
 	}
 
 	@Test
+	void createPatternTest() {
+		String keyInvalid = null;
+		String keyValid = "KEY";
+		String valueInvalid = null;
+		String valueValid = "VALUE";
+		assertThat("").isEqualTo(createPattern(keyInvalid, valueInvalid));
+		assertThat("").isEqualTo(createPattern(keyInvalid, valueValid));
+		assertThat("KEY=*").isEqualTo(createPattern(keyValid, valueInvalid));
+		assertThat("KEY=VALUE").isEqualTo(createPattern(keyValid, valueValid));
+	}
+
+	@Test
 	@WithMockUser
 	void checkValidEmail() throws Exception {
 		mockMvc.perform(post("/jobs")
@@ -296,7 +309,7 @@ class JobsControllerTests {
 	}
 
 	@Test
-	void calculateAndSetFormattedTimeWindowTests(){
+	void calculateAndSetFormattedTimeWindowTests() {
 		Job job = new Job("Test Job");
 		JobsController.calculateAndSetFormattedTimeWindow(job, "H", 120);
 		assertThat(job.getFormattedTimeWindow()).isEqualTo("2 Hours");
