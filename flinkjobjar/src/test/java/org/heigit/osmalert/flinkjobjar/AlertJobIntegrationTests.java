@@ -76,7 +76,8 @@ class AlertJobIntegrationTests {
 			map.get("MAILERTOGO_SMTP_PASSWORD"),
 			"user@example.org",
 			"123.2,13.2,133.2,15.2",
-			timewindow
+			timewindow,
+			"natural=tree"
 		);
 		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox);
 

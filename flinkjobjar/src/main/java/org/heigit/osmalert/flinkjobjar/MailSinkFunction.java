@@ -16,11 +16,13 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String emailAddress;
 	private final String boundingBox;
 	private final int time;
+
+	private final String pattern;
 	private static AverageTime averageTime;
 	private boolean firstEmail;
 
 	public MailSinkFunction(
-		String host, int port, String username, String password, String emailAddress, String boundingBox, int time
+		String host, int port, String username, String password, String emailAddress, String boundingBox, int time, String pattern
 	) {
 		this.host = host;
 		this.port = port;
@@ -30,13 +32,14 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		this.boundingBox = boundingBox;
 		this.time = time;
 		this.firstEmail = true;
+		this.pattern = pattern;
 	}
 
 	@Override
 	public void invoke(Integer value, Context context) {
 		if (averageTime == null) {
 			try {
-				averageTime = AverageTime.setInstance(boundingBox, time * 60);
+				averageTime = AverageTime.setInstance(boundingBox, time * 60, pattern);
 			} catch (IOException | InterruptedException e) {
 				averageTime = AverageTime.getInstance();
 			}

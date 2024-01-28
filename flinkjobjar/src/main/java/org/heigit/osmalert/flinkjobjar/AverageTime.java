@@ -31,7 +31,7 @@ public class AverageTime {
 		return self;
 	}
 
-	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds) throws IOException, InterruptedException {
+	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds, String pattern) throws IOException, InterruptedException {
 		if (boundingBox == null || timeWindowSeconds == 0)
 			throw new IOException();
 		self = setInstance(0, 0);
@@ -42,7 +42,8 @@ public class AverageTime {
 			self.historicDataStart,
 			self.historicDataEnd,
 			numberChanges / timeWindowSeconds,
-			timeWindowSeconds / 60
+			timeWindowSeconds / 60,
+			pattern
 		);
 		return self;
 	}

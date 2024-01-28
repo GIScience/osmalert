@@ -20,19 +20,19 @@ public class OSMContributionsHistoricalDataTests {
 	@Test
 	void getContributionsCountHistoricalAverageTest() throws IOException, InterruptedException, JSONException {
 
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24);
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, "natural=tree");
 
 		Assertions.assertEquals(
-			34497.8,
+			633.8000000000001,
 			averageTime.getAverageChanges()
 		);
 	}
 
 	@Test
 	void getContributionsCountInBBTest() throws IOException, InterruptedException {
-		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-02", 60 * 24));
+		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-02", 60 * 24, "natural=tree"));
 		Assertions.assertEquals(
-			32319.0,
+			680,
 			((JSONObject) contributionsCountObject.getJSONArray("result").get(0)).getInt("value")
 		);
 	}

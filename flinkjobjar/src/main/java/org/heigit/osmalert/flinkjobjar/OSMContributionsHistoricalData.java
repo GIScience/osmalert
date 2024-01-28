@@ -13,10 +13,11 @@ public class OSMContributionsHistoricalData {
 		String fromDate,
 		String toDate,
 		int timeIntervals,
-		int timeIntervalInMinutes
+		int timeIntervalInMinutes,
+		String pattern
 	) throws IOException, InterruptedException {
 
-		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate, timeIntervalInMinutes));
+		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate, timeIntervalInMinutes, pattern));
 		calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
 	}
 
@@ -31,11 +32,13 @@ public class OSMContributionsHistoricalData {
 		String boundingBox,
 		String fromDate,
 		String toDate,
-		int timeIntervalInMinutes
+		int timeIntervalInMinutes,
+		String pattern
 	) throws IOException, InterruptedException {
 		// TODO change filter
-		String apiUrl = "https://api.ohsome.org/v1/contributions/count?bboxes=" + boundingBox + "&filter=type:node or type:way&format=json&time=" + fromDate + "%2f" + toDate + "%2FPT" + timeIntervalInMinutes + "M&timeout=300";
+		String apiUrl = "https://api.ohsome.org/v1/contributions/count?bboxes=" + boundingBox + "&filter=" + pattern + "&format=json&time=" + fromDate + "%2f" + toDate + "%2FPT" + timeIntervalInMinutes + "M&timeout=300";
 		apiUrl = apiUrl.replace(" ", "%20");
+
 		HttpClient client = HttpClient.newHttpClient();
 
 		HttpRequest request = HttpRequest.newBuilder()
