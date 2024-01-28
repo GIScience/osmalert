@@ -7,6 +7,7 @@ public class JobConfiguration {
 	private final double[] boundingBox;
 	private final String boundingBoxString;
 	private final int timeWindow;
+	private final String pattern;
 
 	public JobConfiguration(String[] params) {
 		this.jobName = setJobName(params);
@@ -14,6 +15,7 @@ public class JobConfiguration {
 		this.boundingBoxString = setBoundingBoxStringArray(params);
 		this.boundingBox = setBoundingBoxValues(this.boundingBoxString);
 		this.timeWindow = setTimeWindow(params);
+		this.pattern = setPattern(params);
 	}
 
 	public String setJobName(String[] args) {
@@ -36,13 +38,15 @@ public class JobConfiguration {
 		return doubleArray;
 	}
 
-	public String setBoundingBoxStringArray(String[] args) {
-		return args[2];
+	public String setPattern(String[] args) {
+		String pattern = args[4];
+		System.out.println("=== " + pattern + " ===");
+		return pattern;
 	}
 
-	public int setTimeWindow(String[] args) {
-		return Integer.parseInt(args[3]);
-	}
+	public String setBoundingBoxStringArray(String[] args) {return args[2];}
+
+	public int setTimeWindow(String[] args) {return Integer.parseInt(args[3]);}
 
 	public String getJobName() {return this.jobName;}
 
@@ -57,4 +61,7 @@ public class JobConfiguration {
 	public int getTimeWindowInMinutes() {return this.timeWindow;}
 
 	public int getTimeWindowInSeconds() {return this.timeWindow * 60;}
+
+	public String getPattern() {return this.pattern;}
+
 }
