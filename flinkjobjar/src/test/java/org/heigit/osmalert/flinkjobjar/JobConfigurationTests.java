@@ -5,7 +5,7 @@ import org.junit.jupiter.api.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class JobConfigurationTests {
-	static final String[] params = {"jobName", "email", "4.279,48.829,16.419,53.495", "5"};
+	static final String[] params = {"jobName", "email", "4.279,48.829,16.419,53.495", "5", "leisure=park"};
 	static JobConfiguration jobConfiguration;
 
 	@BeforeAll
@@ -51,4 +51,8 @@ public class JobConfigurationTests {
 	void getTimeWindowInSecondsTest() {
 		assertThat(jobConfiguration.getTimeWindowInSeconds()).isEqualTo(Integer.parseInt(params[3]) * 60);
 	}
+
+	@Test
+	void getPatternTest() { assertThat(jobConfiguration.getPattern()).isEqualTo(params[4]); }
+
 }
