@@ -64,7 +64,6 @@ public class AlertJob {
 			.map(AlertJob::log)
 			.map(Contribution::createContribution)
 			.filter(contrib -> contrib.filterBoundingBoxAndPattern(boundingBox, pattern))
-			//.filter(contrib -> contrib.isWithin(boundingBox))
 			.map(log -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)

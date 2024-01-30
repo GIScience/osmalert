@@ -14,10 +14,14 @@ public class Contribution {
 
 	private Contribution() {
 		current = new Current();
+		id = "";
 	}
 
 	@JsonProperty("current")
 	private final Current current;
+
+	@JsonProperty("id")
+	private final String id;
 
 	public boolean isWithin(Geometry boundingBox) {
 		if (boundingBox != null) {
@@ -34,25 +38,25 @@ public class Contribution {
 	}
 
 	public boolean hasPattern(String pattern) {
-		boolean hasPattern = true;
-		if (pattern != null) {
-			Map<String, String> tags = this.current.getTags();
-			String[] keyAndValue = pattern.split("=", 2);
-			String key = keyAndValue[0];
-			String value = keyAndValue[1];
-			hasPattern = false;
-			if (value.equals("*")) {
-				for (Map.Entry<String, String> tag: tags.entrySet()) {
-					if(tag.getKey().equals(key)) {
-						hasPattern = true;
-					}
-				}
-			} else {
-				for (Map.Entry<String, String> tag: tags.entrySet()) {
-					if(tag.getKey().equals(key) && tag.getValue().equals(value)) {
-						hasPattern = true;
-					}
-				}
+		if (pattern == null || pattern.isEmpty()) {
+			return id.contains("node") || id.contains("way");
+		}
+		boolean hasPattern = false;
+		Map<String, String> tags = this.current.getTags();
+		String[] keyAndValue = pattern.split("=", 2);
+		if (keyAndValue[1].equals("*")) {
+			for (Map.Entry<String, String> tag: tags.entrySet()) {
+                if (tag.getKey().equals(keyAndValue[0])) {
+                    hasPattern = true;
+                    break;
+                }
+			}
+		} else {
+			for (Map.Entry<String, String> tag: tags.entrySet()) {
+                if (tag.getKey().equals(keyAndValue[0]) && tag.getValue().equals(keyAndValue[1])) {
+                    hasPattern = true;
+                    break;
+                }
 			}
 		}
 		return hasPattern;

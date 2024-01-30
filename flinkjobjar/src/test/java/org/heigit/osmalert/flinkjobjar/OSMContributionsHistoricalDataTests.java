@@ -29,7 +29,30 @@ public class OSMContributionsHistoricalDataTests {
 	}
 
 	@Test
+	void getContributionsCountHistoricalAverageWithNullPatternTest() throws IOException, InterruptedException, JSONException {
+
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, null);
+
+		Assertions.assertEquals(
+			34497.8,
+			averageTime.getAverageChanges()
+		);
+	}
+
+	@Test
+	void getContributionsCountHistoricalAverageWithEmptyStringTest() throws IOException, InterruptedException, JSONException {
+
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, "");
+
+		Assertions.assertEquals(
+			34497.8,
+			averageTime.getAverageChanges()
+		);
+	}
+
+	@Test
 	void getContributionsCountInBBTest() throws IOException, InterruptedException {
+
 		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-02", 60 * 24, "natural=tree"));
 		Assertions.assertEquals(
 			680,

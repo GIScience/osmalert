@@ -65,7 +65,8 @@ public class ContributionTests {
 		assertThat(contribution3.hasPattern("access=forestry")).isFalse();
 		assertThat(contribution3.hasPattern("entrance=yes")).isTrue();
 
-		assertThat(contribution3.isWithin(null)).isTrue();
+		assertThat(contribution3.hasPattern(null)).isTrue();
+		assertThat(contribution3.hasPattern("")).isTrue();
 	}
 
 	@Test
