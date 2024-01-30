@@ -13,6 +13,29 @@ import static org.assertj.core.api.Assertions.*;
 public class ContributionTests {
 
 	@Test
+	void hasPatternTest() throws IOException {
+		try {
+			Contribution emptycontribution = Contribution.createContribution(null);
+			assertThat(emptycontribution).isNull();
+		} catch (AssertionError e) {
+			assertThat(e).isNotNull();
+		}
+
+		Contribution contribution1 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution1.json")));
+		assertThat(contribution1.hasPattern("access=forestry")).isTrue();
+		assertThat(contribution1.hasPattern("source=Landsat;JRC")).isTrue();
+		assertThat(contribution1.hasPattern("highway=track")).isTrue();
+		assertThat(contribution1.hasPattern("start_date=2014")).isTrue();
+
+		Contribution contribution2 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution2.json")));
+		assertThat(contribution2.hasPattern("access=forestry")).isFalse();
+
+		Contribution contribution3 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution3.json")));
+		assertThat(contribution3.hasPattern("access=forestry")).isFalse();
+		assertThat(contribution3.hasPattern("entrance=yes")).isTrue();
+	}
+
+	@Test
 	void isWithinGeometry() throws IOException, ParseException {
 		try {
 			Contribution emptycontribution = Contribution.createContribution(null);

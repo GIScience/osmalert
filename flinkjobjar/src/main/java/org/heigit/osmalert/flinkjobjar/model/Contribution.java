@@ -7,6 +7,8 @@ import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.json.*;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.*;
 
+import java.util.*;
+
 @JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true)
 public class Contribution {
 
@@ -25,6 +27,32 @@ public class Contribution {
 					return true;
 		}
 		return false;
+	}
+
+	public boolean filterBoundingBoxAndPattern(Geometry boundingBox, String pattern) {
+		return isWithin(boundingBox) && hasPattern(pattern);
+	}
+
+	public boolean hasPattern(String pattern) {
+		Map<String, String> tags = this.current.getTags();
+		String[] keyAndValue = pattern.split("=", 2);
+		String key = keyAndValue[0];
+		String value = keyAndValue[1];
+		boolean hasPattern = false;
+		if (value.equals("*")) {
+			for (Map.Entry<String, String> tag: tags.entrySet()) {
+				if(tag.getKey().equals(key)) {
+					hasPattern = true;
+				}
+			}
+		} else {
+			for (Map.Entry<String, String> tag: tags.entrySet()) {
+				if(tag.getKey().equals(key) && tag.getValue().equals(value)) {
+					hasPattern = true;
+				}
+			}
+		}
+		return hasPattern;
 	}
 
 	private Geometry getGeometry() {
