@@ -34,21 +34,24 @@ public class Contribution {
 	}
 
 	public boolean hasPattern(String pattern) {
-		Map<String, String> tags = this.current.getTags();
-		String[] keyAndValue = pattern.split("=", 2);
-		String key = keyAndValue[0];
-		String value = keyAndValue[1];
-		boolean hasPattern = false;
-		if (value.equals("*")) {
-			for (Map.Entry<String, String> tag: tags.entrySet()) {
-				if(tag.getKey().equals(key)) {
-					hasPattern = true;
+		boolean hasPattern = true;
+		if (pattern != null) {
+			Map<String, String> tags = this.current.getTags();
+			String[] keyAndValue = pattern.split("=", 2);
+			String key = keyAndValue[0];
+			String value = keyAndValue[1];
+			hasPattern = false;
+			if (value.equals("*")) {
+				for (Map.Entry<String, String> tag: tags.entrySet()) {
+					if(tag.getKey().equals(key)) {
+						hasPattern = true;
+					}
 				}
-			}
-		} else {
-			for (Map.Entry<String, String> tag: tags.entrySet()) {
-				if(tag.getKey().equals(key) && tag.getValue().equals(value)) {
-					hasPattern = true;
+			} else {
+				for (Map.Entry<String, String> tag: tags.entrySet()) {
+					if(tag.getKey().equals(key) && tag.getValue().equals(value)) {
+						hasPattern = true;
+					}
 				}
 			}
 		}
