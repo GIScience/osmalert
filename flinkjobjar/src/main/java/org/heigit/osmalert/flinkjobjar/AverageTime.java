@@ -3,6 +3,7 @@ package org.heigit.osmalert.flinkjobjar;
 import java.io.*;
 import java.time.*;
 import java.time.format.*;
+import java.util.*;
 
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
@@ -93,4 +94,21 @@ public class AverageTime {
 	public String getHistoricDataEnd() {
 		return this.historicDataEnd;
 	}
+
+	public static double variance(Vector<Double> setOfChanges) {
+		double average = 0;
+		double sum = 0;
+		for (int i = 0; i < setOfChanges.size(); i++) {
+			Double actualValue = setOfChanges.get(i);
+			Double oldAverage = average;
+			average = average + (actualValue - average) / (i+1);
+			sum = sum + (actualValue - average) * (actualValue - oldAverage);
+		}
+		return sum / (setOfChanges.size() - 1);
+	}
+
+	public static double standardDeviation(Vector<Double> setOfChanges) {
+		return Math.sqrt(variance(setOfChanges));
+	}
+
 }

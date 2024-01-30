@@ -1,6 +1,7 @@
 package org.heigit.osmalert.flinkjobjar;
 
 import java.time.*;
+import java.util.*;
 
 import org.junit.jupiter.api.*;
 
@@ -61,4 +62,12 @@ public class AverageTimeTests {
 		Assertions.assertEquals(AverageTime.calculateDateInPast(currentDate, 2), "2024-01-09");
 		Assertions.assertEquals(AverageTime.calculateDateInPast(currentDate, 24), "2023-08-08");
 	}
+
+	@Test
+	void standardDeviationTest() {
+
+		Assertions.assertEquals(AverageTime.standardDeviation(new Vector<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))), Math.sqrt(2.5));
+
+	}
+
 }
