@@ -75,11 +75,11 @@ class AlertJobIntegrationTests {
 			map.get("MAILERTOGO_SMTP_USER"),
 			map.get("MAILERTOGO_SMTP_PASSWORD"),
 			"user@example.org",
-			"123.2,13.2,133.2,15.2",
+			"15.0,17.0,1.0,2.0",
 			timewindow,
-			"natural=tree"
+			"highway=track"
 		);
-		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox);
+		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox, "highway=track");
 
 		assertThat(fakeMailServer.getMessages().size())
 			.isGreaterThan(0);
@@ -93,7 +93,7 @@ class AlertJobIntegrationTests {
 
 		MockSink mockSink = new MockSink();
 
-		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox);
+		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox, "highway=track");
 
 		for (Integer value : MockSink.values) {
 			boolean match = (value <= 3);
