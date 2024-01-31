@@ -57,12 +57,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 
 		String inital = getInitialMessage();
-		String linkAdaptedForBBoxFinder = "http://bboxfinder.com/#" + AdaptBoundingBoxForBBoxfinder(this.boundingBox);
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + linkAdaptedForBBoxFinder + "\n"
+								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + getBoundingBoxLink() + "\n"
 								  // adding 5 % threshold above
 								  + (value > averageTime.getAverageChanges() * AverageTime.getDerivative() ? unusualChanges : "")
 								  + inital
@@ -85,9 +84,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		return initial;
 	}
 
-	public static String AdaptBoundingBoxForBBoxfinder(String boundingBox) {
-		String[] parts = boundingBox.split(",");
-		return String.join(",", parts[1], parts[0], parts[3], parts[2]);
+	private String getBoundingBoxLink() {
+		String bbox = "https://dashboard.ohsome.org/#backend=ohsomeApi&groupBy=none&time=" + averageTime.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + averageTime.getHistoricDataEnd() + "T23%3A00Z%2FP1M&filter=" + pattern + "&measure=count&bboxes=" + boundingBox;
+		return bbox.replace(",", "%2c");
 	}
 
 	private MailSender getMailSender() {
