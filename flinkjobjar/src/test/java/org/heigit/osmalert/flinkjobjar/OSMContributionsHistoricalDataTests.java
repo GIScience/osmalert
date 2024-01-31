@@ -14,7 +14,7 @@ public class OSMContributionsHistoricalDataTests {
 	@BeforeEach
 	void init() {
 		AverageTime.destroyInstance();
-		averageTime = AverageTime.setInstance(0, 0);
+		averageTime = AverageTime.setInstance(0, 0, 0);
 	}
 
 	@Test

@@ -3,13 +3,17 @@ package org.heigit.osmalert.flinkjobjar;
 import java.io.*;
 import java.time.*;
 import java.time.format.*;
-import java.util.*;
+
 
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
 public class AverageTime {
 	private double averageChanges;
 	private double averageWeight;
+	private double sumOfQuads;
+
+	private double standardDeviation;
+
 	private static AverageTime self;
 	private static final double derivative = 1.05;
 	private static final int weekStart = 4;
@@ -19,22 +23,27 @@ public class AverageTime {
 	// week * days (7) * hours (24) * minutes (60) * seconds (60)
 	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
 
-	private AverageTime(double defaultChanges, double numberAverageChanges) {
+	private AverageTime(double defaultChanges, double numberAverageChanges, double sumOfQuads) {
 		this.averageChanges = Math.max(defaultChanges, 0);
 		this.averageWeight = Math.max(numberAverageChanges, 0);
+		this.sumOfQuads = Math.max(sumOfQuads, 0);
 	}
 
 	public static AverageTime getInstance() {
 		if (self == null) {
-			setInstance(0, 0);
+			setInstance(0, 0, 0);
 		}
 		return self;
 	}
 
-	public static AverageTime setInstance(String boundingBox, int timeWindowSeconds, String pattern) throws IOException, InterruptedException {
+	public static AverageTime setInstance(
+		String boundingBox,
+		int timeWindowSeconds,
+		String pattern
+	) throws IOException, InterruptedException {
 		if (boundingBox == null || timeWindowSeconds == 0)
 			throw new IOException();
-		self = setInstance(0, 0);
+		self = setInstance(0, 0, 0);
 		self.historicDataStart = calculateDateInPast(LocalDate.now(), weekStart);
 		self.historicDataEnd = calculateDateInPast(LocalDate.now(), weekEnd);
 		getContributionsCountHistoricalAverage(
@@ -48,8 +57,8 @@ public class AverageTime {
 		return self;
 	}
 
-	public static AverageTime setInstance(double averageChanges, double numberOfChanges) {
-		self = new AverageTime(averageChanges, numberOfChanges);
+	public static AverageTime setInstance(double averageChanges, double numberOfChanges, double sumOfQuads) {
+		self = new AverageTime(averageChanges, numberOfChanges, sumOfQuads);
 		return self;
 	}
 
@@ -61,7 +70,10 @@ public class AverageTime {
 		boolean calcSucceeded = false;
 		if (self != null) {
 			averageWeight += 1;
-			averageChanges = ((averageChanges * (averageWeight - 1) / (averageWeight)) + (number / averageWeight));
+			double oldAverage = averageChanges;
+			averageChanges = averageChanges + (number - averageChanges) / (averageWeight);
+			sumOfQuads = sumOfQuads + (number - averageChanges) * (number - oldAverage);
+			standardDeviation = Math.sqrt(sumOfQuads / (averageWeight - 1));
 			calcSucceeded = true;
 		}
 		return calcSucceeded;
@@ -76,6 +88,10 @@ public class AverageTime {
 
 	public double getRoundedAverageChanges() {
 		return (double) Math.round(averageChanges * 10) / 10;
+	}
+
+	public double getStandardDeviation() {
+		return standardDeviation;
 	}
 
 	public static double getDerivative() {
@@ -94,22 +110,6 @@ public class AverageTime {
 
 	public String getHistoricDataEnd() {
 		return this.historicDataEnd;
-	}
-
-	public static double variance(Vector<Double> setOfChanges) {
-		double average = 0;
-		double sum = 0;
-		for (int i = 0; i < setOfChanges.size(); i++) {
-			Double actualValue = setOfChanges.get(i);
-			Double oldAverage = average;
-			average = average + (actualValue - average) / (i+1);
-			sum = sum + (actualValue - average) * (actualValue - oldAverage);
-		}
-		return sum / (setOfChanges.size() - 1);
-	}
-
-	public static double standardDeviation(Vector<Double> setOfChanges) {
-		return Math.sqrt(variance(setOfChanges));
 	}
 
 }
