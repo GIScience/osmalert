@@ -13,7 +13,7 @@ public class AverageTimeTests {
 	@BeforeEach
 	void initAverageTime() {
 		AverageTime.destroyInstance();
-		average = AverageTime.setInstance(0, 0);
+		average = AverageTime.setInstance(0, 0, 0);
 	}
 
 	@Test
@@ -64,9 +64,25 @@ public class AverageTimeTests {
 	}
 
 	@Test
-	void standardDeviationTest() {
+	void calculateStandardDeviationTest1() {
+		average.calculateAverage(1);
+		average.calculateAverage(2);
+		average.calculateAverage(3);
+		average.calculateAverage(4);
+		average.calculateAverage(5);
 
-		Assertions.assertEquals(AverageTime.standardDeviation(new Vector<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))), Math.sqrt(2.5));
+		Assertions.assertEquals(average.getStandardDeviation(), Math.sqrt(2.5));
+
+	}
+
+	@Test
+	void calculateStandardDeviationTest2() {
+		average.calculateAverage(10);
+		average.calculateAverage(8);
+		average.calculateAverage(5);
+		average.calculateAverage(1);
+
+		Assertions.assertEquals(average.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
 
 	}
 
