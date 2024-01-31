@@ -17,9 +17,13 @@ public class OSMContributionsHistoricalData {
 		int timeIntervalInMinutes,
 		String pattern
 	) throws IOException, InterruptedException {
-		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate, timeIntervalInMinutes, pattern));
-		if (contributionsCountObject.has("result")) {
-			calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
+		try {
+			JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate, timeIntervalInMinutes, pattern));
+			if (contributionsCountObject.has("result")) {
+				calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
+			}
+		} catch (JSONException e) {
+			System.out.println("String is not a JSON.");
 		}
 	}
 
