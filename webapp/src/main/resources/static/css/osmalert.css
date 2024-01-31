@@ -137,7 +137,7 @@ select#timeFormat {
 }
 
 .Filter-hyperlink {
-    position: fixed;
+    position: absolute;
     float: right;
     width: 30%;
     right: 120px;
