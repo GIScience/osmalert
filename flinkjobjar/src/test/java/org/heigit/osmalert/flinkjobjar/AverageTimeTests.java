@@ -1,7 +1,7 @@
 package org.heigit.osmalert.flinkjobjar;
 
 import java.time.*;
-import java.util.*;
+
 
 import org.junit.jupiter.api.*;
 
