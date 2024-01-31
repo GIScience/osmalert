@@ -23,7 +23,7 @@ public class OSMContributionsHistoricalDataTests {
 		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, "natural=tree");
 
 		Assertions.assertEquals(
-			633.8000000000001,
+			633.8,
 			averageTime.getAverageChanges()
 		);
 	}
