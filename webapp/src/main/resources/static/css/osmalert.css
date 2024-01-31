@@ -137,8 +137,10 @@ select#timeFormat {
 }
 
 .Filter-hyperlink {
+    position: fixed;
     float: right;
     width: 30%;
+    right: 120px;
     margin-top: 15px;
     margin-left: 30px;
 }
@@ -177,7 +179,6 @@ input#checkboxFilter:checked + span#FilterInput :not(.Filter-hyperlink) {
     left: 20px;
     margin-left: 0;
 }
-
 
 input#timeWindow {
     width: 7%;
