@@ -4,17 +4,16 @@ import java.io.*;
 import java.time.*;
 import java.time.format.*;
 
-
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
-public class AverageTime {
-	private double averageChanges;
-	private double averageWeight;
-	private double sumOfQuads;
+public class StandardDeviation {
+	private double mean;
+	private double noOfDataPoints;
+	private double sumOfSquaredDifferences;
 
 	private double standardDeviation;
 
-	private static AverageTime self;
+	private static StandardDeviation self;
 	private static final double derivative = 1.05;
 	private static final int weekStart = 4;
 	private static final int weekEnd = 2;
@@ -23,20 +22,20 @@ public class AverageTime {
 	// week * days (7) * hours (24) * minutes (60) * seconds (60)
 	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
 
-	private AverageTime(double defaultChanges, double numberAverageChanges, double sumOfQuads) {
-		this.averageChanges = Math.max(defaultChanges, 0);
-		this.averageWeight = Math.max(numberAverageChanges, 0);
-		this.sumOfQuads = Math.max(sumOfQuads, 0);
+	private StandardDeviation(double defaultChanges, double numberAverageChanges, double sumOfSquaredDifferences) {
+		this.mean = Math.max(defaultChanges, 0);
+		this.noOfDataPoints = Math.max(numberAverageChanges, 0);
+		this.sumOfSquaredDifferences = Math.max(sumOfSquaredDifferences, 0);
 	}
 
-	public static AverageTime getInstance() {
+	public static StandardDeviation getInstance() {
 		if (self == null) {
 			setInstance(0, 0, 0);
 		}
 		return self;
 	}
 
-	public static AverageTime setInstance(
+	public static StandardDeviation setInstance(
 		String boundingBox,
 		int timeWindowSeconds,
 		String pattern
@@ -57,8 +56,8 @@ public class AverageTime {
 		return self;
 	}
 
-	public static AverageTime setInstance(double averageChanges, double numberOfChanges, double sumOfQuads) {
-		self = new AverageTime(averageChanges, numberOfChanges, sumOfQuads);
+	public static StandardDeviation setInstance(double averageChanges, double numberOfChanges, double sumOfQuads) {
+		self = new StandardDeviation(averageChanges, numberOfChanges, sumOfQuads);
 		return self;
 	}
 
@@ -66,28 +65,25 @@ public class AverageTime {
 		self = null;
 	}
 
-	public boolean calculateAverage(int number) {
-		boolean calcSucceeded = false;
+	public void calculateStandardDeviation(int number) {
 		if (self != null) {
-			averageWeight += 1;
-			double oldAverage = averageChanges;
-			averageChanges = averageChanges + (number - averageChanges) / (averageWeight);
-			sumOfQuads = sumOfQuads + (number - averageChanges) * (number - oldAverage);
-			standardDeviation = Math.sqrt(sumOfQuads / (averageWeight - 1));
-			calcSucceeded = true;
+			noOfDataPoints += 1;
+			double oldMean = mean;
+			mean = mean + (number - mean) / (noOfDataPoints);
+			sumOfSquaredDifferences = sumOfSquaredDifferences + (number - mean) * (number - oldMean);
+			standardDeviation = Math.sqrt(sumOfSquaredDifferences / (noOfDataPoints - 1));
 		}
-		return calcSucceeded;
 	}
 
-	public double getAverageChanges() {
+	public double getMean() {
 		double returnAverageChanges = -1;
 		if (self != null)
-			returnAverageChanges = this.averageChanges;
+			returnAverageChanges = this.mean;
 		return returnAverageChanges;
 	}
 
 	public double getRoundedAverageChanges() {
-		return (double) Math.round(averageChanges * 10) / 10;
+		return (double) Math.round(mean * 10) / 10;
 	}
 
 	public double getStandardDeviation() {

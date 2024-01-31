@@ -18,7 +18,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final int time;
 
 	private final String pattern;
-	private static AverageTime averageTime;
+	private static StandardDeviation standardDeviation;
 	private boolean firstEmail;
 
 	public MailSinkFunction(
@@ -37,11 +37,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 	@Override
 	public void invoke(Integer value, Context context) {
-		if (averageTime == null) {
+		if (standardDeviation == null) {
 			try {
-				averageTime = AverageTime.setInstance(boundingBox, time * 60, pattern);
+				standardDeviation = StandardDeviation.setInstance(boundingBox, time * 60, pattern);
 			} catch (IOException | InterruptedException e) {
-				averageTime = AverageTime.getInstance();
+				standardDeviation = StandardDeviation.getInstance();
 			}
 		}
 		System.out.println("##### MailSink input: " + value);
@@ -53,7 +53,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
 		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes compared to the average of "
-									+ averageTime.getRoundedAverageChanges();
+									+ standardDeviation.getRoundedAverageChanges();
 
 
 		String inital = getInitialMessage();
@@ -63,11 +63,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + getBoundingBoxLink() + "\n"
 								  // adding 5 % threshold above
-								  + (value > averageTime.getAverageChanges() * AverageTime.getDerivative() ? unusualChanges : "")
+								  + (value > standardDeviation.getMean() * StandardDeviation.getDerivative() ? unusualChanges : "")
 								  + inital
 								  + "\n\nThank you,\nOSM Alert System";
 
-		averageTime.calculateAverage(value);
+		standardDeviation.calculateStandardDeviation(value);
 
 		this.sendMail(emailContent, this.emailAddress);
 	}
@@ -76,16 +76,16 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String initial = "";
 		if (firstEmail) {
 			firstEmail = false;
-			if (averageTime.getAverageChanges() == 0)
+			if (standardDeviation.getMean() == 0)
 				initial += "\nA Problem occurred retrieving the historical Data.";
 			else
-				initial += "\nThe initial average is calculated with data from " + averageTime.getHistoricDataStart() + " to " + averageTime.getHistoricDataEnd() + " with a value of " + averageTime.getRoundedAverageChanges() + ".";
+				initial += "\nThe initial average is calculated with data from " + standardDeviation.getHistoricDataStart() + " to " + standardDeviation.getHistoricDataEnd() + " with a value of " + standardDeviation.getRoundedAverageChanges() + ".";
 		}
 		return initial;
 	}
 
 	private String getBoundingBoxLink() {
-		String bbox = "https://dashboard.ohsome.org/#backend=ohsomeApi&groupBy=none&time=" + averageTime.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + averageTime.getHistoricDataEnd() + "T23%3A00Z%2FP1M&filter=" + pattern + "&measure=count&bboxes=" + boundingBox;
+		String bbox = "https://dashboard.ohsome.org/#backend=ohsomeApi&groupBy=none&time=" + standardDeviation.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + standardDeviation.getHistoricDataEnd() + "T23%3A00Z%2FP1M&filter=" + pattern + "&measure=count&bboxes=" + boundingBox;
 		return bbox.replace(",", "%2c");
 	}
 
