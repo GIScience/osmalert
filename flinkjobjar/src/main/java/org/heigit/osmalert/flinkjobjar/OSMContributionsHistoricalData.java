@@ -3,6 +3,7 @@ package org.heigit.osmalert.flinkjobjar;
 import java.io.*;
 import java.net.*;
 import java.net.http.*;
+import java.time.Duration;
 
 import org.json.*;
 
@@ -45,10 +46,10 @@ public class OSMContributionsHistoricalData {
 		}
 
 		apiUrl = apiUrl.replace(" ", "%20");
-		HttpClient client = HttpClient.newHttpClient();
+		HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(320)).build();
 
 		HttpRequest request = HttpRequest.newBuilder()
-										 .uri(URI.create(apiUrl))
+										 .uri(URI.create(apiUrl)).timeout(Duration.ofSeconds(310))
 										 .build();
 
 		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
