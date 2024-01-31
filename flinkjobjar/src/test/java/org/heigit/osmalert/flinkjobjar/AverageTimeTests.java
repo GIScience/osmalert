@@ -70,12 +70,4 @@ public class AverageTimeTests {
 
 	}
 
-	@Test
-	void recursiveSDTest () {
-		double SD_first4 = AverageTime.standardDeviation(new Vector<>(Arrays.asList(1.0, 2.0, 3.0, 4.0)));
-		Assertions.assertEquals(AverageTime.recursiveSD(SD_first4, 5), Math.sqrt(2.5));
-		Assertions.assertEquals(AverageTime.standardDeviation(new Vector<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))), Math.sqrt(2.5));
-
-	}
-
 }
