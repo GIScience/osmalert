@@ -65,18 +65,15 @@ public class StandardDeviationTests {
 	}
 
 	@Test
-	void calculateStandardDeviationTest1() {
+	void calculateStandardDeviationTest() {
 
 		List<Integer> dataPoints = Arrays.asList(1, 2, 3, 4, 5);
 		for (Integer dataPoint : dataPoints)
 			standardDeviation.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(2.5));
-	}
+		initAverageTime();
 
-	@Test
-	void calculateStandardDeviationTest2() {
-
-		List<Integer> dataPoints = Arrays.asList(10, 8, 5, 1);
+		dataPoints = Arrays.asList(10, 8, 5, 1);
 		for (Integer dataPoint : dataPoints)
 			standardDeviation.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
