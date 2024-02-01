@@ -85,7 +85,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	}
 
 	private String getBoundingBoxLink() {
-		String bbox = "https://dashboard.ohsome.org/#backend=ohsomeApi&groupBy=none&time=" + standardDeviation.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + standardDeviation.getHistoricDataEnd() + "T23%3A00Z%2FP1M&filter=" + pattern + "&measure=count&bboxes=" + boundingBox;
+		String bbox = "https://dashboard.ohsome.org/#time=" + standardDeviation.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + standardDeviation.getHistoricDataEnd() + "T23%3A00Z%2FP1W&filter=" + pattern + "&bboxes=" + boundingBox;
 		return bbox.replace(",", "%2c");
 	}
 
