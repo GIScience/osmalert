@@ -20,7 +20,7 @@ public class OSMContributionsHistoricalDataTests {
 	@Test
 	void getContributionsCountHistoricalAverageTest() throws IOException, InterruptedException, JSONException {
 
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, "natural=tree");
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "natural=tree");
 
 		Assertions.assertEquals(
 			633.8,
@@ -31,7 +31,7 @@ public class OSMContributionsHistoricalDataTests {
 	@Test
 	void getContributionsCountHistoricalAverageWithNullPatternTest() throws IOException, InterruptedException, JSONException {
 
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, null);
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, null);
 
 		Assertions.assertEquals(
 			34497.8,
@@ -42,7 +42,7 @@ public class OSMContributionsHistoricalDataTests {
 	@Test
 	void getContributionsCountHistoricalAverageWithEmptyStringTest() throws IOException, InterruptedException, JSONException {
 
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 5, 60 * 24, "");
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "");
 
 		Assertions.assertEquals(
 			34497.8,

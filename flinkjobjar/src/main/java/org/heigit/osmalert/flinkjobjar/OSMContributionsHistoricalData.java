@@ -3,7 +3,7 @@ package org.heigit.osmalert.flinkjobjar;
 import java.io.*;
 import java.net.*;
 import java.net.http.*;
-import java.time.Duration;
+import java.time.*;
 
 import org.json.*;
 
@@ -13,21 +13,20 @@ public class OSMContributionsHistoricalData {
 		String boundingBox,
 		String fromDate,
 		String toDate,
-		int timeIntervals,
 		int timeIntervalInMinutes,
 		String pattern
 	) throws IOException, InterruptedException {
 		try {
 			JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB(boundingBox, fromDate, toDate, timeIntervalInMinutes, pattern));
 			if (contributionsCountObject.has("result")) {
-				calculateHistoricalAverage(contributionsCountObject.getJSONArray("result"), timeIntervals);
+				calculateHistoricalStandardDeviation(contributionsCountObject.getJSONArray("result"));
 			}
 		} catch (JSONException e) {
 			System.out.println("String is not a JSON.");
 		}
 	}
 
-	static void calculateHistoricalAverage(JSONArray osmContributionsCountJsonArray, int timeIntervals) {
+	static void calculateHistoricalStandardDeviation(JSONArray osmContributionsCountJsonArray) {
 		StandardDeviation standardDeviation = StandardDeviation.getInstance();
 		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++) {
 			standardDeviation.calculateStandardDeviation(osmContributionsCountJsonArray.getJSONObject(i).getInt("value"));

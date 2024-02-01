@@ -49,7 +49,6 @@ public class StandardDeviation {
 			boundingBox,
 			self.historicDataStart,
 			self.historicDataEnd,
-			numberChanges / timeWindowSeconds,
 			timeWindowSeconds / 60,
 			pattern
 		);
