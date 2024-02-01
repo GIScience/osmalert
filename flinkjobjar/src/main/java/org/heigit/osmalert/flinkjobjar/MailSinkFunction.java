@@ -52,8 +52,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
+		//TODO: Update the unusual changes message
 		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes compared to the average of "
-									+ standardDeviation.getStandardDeviation();
+									+ standardDeviation.getRoundedMeanChanges();
 
 
 		String inital = getInitialMessage();
@@ -63,7 +64,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + getBoundingBoxLink() + "\n"
 								  // adding 5 % threshold above
-								  + (value > standardDeviation.getMean() * StandardDeviation.getDerivative() ? unusualChanges : "")
+								  + (standardDeviation.getZScore(value) > 2.0 ? unusualChanges : "")
 								  + inital
 								  + "\n\nThank you,\nOSM Alert System";
 

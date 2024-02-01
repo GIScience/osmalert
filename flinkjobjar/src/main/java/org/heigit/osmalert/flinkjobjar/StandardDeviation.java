@@ -107,4 +107,10 @@ public class StandardDeviation {
 		return this.historicDataEnd;
 	}
 
+	public double getZScore(Integer value){
+		double mean = this.getMean();
+		double standardDeviation = this.getStandardDeviation();
+		double zScore = (value - mean) / standardDeviation;
+		return zScore;
+	}
 }

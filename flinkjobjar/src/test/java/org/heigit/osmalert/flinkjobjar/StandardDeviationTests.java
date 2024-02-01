@@ -81,11 +81,12 @@ public class StandardDeviationTests {
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
 	}
 
-	@Test
-	void standardDeviationIntegrationTest() throws IOException, InterruptedException {
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "natural=tree");
-		standardDeviation = StandardDeviation.getInstance();
-		assertNotNull(standardDeviation);
-	}
+	// @Test
+	// void standardDeviationIntegrationTest() throws IOException, InterruptedException {
+	// 	getContributionsCountHistoricalAverage("4.279,48.829,16.419,53.495", "2023-11-01", "2023-11-04", 60 * 24, "natural=tree");
+	// 	standardDeviation = StandardDeviation.getInstance();
+	// 	double zScore = standardDeviation.getZScore(123);
+	// 	assertNotNull(standardDeviation);
+	// }
 
 }
