@@ -53,7 +53,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
 		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes compared to the average of "
-									+ standardDeviation.getRoundedMeanChanges();
+									+ standardDeviation.getStandardDeviation();
 
 
 		String inital = getInitialMessage();
@@ -79,7 +79,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 			if (standardDeviation.getMean() == 0)
 				initial += "\nA Problem occurred retrieving the historical Data.";
 			else
-				initial += "\nThe initial average is calculated with data from " + standardDeviation.getHistoricDataStart() + " to " + standardDeviation.getHistoricDataEnd() + " with a value of " + standardDeviation.getRoundedMeanChanges() + ".";
+				initial += "\nThe initial average is calculated with data from " + standardDeviation.getHistoricDataStart() + " to " + standardDeviation.getHistoricDataEnd() + " with a value of " + standardDeviation.getStandardDeviation() + ".";
 		}
 		return initial;
 	}

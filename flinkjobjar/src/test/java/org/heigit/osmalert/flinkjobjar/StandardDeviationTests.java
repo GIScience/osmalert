@@ -1,17 +1,19 @@
 package org.heigit.osmalert.flinkjobjar;
 
+import java.io.*;
 import java.time.*;
 import java.util.*;
 
 import org.junit.jupiter.api.*;
 
+import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StandardDeviationTests {
 	private StandardDeviation standardDeviation;
 
 	@BeforeEach
-	void initAverageTime() {
+	void initStandardDeviation() {
 		StandardDeviation.destroyInstance();
 		standardDeviation = StandardDeviation.setInstance(0, 0, 0);
 	}
@@ -71,12 +73,19 @@ public class StandardDeviationTests {
 		for (Integer dataPoint : dataPoints)
 			standardDeviation.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(2.5));
-		initAverageTime();
+		initStandardDeviation();
 
 		dataPoints = Arrays.asList(10, 8, 5, 1);
 		for (Integer dataPoint : dataPoints)
 			standardDeviation.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
+	}
+
+	@Test
+	void standardDeviationIntegrationTest() throws IOException, InterruptedException {
+		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "natural=tree");
+		standardDeviation = StandardDeviation.getInstance();
+		assertNotNull(standardDeviation);
 	}
 
 }
