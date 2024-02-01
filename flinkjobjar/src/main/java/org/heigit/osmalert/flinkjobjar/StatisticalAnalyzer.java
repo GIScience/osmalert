@@ -14,7 +14,6 @@ public class StatisticalAnalyzer {
 	private double standardDeviation;
 
 	private static StatisticalAnalyzer self;
-	private static final double derivative = 1.05;
 	private static final int weekStart = 4;
 	private static final int weekEnd = 2;
 	private String historicDataStart;
