@@ -27,9 +27,9 @@ public class OSMContributionsHistoricalData {
 	}
 
 	static void calculateHistoricalStandardDeviation(JSONArray osmContributionsCountJsonArray) {
-		StandardDeviation standardDeviation = StandardDeviation.getInstance();
+		StatisticalAnalyzer statisticalAnalyzer = StatisticalAnalyzer.getInstance();
 		for (int i = 0; i < osmContributionsCountJsonArray.length(); i++) {
-			standardDeviation.calculateStandardDeviation(osmContributionsCountJsonArray.getJSONObject(i).getInt("value"));
+			statisticalAnalyzer.calculateStandardDeviation(osmContributionsCountJsonArray.getJSONObject(i).getInt("value"));
 		}
 	}
 

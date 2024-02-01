@@ -9,12 +9,12 @@ import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
 public class OSMContributionsHistoricalDataTests {
 
-	StandardDeviation standardDeviation;
+	StatisticalAnalyzer statisticalAnalyzer;
 
 	@BeforeEach
 	void init() {
-		StandardDeviation.destroyInstance();
-		standardDeviation = StandardDeviation.setInstance(0, 0, 0);
+		StatisticalAnalyzer.destroyInstance();
+		statisticalAnalyzer = StatisticalAnalyzer.setInstance(0, 0, 0);
 	}
 
 	@Test
@@ -24,7 +24,7 @@ public class OSMContributionsHistoricalDataTests {
 
 		Assertions.assertEquals(
 			633.8,
-			standardDeviation.getMean()
+			statisticalAnalyzer.getMean()
 		);
 	}
 
@@ -35,7 +35,7 @@ public class OSMContributionsHistoricalDataTests {
 
 		Assertions.assertEquals(
 			34497.8,
-			standardDeviation.getMean()
+			statisticalAnalyzer.getMean()
 		);
 	}
 
@@ -46,7 +46,7 @@ public class OSMContributionsHistoricalDataTests {
 
 		Assertions.assertEquals(
 			34497.8,
-			standardDeviation.getMean()
+			statisticalAnalyzer.getMean()
 		);
 	}
 

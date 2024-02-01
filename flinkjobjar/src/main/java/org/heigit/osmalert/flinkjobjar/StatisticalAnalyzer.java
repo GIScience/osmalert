@@ -6,36 +6,34 @@ import java.time.format.*;
 
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
-public class StandardDeviation {
+public class StatisticalAnalyzer {
 	private double mean;
 	private double noOfDataPoints;
 	private double sumOfSquaredDifferences;
 
 	private double standardDeviation;
 
-	private static StandardDeviation self;
+	private static StatisticalAnalyzer self;
 	private static final double derivative = 1.05;
 	private static final int weekStart = 4;
 	private static final int weekEnd = 2;
 	private String historicDataStart;
 	private String historicDataEnd;
-	// week * days (7) * hours (24) * minutes (60) * seconds (60)
-	private static final int numberChanges = (weekStart - weekEnd) * 7 * 24 * 60 * 60;
 
-	private StandardDeviation(double defaultChanges, double numberAverageChanges, double sumOfSquaredDifferences) {
+	private StatisticalAnalyzer(double defaultChanges, double numberAverageChanges, double sumOfSquaredDifferences) {
 		this.mean = Math.max(defaultChanges, 0);
 		this.noOfDataPoints = Math.max(numberAverageChanges, 0);
 		this.sumOfSquaredDifferences = Math.max(sumOfSquaredDifferences, 0);
 	}
 
-	public static StandardDeviation getInstance() {
+	public static StatisticalAnalyzer getInstance() {
 		if (self == null) {
 			setInstance(0, 0, 0);
 		}
 		return self;
 	}
 
-	public static StandardDeviation setInstance(
+	public static StatisticalAnalyzer setInstance(
 		String boundingBox,
 		int timeWindowSeconds,
 		String pattern
@@ -55,8 +53,8 @@ public class StandardDeviation {
 		return self;
 	}
 
-	public static StandardDeviation setInstance(double averageChanges, double numberOfChanges, double sumOfQuads) {
-		self = new StandardDeviation(averageChanges, numberOfChanges, sumOfQuads);
+	public static StatisticalAnalyzer setInstance(double averageChanges, double numberOfChanges, double sumOfQuads) {
+		self = new StatisticalAnalyzer(averageChanges, numberOfChanges, sumOfQuads);
 		return self;
 	}
 
@@ -85,12 +83,12 @@ public class StandardDeviation {
 		return (double) Math.round(mean * 10) / 10;
 	}
 
-	public double getStandardDeviation() {
-		return standardDeviation;
+	public double getRoundedStandardDeviation() {
+		return (double) Math.round(standardDeviation * 10) / 10;
 	}
 
-	public static double getDerivative() {
-		return derivative;
+	public double getStandardDeviation() {
+		return standardDeviation;
 	}
 
 	public static String calculateDateInPast(LocalDate currentDate, int weeksToSubtract) {

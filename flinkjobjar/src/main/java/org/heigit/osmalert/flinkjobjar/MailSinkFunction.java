@@ -18,7 +18,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final int time;
 
 	private final String pattern;
-	private static StandardDeviation standardDeviation;
+	private static StatisticalAnalyzer statisticalAnalyzer;
 	private boolean firstEmail;
 
 	public MailSinkFunction(
@@ -37,11 +37,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 	@Override
 	public void invoke(Integer value, Context context) {
-		if (standardDeviation == null) {
+		if (statisticalAnalyzer == null) {
 			try {
-				standardDeviation = StandardDeviation.setInstance(boundingBox, time * 60, pattern);
+				statisticalAnalyzer = StatisticalAnalyzer.setInstance(boundingBox, time * 60, pattern);
 			} catch (IOException | InterruptedException e) {
-				standardDeviation = StandardDeviation.getInstance();
+				statisticalAnalyzer = StatisticalAnalyzer.getInstance();
 			}
 		}
 		System.out.println("##### MailSink input: " + value);
@@ -52,8 +52,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
-		//TODO: Update the unusual changes message
-		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes as they deviate by more than 1 standard deviation from the mean of value " + standardDeviation.getRoundedMeanChanges() + ". The Standard Deviation value is " + standardDeviation.getStandardDeviation();
+		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes as they deviate by more than " +
+									"1 standard deviation from the mean of value " + statisticalAnalyzer.getRoundedMeanChanges() +
+									". The Standard Deviation value is " + statisticalAnalyzer.getRoundedStandardDeviation();
 
 
 		String inital = getInitialMessage();
@@ -63,11 +64,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
 								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + getBoundingBoxLink() + "\n"
 								  // adding 5 % threshold above
-								  + (standardDeviation.getZScore(value) > 1.0 ? unusualChanges : "")
+								  + (statisticalAnalyzer.getZScore(value) > 1.0 ? unusualChanges : "")
 								  + inital
 								  + "\n\nThank you,\nOSM Alert System";
 
-		standardDeviation.calculateStandardDeviation(value);
+		statisticalAnalyzer.calculateStandardDeviation(value);
 
 		this.sendMail(emailContent, this.emailAddress);
 	}
@@ -76,16 +77,16 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		String initial = "";
 		if (firstEmail) {
 			firstEmail = false;
-			if (standardDeviation.getMean() == 0)
+			if (statisticalAnalyzer.getMean() == 0)
 				initial += "\nA Problem occurred retrieving the historical Data.";
 			else
-				initial += "\nThe initial average is calculated with data from " + standardDeviation.getHistoricDataStart() + " to " + standardDeviation.getHistoricDataEnd() + " with a value of " + standardDeviation.getStandardDeviation() + ".";
+				initial += "\nThe initial average is calculated with data from " + statisticalAnalyzer.getHistoricDataStart() + " to " + statisticalAnalyzer.getHistoricDataEnd() + " with a value of " + statisticalAnalyzer.getStandardDeviation() + ".";
 		}
 		return initial;
 	}
 
 	private String getBoundingBoxLink() {
-		String bbox = "https://dashboard.ohsome.org/#time=" + standardDeviation.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + standardDeviation.getHistoricDataEnd() + "T23%3A00Z%2FP1W&filter=" + pattern + "&bboxes=" + boundingBox;
+		String bbox = "https://dashboard.ohsome.org/#time=" + statisticalAnalyzer.getHistoricDataStart() + "T00%3A00%3A00Z%2F" + statisticalAnalyzer.getHistoricDataEnd() + "T23%3A00Z%2FP1W&filter=" + pattern + "&bboxes=" + boundingBox;
 		return bbox.replace(",", "%2c");
 	}
 
