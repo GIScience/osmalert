@@ -81,7 +81,7 @@ public class StandardDeviation {
 		return returnAverageChanges;
 	}
 
-	public double getRoundedAverageChanges() {
+	public double getRoundedMeanChanges() {
 		return (double) Math.round(mean * 10) / 10;
 	}
 

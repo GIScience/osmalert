@@ -1,7 +1,7 @@
 package org.heigit.osmalert.flinkjobjar;
 
 import java.time.*;
-
+import java.util.*;
 
 import org.junit.jupiter.api.*;
 
@@ -17,7 +17,7 @@ public class StandardDeviationTests {
 	}
 
 	@Test
-	public void calculateAverageTest() {
+	public void calculateMeanTest() {
 		// 10 => 10
 		// 10 * 1 = 10
 		standardDeviation.calculateStandardDeviation(10);
@@ -38,15 +38,15 @@ public class StandardDeviationTests {
 	}
 
 	@Test
-	public void getRoundedAverageTest() {
+	public void getRoundedMeanTest() {
 		standardDeviation.calculateStandardDeviation(15);
-		assertEquals(15, standardDeviation.getRoundedAverageChanges());
+		assertEquals(15, standardDeviation.getRoundedMeanChanges());
 		standardDeviation.calculateStandardDeviation(2);
-		assertEquals(8.5, standardDeviation.getRoundedAverageChanges());
+		assertEquals(8.5, standardDeviation.getRoundedMeanChanges());
 		standardDeviation.calculateStandardDeviation(5);
-		assertEquals(7.3, standardDeviation.getRoundedAverageChanges());
+		assertEquals(7.3, standardDeviation.getRoundedMeanChanges());
 		standardDeviation.calculateStandardDeviation(9);
-		assertEquals(7.8, standardDeviation.getRoundedAverageChanges());
+		assertEquals(7.8, standardDeviation.getRoundedMeanChanges());
 	}
 
 	@Test
@@ -66,25 +66,20 @@ public class StandardDeviationTests {
 
 	@Test
 	void calculateStandardDeviationTest1() {
-		standardDeviation.calculateStandardDeviation(1);
-		standardDeviation.calculateStandardDeviation(2);
-		standardDeviation.calculateStandardDeviation(3);
-		standardDeviation.calculateStandardDeviation(4);
-		standardDeviation.calculateStandardDeviation(5);
 
+		List<Integer> dataPoints = Arrays.asList(1, 2, 3, 4, 5);
+		for (Integer dataPoint : dataPoints)
+			standardDeviation.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(2.5));
-
 	}
 
 	@Test
 	void calculateStandardDeviationTest2() {
-		standardDeviation.calculateStandardDeviation(10);
-		standardDeviation.calculateStandardDeviation(8);
-		standardDeviation.calculateStandardDeviation(5);
-		standardDeviation.calculateStandardDeviation(1);
 
+		List<Integer> dataPoints = Arrays.asList(10, 8, 5, 1);
+		for (Integer dataPoint : dataPoints)
+			standardDeviation.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(standardDeviation.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
-
 	}
 
 }
