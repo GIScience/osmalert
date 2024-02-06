@@ -71,12 +71,15 @@ public class StatisticalAnalyzerTests {
 		for (Integer dataPoint : dataPoints)
 			statisticalAnalyzer.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(statisticalAnalyzer.getStandardDeviation(), Math.sqrt(2.5));
+		Assertions.assertEquals(statisticalAnalyzer.getZScore(4), 0.6324555320336759);
+		Assertions.assertEquals(statisticalAnalyzer.getZScore(7), 2.5298221281347035);
 		initStandardDeviation();
 
 		dataPoints = Arrays.asList(10, 8, 5, 1);
 		for (Integer dataPoint : dataPoints)
 			statisticalAnalyzer.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(statisticalAnalyzer.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
+		Assertions.assertEquals(statisticalAnalyzer.getZScore(13), 1.787638714593372);
 	}
 
 }
