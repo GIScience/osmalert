@@ -25,9 +25,9 @@ public class JobConfiguration {
 	}
 
 	public String setEmailAddress(String[] args) {
-		String emailAdress = args[1];
-		System.out.println("=== " + emailAdress + " ===");
-		return emailAdress;
+		String emailAddress = args[1];
+		System.out.println("=== " + emailAddress + " ===");
+		return emailAddress;
 	}
 
 	public double[] setBoundingBoxValues(String input) {
