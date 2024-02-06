@@ -57,15 +57,22 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 									". The Standard Deviation value is " + statisticalAnalyzer.getRoundedStandardDeviation();
 
 
-		String inital = getInitialMessage();
+		String initial = getInitialMessage();
 
 		String timeRange = "Time Range: " + new Date(startTimeMillis) + " - " + new Date(currentTimeMillis) + "\n";
 		String boundingBox = "Bounding Box: " + this.boundingBox + "\n";
+		String filter;
+
+		if (pattern == null || pattern.isEmpty()) {
+			filter = "type:node or type:way";
+		} else {
+			filter = pattern;
+		}
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates.\n" + boundingBox + timeRange + "\n" + getBoundingBoxLink() + "\n"
+								  + value + " new OpenStreetMap updates.\n\n" + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
 								  // adding 5 % threshold above
 								  + (statisticalAnalyzer.getZScore(value) > 1.0 ? unusualChanges : "")
-								  + inital
+								  + initial
 								  + "\n\nThank you,\nOSM Alert System";
 
 		statisticalAnalyzer.calculateStandardDeviation(value);
@@ -78,9 +85,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		if (firstEmail) {
 			firstEmail = false;
 			if (statisticalAnalyzer.getMean() == 0)
-				initial += "\nA Problem occurred retrieving the historical Data.";
+				initial += ". A Problem occurred retrieving the historical Data.";
 			else
-				initial += "\nThe initial average is calculated with data from " + statisticalAnalyzer.getHistoricDataStart() + " to " + statisticalAnalyzer.getHistoricDataEnd() + " with a value of " + statisticalAnalyzer.getStandardDeviation() + ".";
+				initial += ". The initial average is calculated with data from " + statisticalAnalyzer.getHistoricDataStart() + " to " + statisticalAnalyzer.getHistoricDataEnd() + " with a value of " + statisticalAnalyzer.getStandardDeviation() + ".";
 		}
 		return initial;
 	}
