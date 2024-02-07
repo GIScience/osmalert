@@ -1,5 +1,6 @@
 package org.heigit.osmalert.flinkjobjar;
 
+import java.io.*;
 import java.time.*;
 import java.util.*;
 
@@ -80,6 +81,36 @@ public class StatisticalAnalyzerTests {
 			statisticalAnalyzer.calculateStandardDeviation(dataPoint);
 		Assertions.assertEquals(statisticalAnalyzer.getStandardDeviation(), Math.sqrt(15.33333333333333333333333333333333));
 		Assertions.assertEquals(statisticalAnalyzer.getZScore(13), 1.787638714593372);
+	}
+
+	@Test
+	public void getInstance_ReturnsNonNullInstance() {
+		StatisticalAnalyzer instance = StatisticalAnalyzer.getInstance();
+		assertNotNull(instance);
+	}
+
+	@Test
+	public void getInstance_ReturnsSameInstanceOnMultipleCalls() {
+		StatisticalAnalyzer instance1 = StatisticalAnalyzer.getInstance();
+		StatisticalAnalyzer instance2 = StatisticalAnalyzer.getInstance();
+		assertSame(instance1, instance2);
+	}
+
+	@Test
+	public void setInstance_InitializesCorrectlyWithValidParameters() throws IOException, InterruptedException {
+		StatisticalAnalyzer.setInstance("boundingBox", 60, "pattern");
+		StatisticalAnalyzer instance = StatisticalAnalyzer.getInstance();
+		assertNotNull(instance);
+	}
+
+	@Test
+	public void setInstance_ThrowsIOExceptionWhenBoundingBoxIsNull() {
+		assertThrows(IOException.class, () -> StatisticalAnalyzer.setInstance(null, 60, "pattern"));
+	}
+
+	@Test
+	public void setInstance_ThrowsIOExceptionWhenTimeWindowSecondsIsZero() {
+		assertThrows(IOException.class, () -> StatisticalAnalyzer.setInstance("boundingBox", 0, "pattern"));
 	}
 
 }
