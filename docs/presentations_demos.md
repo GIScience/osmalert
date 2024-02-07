@@ -4,6 +4,7 @@
 * Format: 30 minutes talk/demo, 15 minutes Q&A 
 * Individual contribution
 * Relevant for final grading
+* If you choose a presentation, please check in the slides
 
 1. Explain 'Principles of Applied SW Eng' in our own words
 2. Refactoring Demo with project code of your own choice (multiple demos possible)
