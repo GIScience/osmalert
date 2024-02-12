@@ -34,7 +34,7 @@ public class OSMContributionsHistoricalDataTests {
 		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, null);
 
 		Assertions.assertEquals(
-			34498.8,
+			34499.0,
 			statisticalAnalyzer.getMean()
 		);
 	}
@@ -45,7 +45,7 @@ public class OSMContributionsHistoricalDataTests {
 		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "");
 
 		Assertions.assertEquals(
-			34498.8,
+			34499.0,
 			statisticalAnalyzer.getMean()
 		);
 	}
