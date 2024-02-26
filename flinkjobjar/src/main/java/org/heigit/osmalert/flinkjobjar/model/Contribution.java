@@ -90,4 +90,8 @@ public class Contribution {
 		} catch (JsonProcessingException ignored) {}
 		return returnContribution;
 	}
+
+	public int getUserId() {
+		return changeset.getUserId();
+	}
 }
