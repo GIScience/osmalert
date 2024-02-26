@@ -48,6 +48,15 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
 		System.out.println("##### memory: maximum memory MB : " + getRuntime().maxMemory() / 1_000_000);
 
+		String emailContent = buildEmailContent(value);
+		statisticalAnalyzer.calculateStandardDeviation(value);
+		StatisticalAnalyzer.resetContributorAmount();
+
+		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
+		this.sendMail(emailContent, this.emailAddress, jobName);
+	}
+
+	private String buildEmailContent(Integer value) {
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
@@ -67,17 +76,11 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		} else {
 			filter = pattern;
 		}
-		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates from " + StatisticalAnalyzer.getContributorAmount() + " users.\n\n" + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
-								  + (statisticalAnalyzer.getZScore(value) > 1.0 ? unusualChanges : "")
-								  + initial
-								  + "\n\nThank you,\nOSM Alert System";
-
-		statisticalAnalyzer.calculateStandardDeviation(value);
-		StatisticalAnalyzer.resetContributorAmount();
-
-		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
-		this.sendMail(emailContent, this.emailAddress, jobName);
+		return "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
+				   + value + " new OpenStreetMap updates from " + StatisticalAnalyzer.getContributorAmount() + " users.\n\n" + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
+				   + (statisticalAnalyzer.getZScore(value) > 1.0 ? unusualChanges : "")
+				   + initial
+				   + "\n\nThank you,\nOSM Alert System";
 	}
 
 	private void initializeStatisticalAnalyzer() {
