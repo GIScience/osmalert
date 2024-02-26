@@ -92,4 +92,16 @@ public class ContributionTests {
 
 		assertThat(contribution3.isWithin(null)).isFalse();
 	}
+
+	@Test
+	void numberOfContributors() throws IOException {
+		Contribution contribution1 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution1.json")));
+		Contribution contribution2 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution2.json")));
+		Contribution contribution3 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution3.json")));
+
+		Assertions.assertEquals(4399830, contribution1.getUserId());
+		Assertions.assertEquals(10233983, contribution2.getUserId());
+		Assertions.assertEquals(20473249, contribution3.getUserId());
+
+	}
 }
