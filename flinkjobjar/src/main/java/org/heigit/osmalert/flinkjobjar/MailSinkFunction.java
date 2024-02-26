@@ -72,12 +72,13 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 			filter = pattern;
 		}
 		String emailContent = "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-								  + value + " new OpenStreetMap updates.\n\n" + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
+								  + value + " new OpenStreetMap updates from " + StatisticalAnalyzer.getContributorAmount() + " users.\n\n" + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
 								  + (statisticalAnalyzer.getZScore(value) > 1.0 ? unusualChanges : "")
 								  + initial
 								  + "\n\nThank you,\nOSM Alert System";
 
 		statisticalAnalyzer.calculateStandardDeviation(value);
+		StatisticalAnalyzer.resetContributorAmount();
 
 		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
 		this.sendMail(emailContent, this.emailAddress, jobName);
