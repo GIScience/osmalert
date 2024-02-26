@@ -1,13 +1,14 @@
 package org.heigit.osmalert.flinkjobjar.model;
 
+import java.util.*;
+
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.json.*;
+import org.heigit.osmalert.flinkjobjar.*;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.*;
-
-import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true)
 public class Contribution {
@@ -15,6 +16,7 @@ public class Contribution {
 	private Contribution() {
 		current = new Current();
 		id = "";
+		changeset = new Changeset();
 	}
 
 	@JsonProperty("current")
@@ -22,6 +24,9 @@ public class Contribution {
 
 	@JsonProperty("id")
 	private final String id;
+
+	@JsonProperty("changeset")
+	private final Changeset changeset;
 
 	public boolean isWithin(Geometry boundingBox) {
 		if (boundingBox != null) {
@@ -34,7 +39,12 @@ public class Contribution {
 	}
 
 	public boolean filterBoundingBoxAndPattern(Geometry boundingBox, String pattern) {
-		return isWithin(boundingBox) && hasPattern(pattern);
+		return isWithin(boundingBox) && hasPattern(pattern) && registerContributor();
+	}
+
+	public boolean registerContributor() {
+		StatisticalAnalyzer.addContributor(changeset.getUserId());
+		return true;
 	}
 
 	public boolean hasPattern(String pattern) {
@@ -45,18 +55,18 @@ public class Contribution {
 		Map<String, String> tags = this.current.getTags();
 		String[] keyAndValue = pattern.split("=", 2);
 		if (keyAndValue[1].equals("*")) {
-			for (Map.Entry<String, String> tag: tags.entrySet()) {
-                if (tag.getKey().equals(keyAndValue[0])) {
-                    hasPattern = true;
-                    break;
-                }
+			for (Map.Entry<String, String> tag : tags.entrySet()) {
+				if (tag.getKey().equals(keyAndValue[0])) {
+					hasPattern = true;
+					break;
+				}
 			}
 		} else {
-			for (Map.Entry<String, String> tag: tags.entrySet()) {
-                if (tag.getKey().equals(keyAndValue[0]) && tag.getValue().equals(keyAndValue[1])) {
-                    hasPattern = true;
-                    break;
-                }
+			for (Map.Entry<String, String> tag : tags.entrySet()) {
+				if (tag.getKey().equals(keyAndValue[0]) && tag.getValue().equals(keyAndValue[1])) {
+					hasPattern = true;
+					break;
+				}
 			}
 		}
 		return hasPattern;
