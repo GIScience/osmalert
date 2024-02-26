@@ -15,6 +15,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private final String password;
 	private final String emailAddress;
 	private final String boundingBox;
+	private final String jobName;
 	private final int time;
 
 	private final String pattern;
@@ -22,7 +23,8 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	private boolean firstEmail;
 
 	public MailSinkFunction(
-		String host, int port, String username, String password, String emailAddress, String boundingBox, int time, String pattern
+		String host, int port, String username, String password, String emailAddress, String boundingBox, int time, String pattern,
+		String jobName
 	) {
 		this.host = host;
 		this.port = port;
@@ -33,6 +35,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		this.time = time;
 		this.firstEmail = true;
 		this.pattern = pattern;
+		this.jobName = jobName;
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		statisticalAnalyzer.calculateStandardDeviation(value);
 
-		this.sendMail(emailContent, this.emailAddress);
+		this.sendMail(emailContent, this.emailAddress, this.jobName);
 	}
 
 	private String getInitialMessage() {
@@ -104,9 +107,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 		return new MailSender(host, port, username, password);
 	}
 
-	private void sendMail(String payload, String emailAddress) {
+	private void sendMail(String payload, String emailAddress, String jobName) {
 		MailSender mailSender = getMailSender();
-		mailSender.sendMail(emailAddress, payload);
+		mailSender.sendMail(emailAddress, payload, jobName);
 		System.out.println("=== MAIL SENT! ===");
 	}
 }

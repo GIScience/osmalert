@@ -18,7 +18,7 @@ public class MailSenderIntegrationTests {
 	@Test
 	void smokeTest() throws Exception {
 
-		this.mailSender.sendMail("user@example.org", "payload");
+		this.mailSender.sendMail("user@example.org", "payload", "Test Job");
 
 
 		assertEquals(1, fakeMailServer.getMessages().size());
@@ -27,7 +27,7 @@ public class MailSenderIntegrationTests {
 		assertNotNull(message);
 		assertEquals("osmalert <osmalert@web.de>", message.getFrom()[0].toString());
 		assertEquals("user <user@example.org>", message.getAllRecipients()[0].toString());
-		assertEquals("Osmalert Notification", message.getSubject());
+		assertEquals("OSM Alert: Test Job", message.getSubject());
 		assertEquals("payload\r\n", message.getContent().toString());
 	}
 

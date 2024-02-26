@@ -20,7 +20,7 @@ public class MailSender {
 		this.fromAddress = "osmalert@web.de";
 	}
 
-	void sendMail(String recipient, String payload) {
+	void sendMail(String recipient, String payload, String jobName) {
 
 		Recipient mailRecipient = new Recipient("user", recipient, Message.RecipientType.TO);
 
@@ -29,7 +29,7 @@ public class MailSender {
 						  .startingBlank()
 						  .from("osmalert", fromAddress)
 						  .to(mailRecipient)
-						  .withSubject("Osmalert Notification")
+						  .withSubject("OSM Alert: " + jobName)
 						  .withPlainText(payload)
 						  .buildEmail();
 

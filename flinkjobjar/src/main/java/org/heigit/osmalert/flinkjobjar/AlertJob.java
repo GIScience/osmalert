@@ -48,7 +48,8 @@ public class AlertJob {
 			jobConfiguration.getEmailAddress(),
 			jobConfiguration.getBoundingBoxString(),
 			jobConfiguration.getTimeWindowInMinutes(),
-			jobConfiguration.getPattern()
+			jobConfiguration.getPattern(),
+			jobConfiguration.getJobName()
 		);
 		configureAndRunJob(jobConfiguration.getJobName(), streamOperator, environment, jobConfiguration.getTimeWindowInSeconds(), mailSink, boundingBox, jobConfiguration.getPattern());
 	}

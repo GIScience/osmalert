@@ -77,8 +77,8 @@ class AlertJobIntegrationTests {
 			"user@example.org",
 			"15.0,17.0,1.0,2.0",
 			timewindow,
-			"highway=track"
-		);
+			"highway=track",
+			"Test job");
 		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox, "highway=track");
 
 		assertThat(fakeMailServer.getMessages().size())
