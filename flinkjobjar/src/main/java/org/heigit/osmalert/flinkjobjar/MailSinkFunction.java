@@ -40,13 +40,9 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 	@Override
 	public void invoke(Integer value, Context context) {
-		if (statisticalAnalyzer == null) {
-			try {
-				statisticalAnalyzer = StatisticalAnalyzer.setInstance(boundingBox, time * 60, pattern);
-			} catch (IOException | InterruptedException e) {
-				statisticalAnalyzer = StatisticalAnalyzer.getInstance();
-			}
-		}
+
+		initializeStatisticalAnalyzer();
+
 		System.out.println("##### MailSink input: " + value);
 
 		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
@@ -82,6 +78,16 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
 		this.sendMail(emailContent, this.emailAddress, jobName);
+	}
+
+	private void initializeStatisticalAnalyzer() {
+		if (statisticalAnalyzer == null) {
+			try {
+				statisticalAnalyzer = StatisticalAnalyzer.setInstance(boundingBox, time * 60, pattern);
+			} catch (IOException | InterruptedException e) {
+				statisticalAnalyzer = StatisticalAnalyzer.getInstance();
+			}
+		}
 	}
 
 	private String getInitialMessage() {
