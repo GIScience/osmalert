@@ -115,6 +115,8 @@ public class StatisticalAnalyzerTests {
 
 	@Test
 	public void ContributorTest() {
+		StatisticalAnalyzer.resetContributorAmount();
+
 		StatisticalAnalyzer.addContributor(8732);
 		StatisticalAnalyzer.addContributor(1234);
 		StatisticalAnalyzer.addContributor(3643);
