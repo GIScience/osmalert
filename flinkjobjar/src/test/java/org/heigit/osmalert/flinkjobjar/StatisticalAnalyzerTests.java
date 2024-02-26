@@ -118,6 +118,7 @@ public class StatisticalAnalyzerTests {
 		StatisticalAnalyzer.resetContributorAmount();
 
 		StatisticalAnalyzer.addContributor(8732);
+		StatisticalAnalyzer.addContributor(8732);
 		StatisticalAnalyzer.addContributor(1234);
 		StatisticalAnalyzer.addContributor(3643);
 		StatisticalAnalyzer.addContributor(9846);
