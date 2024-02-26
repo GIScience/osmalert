@@ -79,7 +79,8 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 
 		statisticalAnalyzer.calculateStandardDeviation(value);
 
-		this.sendMail(emailContent, this.emailAddress, this.jobName);
+		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
+		this.sendMail(emailContent, this.emailAddress, jobName);
 	}
 
 	private String getInitialMessage() {
