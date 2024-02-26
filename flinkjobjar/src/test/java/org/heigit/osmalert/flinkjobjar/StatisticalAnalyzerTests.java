@@ -113,4 +113,16 @@ public class StatisticalAnalyzerTests {
 		assertThrows(IOException.class, () -> StatisticalAnalyzer.setInstance("boundingBox", 0, "pattern"));
 	}
 
+	@Test
+	public void ContributorTest() {
+		StatisticalAnalyzer.addContributor(8732);
+		StatisticalAnalyzer.addContributor(1234);
+		StatisticalAnalyzer.addContributor(3643);
+		StatisticalAnalyzer.addContributor(9846);
+
+		assertEquals(4, StatisticalAnalyzer.getContributorAmount());
+		StatisticalAnalyzer.resetContributorAmount();
+		assertEquals(0, StatisticalAnalyzer.getContributorAmount());
+	}
+
 }
