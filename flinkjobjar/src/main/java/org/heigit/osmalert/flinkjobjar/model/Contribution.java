@@ -51,26 +51,20 @@ public class Contribution {
 		if (pattern == null || pattern.isEmpty()) {
 			return id.contains("node") || id.contains("way");
 		}
-		boolean hasPattern = false;
+
 		Map<String, String> tags = this.current.getTags();
 		String[] keyAndValue = pattern.split("=", 2);
-		if (keyAndValue[1].equals("*")) {
-			for (Map.Entry<String, String> tag : tags.entrySet()) {
-				if (tag.getKey().equals(keyAndValue[0])) {
-					hasPattern = true;
-					break;
-				}
-			}
-		} else {
-			for (Map.Entry<String, String> tag : tags.entrySet()) {
-				if (tag.getKey().equals(keyAndValue[0]) && tag.getValue().equals(keyAndValue[1])) {
-					hasPattern = true;
-					break;
-				}
-			}
-		}
-		return hasPattern;
+
+		return tags.entrySet().stream()
+				   .anyMatch(tag -> matchesPattern(tag, keyAndValue));
 	}
+
+	private boolean matchesPattern(Map.Entry<String, String> tag, String[] keyAndValue) {
+		return keyAndValue[1].equals("*") ?
+				   tag.getKey().equals(keyAndValue[0]) :
+				   tag.getKey().equals(keyAndValue[0]) && tag.getValue().equals(keyAndValue[1]);
+	}
+
 
 	private Geometry getGeometry() {
 		Geometry geometry = new GeometryFactory().createPoint();
