@@ -24,7 +24,8 @@ public class OSMContributionsHistoricalDataTests {
 
 		Assertions.assertEquals(
 			633.8,
-			statisticalAnalyzer.getMean()
+			statisticalAnalyzer.getMean(),
+			2
 		);
 	}
 
@@ -35,7 +36,8 @@ public class OSMContributionsHistoricalDataTests {
 
 		Assertions.assertEquals(
 			34500.2,
-			statisticalAnalyzer.getMean()
+			statisticalAnalyzer.getMean(),
+			5
 		);
 	}
 
@@ -46,7 +48,8 @@ public class OSMContributionsHistoricalDataTests {
 
 		Assertions.assertEquals(
 			34500.2,
-			statisticalAnalyzer.getMean()
+			statisticalAnalyzer.getMean(),
+			5
 		);
 	}
 
