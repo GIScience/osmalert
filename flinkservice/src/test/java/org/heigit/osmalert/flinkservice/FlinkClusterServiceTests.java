@@ -40,7 +40,7 @@ class FlinkClusterServiceTests {
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PORT", value = "123")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_USER", value = "whatever")
 	@SetEnvironmentVariable(key = "MAILERTOGO_SMTP_PASSWORD", value = "whatever")
-	class enviromentalVariableTests {
+	class environmentalVariableTests {
 		@Test
 		void aJobGraphCanBeCreated() throws Exception {
 
