@@ -42,7 +42,7 @@ public class WebsiteTests {
 	static void launchBrowser() {
 		playwright = Playwright.create();
 		browser = playwright.firefox().launch(
-			//new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000)
+			new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000)
 		);
 	}
 
@@ -132,21 +132,23 @@ public class WebsiteTests {
 	@Test
 	void jobsInRepositoryAreDisplayedCorrectly() {
 		when(jobsService.getAllJobs()).thenReturn(List.of(
-			createJob(1L, "job1", "jl1@test.com", "1,2,3,4", "2 Hours"),
-			createJob(2L, "job2", "jl2@test.com", "5,6,7,8", ""),
-			createJob(3L, "job3", "jl3@test.com", "9,10,11,12", "14 Minutes")));
+			createJob(1L, "jobA", "jlA@test.com", "0,2,3,4", "2 Hours"),
+			createJob(2L, "jobB", "jlB@test.com", "5,6,7,8", "3 Minutes"),
+			createJob(3L, "jobC", "jlC@test.com", "9,10,11,12", "14 Minutes")
+		));
 
 		page.navigate("http://localhost:" + port);
 
-		assertJobRow("1", "job1", "jl1@test.com", "1,2,3,4", "2 Hours");
-		assertJobRow("2", "job2", "jl2@test.com", "5,6,7,8", "1 Minutes");
-		assertJobRow("3", "job3", "jl3@test.com", "9,10,11,12", "14 Minutes");
+		assertJobRow("1", "jobA", "jlA@test.com", "0,2,3,4", "2 Hours");
+		assertJobRow("2", "jobB", "jlB@test.com", "5,6,7,8", "3 Minutes");
+		assertJobRow("3", "jobC", "jlC@test.com", "9,10,11,12", "14 Minutes");
 	}
 
-	private void assertJobRow(String id, String jobName, String email, String boundingBox, String timeWindow) {
-		Locator jobLocator = page.locator("tbody[id='" + id + "']");
+	private void assertJobRow(String flinkid, String jobName, String email, String boundingBox, String timeWindow) {
+		Locator jobLocator = page.locator("tbody[id='" + flinkid + "']");
 		assertThat(jobLocator).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + jobName + "')")).isVisible();
+		assertThat(jobLocator.locator("td:text('" + flinkid + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + email + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + boundingBox + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + timeWindow + "')")).isVisible();
