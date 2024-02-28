@@ -1,0 +1,263 @@
+
+
+.content {
+    flex: 0 0 70%;
+    padding: 10px;
+}
+
+.map {
+    flex: 0 0 30%;
+    padding: 10px;
+}
+
+.map-container {
+    width: 100%;
+    height: 400px; /* Adjust height as needed */
+}
+
+.existing-jobs-table,
+.form-add-new-job {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ecf0f1;
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    margin: auto;
+    padding: 20px;
+    max-width: 1000px;
+}
+
+h1 {
+    text-align: center;
+    color: #3498db;
+    margin-top: 25px;
+    margin-bottom: 40px;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    word-wrap: break-word;
+    max-height: 275px;
+}
+
+.existing-jobs-table {
+    max-height: 275px;
+    overflow-y: scroll;
+}
+
+/* Make the header sticky */
+th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+th, td {
+    padding: 15px;
+    width: 25%;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    border: 1px solid #3498db;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #3498db;
+    color: #fff;
+}
+
+
+tbody th {
+    overflow-y: scroll;
+
+}
+
+button {
+    cursor: pointer;
+    color: #fff;
+    background: #3498db;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: block;
+    margin-top: -10px;
+}
+
+button:hover {
+    background: #2980b9;
+}
+
+form {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 60px;
+}
+
+label {
+    width: fit-content;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #333;
+}
+
+input {
+    width: 50px;
+    margin-bottom: 40px;
+    margin-top: 15px;
+    border: 1px solid;
+    border-radius: 0;
+}
+
+.div-straightStyle {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.div-straightStyle input {
+    width: 45%;
+    border: none;
+    border-bottom: 1px solid lightgrey;
+    outline: none;
+    margin-left: 70px;
+}
+
+.div-straightStyle select {
+    width: 10%;
+    border: none;
+    outline: none;
+    margin-left: 50px;
+    margin-top: -30px;
+    font-size: medium;
+    color: #333;
+    font-family: 'Open Sans', sans-serif;
+}
+
+select#timeFormat {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    top: 40px;
+    left: -40px;
+    appearance: menulist-button;
+    background: white;
+    border: 1px solid black;
+}
+
+.Filter-hyperlink {
+    position: absolute;
+    float: right;
+    width: 30%;
+    right: 120px;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+input#checkboxFilter {
+    width: fit-content;
+    height: fit-content;
+    left: 20px;
+    position: relative;
+}
+
+span#CheckBoxFiltering {
+    width: fit-content;
+    height: fit-content;
+    left: 40px;
+    white-space: nowrap;
+}
+
+span#FilterInput {
+    visibility: hidden;
+}
+
+label#keyLabel {
+    pointer-events: none;
+}
+
+label#valueLabel {
+    pointer-events: none;
+}
+
+input#checkboxFilter:checked + span#FilterInput :not(.Filter-hyperlink) {
+    visibility: visible;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    left: 20px;
+    margin-left: 0;
+}
+
+input#timeWindow {
+    width: 7%;
+}
+
+input#jobName, input#ownersEmail {
+    margin-left: 128px;
+}
+
+button#createNewJob {
+    position: relative;
+    right: -90%;
+}
+
+.error-message {
+    float: right;
+    width: 30%;
+    color: red;
+    margin-top: 15px;
+    margin-left: 50px;
+}
+
+.bbox-hyperlink {
+    float: right;
+    width: 30%;
+    margin-top: 15px;
+    margin-left: 50px;
+}
+
+input#jobName:valid + #error-message {
+    display: none;
+}
+
+input#ownersEmail:valid + #error-message-email {
+    display: none;
+}
+
+input#jobName:invalid + #error-message {
+    display: block;
+    color: red;
+}
+
+input#ownersEmail:invalid + #error-message-email {
+    display: block;
+    color: red;
+}
+
+#jobName:invalid ~ button#createNewJob {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+#error-container {
+    display: none;
+    color: red;
+    text-align: right;
+}
