@@ -1,18 +1,18 @@
 
 
 .content {
-    flex: 0 0 70%;
+    flex: 0 0 50%;
     padding: 10px;
 }
 
 .map {
-    flex: 0 0 30%;
+    flex: 0 0 50%;
     padding: 10px;
 }
 
 .map-container {
-    width: 100%;
-    height: 400px; /* Adjust height as needed */
+    width: 95%;
+    height: 98%;
 }
 
 .existing-jobs-table,
@@ -34,7 +34,7 @@ body {
     display: flex;
     margin: auto;
     padding: 20px;
-    max-width: 1000px;
+    max-width: 1600px;
 }
 
 h1 {
@@ -57,7 +57,6 @@ table {
     overflow-y: scroll;
 }
 
-/* Make the header sticky */
 th {
     position: sticky;
     top: 0;
@@ -162,12 +161,10 @@ select#timeFormat {
 }
 
 .Filter-hyperlink {
-    position: absolute;
     float: right;
     width: 30%;
-    right: 120px;
     margin-top: 15px;
-    margin-left: 30px;
+    margin-left: -115px;
 }
 
 input#checkboxFilter {
