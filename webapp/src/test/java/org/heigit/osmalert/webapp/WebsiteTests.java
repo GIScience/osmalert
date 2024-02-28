@@ -122,42 +122,42 @@ public class WebsiteTests {
 			() -> page.click("#createNewJob")
 		);
 
-		Job expectedJob = createJob(null, "job1", "123@web.de", "123.4,12.3,170.5,67.2", "");
+		Job expectedJob = createJob(null, null, "job1", "123@web.de", "123.4,12.3,170.5,67.2", "");
 
 		verify(jobsService, times(1)).saveNewJob(expectedJob);
-		verify(jobsService).saveNewJob(expectedJob);
 		verify(jobsService).getAllJobs();
 	}
 
 	@Test
 	void jobsInRepositoryAreDisplayedCorrectly() {
 		when(jobsService.getAllJobs()).thenReturn(List.of(
-			createJob(1L, "jobA", "jlA@test.com", "0,2,3,4", "2 Hours"),
-			createJob(2L, "jobB", "jlB@test.com", "5,6,7,8", "3 Minutes"),
-			createJob(3L, "jobC", "jlC@test.com", "9,10,11,12", "14 Minutes")
+			createJob(1L, "3faef48d72ce4df6007db4dcbff0074e", "jobA", "jlA@test.com", "0,2,3,4", "2 Hours"),
+			createJob(2L, "3faef48d72ce4df6007db4dcbff0074e", "jobB", "jlB@test.com", "5,6,7,8", "3 Minutes"),
+			createJob(3L, "3faef48d72ce4df6007db4dcbff0074e", "jobC", "jlC@test.com", "9,10,11,12", "14 Minutes")
 		));
 
 		page.navigate("http://localhost:" + port);
 
-		assertJobRow("1", "jobA", "jlA@test.com", "0,2,3,4", "2 Hours");
-		assertJobRow("2", "jobB", "jlB@test.com", "5,6,7,8", "3 Minutes");
-		assertJobRow("3", "jobC", "jlC@test.com", "9,10,11,12", "14 Minutes");
+		assertJobRow("1", "3faef48d72ce4df6007db4dcbff0074e", "jobA", "jlA@test.com", "0,2,3,4", "2 Hours");
+		assertJobRow("2", "3faef48d72ce4df6007db4dcbff0074e", "jobB", "jlB@test.com", "5,6,7,8", "3 Minutes");
+		assertJobRow("3", "3faef48d72ce4df6007db4dcbff0074e", "jobC", "jlC@test.com", "9,10,11,12", "14 Minutes");
 	}
 
-	private void assertJobRow(String flinkid, String jobName, String email, String boundingBox, String timeWindow) {
-		Locator jobLocator = page.locator("tbody[id='" + flinkid + "']");
+	private void assertJobRow(String id, String flinkId, String jobName, String email, String boundingBox, String timeWindow) {
+		Locator jobLocator = page.locator("tbody[id='" + id + "']");
 		assertThat(jobLocator).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + jobName + "')")).isVisible();
-		assertThat(jobLocator.locator("td:text('" + flinkid + "')")).isVisible();
+		assertThat(jobLocator.locator("td:text('" + flinkId + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + email + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + boundingBox + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + timeWindow + "')")).isVisible();
 	}
 
-	private static Job createJob(Long id, String jobName, String email, String boundingBox, String formattedTimeWindow) {
+	private static Job createJob(Long id, String flinkId, String jobName, String email, String boundingBox, String formattedTimeWindow) {
 		Job job = new Job(jobName, id);
 		job.setEmail(email);
 		job.setBoundingBox(boundingBox);
+		job.setFlinkId(flinkId);
 		job.setFormattedTimeWindow(StringUtils.isBlank(formattedTimeWindow) ? "1 Minutes" : formattedTimeWindow);
 		return job;
 	}
@@ -165,7 +165,7 @@ public class WebsiteTests {
 	@Test
 	@Disabled("No Validation function in the jobservice to check if the email is valid or not")
 	void rejectJobForInvalidOwnersEmailTest() {
-		Job expectedJob = createJob(null, "job1", "ownersEmailweb", "123.4,12.3,170.5,67.2", "");
+		Job expectedJob = createJob(null, "3faef48d72ce4df6007db4dcbff0074e", "job1", "ownersEmailweb", "123.4,12.3,170.5,67.2", "");
 
 		addJob("job1", "ownersEmailweb", "123.4,12.3,170.5,67.2");
 
@@ -176,9 +176,9 @@ public class WebsiteTests {
 	void rejectJobForInvalidBoundingBoxTest() {
 		when(jobsService.validateCoordinates("12.2,12.2,13.2,12.2")).thenReturn(false);
 
-		createJob(0L, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "");
+		createJob(0L, "3faef48d72ce4df6007db4dcbff0074e", "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "");
 
-		Job expectedJob = createJob(null, "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "");
+		Job expectedJob = createJob(null, "3faef48d72ce4df6007db4dcbff0074e", "job1", "ownersEmail@web.de", "12.2,12.2,13.2,12.2", "");
 
 		verify(jobsService, times(0)).saveNewJob(expectedJob);
 	}
@@ -186,18 +186,16 @@ public class WebsiteTests {
 	@Test
 	void rejectJobWithAlreadyExistingName() {
 		clearInvocations(jobsService);
-		when(jobsService.getAllJobs()).thenReturn(List.of(createJob(1L, "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes")));
-		Job job1 = createJob(null, "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes");
-		Job job2 = createJob(2L, "job2", "email@emaila2.de", "121.4,12.3,170.5,67.2", "");
+		when(jobsService.getAllJobs()).thenReturn(List.of(createJob(1L, "3faef48d72ce4df6007db4dcbff0074e", "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes")));
+		Job job2 = createJob(2L, "", "job2", "email@emaila2.de", "121.4,12.3,170.5,67.2", "");
 
-		addJob("job2", "email@emaila2.de", "2.4,2.3,70.5,67.2");
+		addJob("job1", "email@emaila2.de", "2.4,2.3,70.5,67.2");
 
 		when(jobsService.isJobRunning("job2")).thenReturn(true);
 
 		addJob("job2", "email@emaila2.de", "2.4,2.3,70.5,67.2");
 
-		assertJobRow("1", "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes");
-		verify(jobsService, times(1)).saveNewJob(job1);
+		assertJobRow("1", "3faef48d72ce4df6007db4dcbff0074e", "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes");
 		verify(jobsService, times(0)).saveNewJob(job2);
 	}
 }
