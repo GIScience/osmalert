@@ -21,6 +21,7 @@
                 <thead>
                 <tr>
                     <th>Job Name</th>
+                    <th>Flink ID</th>
                     <th>Email</th>
                     <th>Time Window</th>
                     <th>Area of Interest</th>
@@ -31,6 +32,7 @@
                 <tbody th:each="job: ${jobs}" th:id="${job.id}">
                 <tr>
                     <td th:text="${job.jobName}">unknown</td>
+                    <td th:text="${job.getId()}">unknown</td>
                     <td th:text="${job.getEmail()}">unknown</td>
                     <td th:text="${job.getFormattedTimeWindow()}">unknown</td>
                     <td th:inline="text">bbox=[[${job.getBoundingBox()}]]</td>
