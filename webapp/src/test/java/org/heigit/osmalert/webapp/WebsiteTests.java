@@ -149,7 +149,7 @@ public class WebsiteTests {
 		assertThat(jobLocator.locator("td:has-text('" + jobName + "')")).isVisible();
 		assertThat(jobLocator.locator("td:text('" + flinkId + "')")).isVisible();
 		assertThat(jobLocator.locator("td:has-text('" + email + "')")).isVisible();
-		assertThat(jobLocator.locator("td:has-text('" + boundingBox + "')")).isVisible();
+		assertNotNull(page.querySelector("a:has-text('" + boundingBox + "')"));
 		assertThat(jobLocator.locator("td:has-text('" + timeWindow + "')")).isVisible();
 	}
 
