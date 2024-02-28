@@ -161,9 +161,8 @@
             var bottomLeft = ol.proj.toLonLat([extent[0], extent[1]], 'EPSG:3857');
             var topRight = ol.proj.toLonLat([extent[2], extent[3]], 'EPSG:3857');
 
-            document.querySelector('input[name="boundingBox"]').value = bottomLeft[1]+","+bottomLeft[0]+","+topRight[1]+","+topRight[0];
+            document.querySelector('input[name="boundingBox"]').value = bottomLeft[1]+", "+bottomLeft[0]+", "+topRight[1]+", "+topRight[0];
         });
-        // map.removeInteraction(draw);
     }
 
     addDrawInteraction();
@@ -185,7 +184,7 @@
         } else {
             errorContainer.style.display = 'none';
             form.reset();
-        }9
+        }
     });
 </script>
 </body>
