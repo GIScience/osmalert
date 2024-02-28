@@ -36,7 +36,7 @@
                     <td th:text="${job.getEmail()}">unknown</td>
                     <td th:text="${job.getFormattedTimeWindow()}">unknown</td>
                     <td th:inline="text">
-                        <a th:href="'https://dashboard.ohsome.org/#bboxes=' + ${job.getBoundingBox()}">[[${job.getBoundingBox()}]]</a>
+                        bbox=<a th:href="'https://dashboard.ohsome.org/#bboxes=' + ${job.getBoundingBox()}">[[${job.getBoundingBox()}]]</a>
                     </td>
                     <td th:text="${job.getPattern()}">unknown</td>
                     <td hx-get="/jobs/status"
