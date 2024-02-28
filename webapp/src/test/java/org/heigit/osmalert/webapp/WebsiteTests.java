@@ -186,17 +186,17 @@ public class WebsiteTests {
 	@Test
 	void rejectJobWithAlreadyExistingName() {
 		clearInvocations(jobsService);
-		when(jobsService.getAllJobs()).thenReturn(List.of(createJob(1L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "")));
-		Job job1 = createJob(null, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "");
-		Job job2 = createJob(2L, "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "");
+		when(jobsService.getAllJobs()).thenReturn(List.of(createJob(1L, "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes")));
+		Job job1 = createJob(null, "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes");
+		Job job2 = createJob(2L, "job2", "email@emaila2.de", "121.4,12.3,170.5,67.2", "");
 
-		addJob("job1", "email@emaila1.de", "121.4,12.3,170.5,67.2");
+		addJob("job2", "email@emaila2.de", "2.4,2.3,70.5,67.2");
 
-		when(jobsService.isJobRunning("joba1")).thenReturn(true);
+		when(jobsService.isJobRunning("job2")).thenReturn(true);
 
-		addJob("job1", "email@emaila2.de", "121.4,12.3,170.5,67.2");
+		addJob("job2", "email@emaila2.de", "2.4,2.3,70.5,67.2");
 
-		assertJobRow("1", "job1", "email@emaila1.de", "121.4,12.3,170.5,67.2", "1 Minutes");
+		assertJobRow("1", "job2", "email@emaila2.de", "2.4,2.3,70.5,67.2", "2 Minutes");
 		verify(jobsService, times(1)).saveNewJob(job1);
 		verify(jobsService, times(0)).saveNewJob(job2);
 	}
