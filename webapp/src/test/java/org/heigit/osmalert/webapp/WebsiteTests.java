@@ -42,7 +42,7 @@ public class WebsiteTests {
 	static void launchBrowser() {
 		playwright = Playwright.create();
 		browser = playwright.firefox().launch(
-			new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000)
+			//new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000)
 		);
 	}
 
