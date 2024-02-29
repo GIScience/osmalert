@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenLayers and HTMX Example for Drawing Rectangles</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openlayers/dist/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/openlayers/dist/ol.js"></script>
+    <script src="https://unpkg.com/htmx.org"></script>
+</head>
+<body>
+<div id="map" class="map"></div>
+
+<form id="coordinates-form">
+    <input type="text" name="coordinates" id="coordinates-input">
+    <button id="draw-rectangle" hx-post="/coordinates" hx-trigger="click" hx-swap="outerHTML">Submit</button>
+</form>
+
+
+
+<script>
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([0, 0]),
+            zoom: 2
+        })
+    });
+
+    var source = new ol.source.Vector({wrapX: false});
+    var vectorLayer = new ol.layer.Vector({
+        source: source,
+    });
+    map.addLayer(vectorLayer);
+
+
+    function addDrawInteraction() {
+        if (draw) {
+            map.removeInteraction(draw);
+        }
+        source.clear();
+
+        draw = new ol.interaction.Draw({
+            source: source,
+            type: 'Circle',
+            geometryFunction: ol.interaction.Draw.createBox(),
+        });
+        map.addInteraction(draw);
+
+        draw.on('drawend', function(event) {
+            var feature = event.feature;
+            var geometry = feature.getGeometry();
+            var extent = geometry.getExtent();
+            var bottomLeft = ol.proj.toLonLat([extent[0], extent[1]], 'EPSG:3857');
+            var topRight = ol.proj.toLonLat([extent[2], extent[3]], 'EPSG:3857');
+            var coordinates = bottomLeft[1]+", "+bottomLeft[0]+", "+topRight[1]+", "+topRight[0];
+
+            document.getElementById('coordinates-input').value = coordinates;
+        });
+    }
+    var draw;
+    addDrawInteraction();
+</script>
+</body>
+</html>

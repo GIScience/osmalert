@@ -1,1 +1,0 @@
-web: java  --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED -jar -Dserver.port=$PORT $JAVA_OPTS build/libs/webapp.jar
