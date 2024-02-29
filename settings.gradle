@@ -3,5 +3,4 @@ rootProject.name = 'osmalert'
 include('webapp')
 include('flinkservice')
 include('flinkjobjar')
-
-
+include('demomap')

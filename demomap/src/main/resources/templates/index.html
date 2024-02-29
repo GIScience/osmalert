@@ -7,35 +7,50 @@
     <script src="https://unpkg.com/htmx.org"></script>
 </head>
 <body>
-<div id="map" class="map"></div>
 
-<form id="coordinates-form">
+<div id="map-container">
+    <div id="map" class="map" style="width: 1200px;height: 600px"></div>
+</div>
+
+<form id="coordinates-form" hx-post="/coordinates" hx-trigger="click" hx-target="#response-container">
     <input type="text" name="coordinates" id="coordinates-input">
-    <button id="draw-rectangle" hx-post="/coordinates" hx-trigger="click" hx-swap="outerHTML">Submit</button>
+    <button id="draw-rectangle">Submit</button>
 </form>
 
-
+<div id="response-container"></div>
 
 <script>
-    var map = new ol.Map({
-        target: 'map',
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
+    var map;
+    var source;
+    var draw;
+
+    function initializeMap() {
+        if (map) {
+            map.setTarget(null); // Remove the map from the DOM
+            map = null; // Clear the map object
+        }
+
+        map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([0, 0]),
+                zoom: 2
             })
-        ],
-        view: new ol.View({
-            center: ol.proj.fromLonLat([0, 0]),
-            zoom: 2
-        })
-    });
+        });
 
-    var source = new ol.source.Vector({wrapX: false});
-    var vectorLayer = new ol.layer.Vector({
-        source: source,
-    });
-    map.addLayer(vectorLayer);
+        source = new ol.source.Vector({wrapX: false});
+        var vectorLayer = new ol.layer.Vector({
+            source: source,
+        });
+        map.addLayer(vectorLayer);
 
+        addDrawInteraction();
+    }
 
     function addDrawInteraction() {
         if (draw) {
@@ -61,8 +76,8 @@
             document.getElementById('coordinates-input').value = coordinates;
         });
     }
-    var draw;
-    addDrawInteraction();
+
+    initializeMap();
 </script>
 </body>
 </html>
