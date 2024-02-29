@@ -1,24 +1,14 @@
 @startuml
-'https://plantuml.com/state-diagram
 
-scale 350 width
-[*] --> NotShooting
+cloud "OSM planet server"
+queue Flink
+folder job1
+folder job2
+folder job3
 
-state NotShooting {
-  [*] --> Idle
-  Idle --> Configuring : EvConfig
-  Configuring --> Idle : EvConfig
-}
+"OSM planet server"-[#red]-> Flink : All OSM changes
+Flink --> job1
+Flink --> job2
+Flink --> job3: Filtered OSM changes by bounding box and Tags
 
-state Configuring {
-  [*] --> NewValueSelection
-  NewValueSelection --> NewValuePreview : EvNewValue
-  NewValuePreview --> NewValueSelection : EvNewValueRejected
-  NewValuePreview --> NewValueSelection : EvNewValueSaved
-
-  state NewValuePreview {
-     State1 -> State2
-  }
-
-}
 @enduml
