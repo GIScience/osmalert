@@ -56,7 +56,7 @@ public class AlertJob {
 
 	static void configureAndRunJob(
 		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction<Integer> mailSink, Geometry boundingBox, String pattern
+		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction<Integer> mailSink, Geometry boundingBox, String tag
 	) throws Exception {
 
 		String sinkName = "osmalert_flink_mail_sink";
@@ -65,7 +65,7 @@ public class AlertJob {
 			.map(AlertJob::log)
 			.map(Contribution::createContribution)
 			.filter(contribution -> contribution.isWithin(boundingBox))
-			.filter(contribution -> contribution.hasPattern(pattern))
+			.filter(contribution -> contribution.hasTag(tag))
 			.map(AlertJob::registerContributor)
 			.map(contribution -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))

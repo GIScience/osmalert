@@ -37,16 +37,16 @@ public class Contribution {
 		return false;
 	}
 
-	public boolean hasPattern(String pattern) {
-		if (pattern == null || pattern.isEmpty()) {
+	public boolean hasTag(String tag) {
+		if (tag == null || tag.isEmpty()) {
 			return id.contains("node") || id.contains("way");
 		}
 
 		Map<String, String> tags = this.current.getTags();
-		String[] keyAndValue = pattern.split("=", 2);
+		String[] keyAndValue = tag.split("=", 2);
 
 		return tags.entrySet().stream()
-				   .anyMatch(tag -> matchesPattern(tag, keyAndValue));
+				   .anyMatch(osmTag -> matchesPattern(osmTag, keyAndValue));
 	}
 
 	private boolean matchesPattern(Map.Entry<String, String> tag, String[] keyAndValue) {
