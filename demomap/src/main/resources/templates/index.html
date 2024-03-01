@@ -9,15 +9,14 @@
 <body>
 
 <div id="map-container">
-    <div id="map" class="map" style="width: 1200px;height: 600px"></div>
+    <div id="map" class="map" ></div>
 </div>
 
-<form id="coordinates-form" hx-post="/coordinates" hx-trigger="click" hx-target="#response-container">
+<form id="coordinates-form" hx-post="/coordinates" hx-trigger="click">
     <input type="text" name="coordinates" id="coordinates-input">
     <button id="draw-rectangle">Submit</button>
 </form>
 
-<div id="response-container"></div>
 
 <script>
     var map;
