@@ -26,31 +26,30 @@ public class ContributionTests {
 	void filterBoundingBoxAndPatternContribution1Test() throws IOException, ParseException {
 		Contribution contribution1 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution1.json")));
 		Geometry boundingBox1 = new GeometryFactory().toGeometry(new Envelope(13, 16, 1, 2));
-		assertThat(contribution1.filterBoundingBoxAndPattern(boundingBox1, "access=forestry")).isTrue();
-		assertThat(contribution1.filterBoundingBoxAndPattern(boundingBox1, "source=Landsat;JRC")).isTrue();
-		assertThat(contribution1.filterBoundingBoxAndPattern(boundingBox1, "highway=track")).isTrue();
-		assertThat(contribution1.filterBoundingBoxAndPattern(boundingBox1, "start_date=2014")).isTrue();
+		assertThat(contribution1.isWithinBBoxAndHasPattern(boundingBox1, "access=forestry")).isTrue();
+		assertThat(contribution1.isWithinBBoxAndHasPattern(boundingBox1, "source=Landsat;JRC")).isTrue();
+		assertThat(contribution1.isWithinBBoxAndHasPattern(boundingBox1, "highway=track")).isTrue();
+		assertThat(contribution1.isWithinBBoxAndHasPattern(boundingBox1, "start_date=2014")).isTrue();
 	}
 
 	@Test
 	void filterBoundingBoxAndPatternContribution2Test() throws IOException, ParseException {
 		Contribution contribution2 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution2.json")));
 		Geometry boundingBox1 = new GeometryFactory().toGeometry(new Envelope(13, 16, 1, 2));
-		assertThat(contribution2.filterBoundingBoxAndPattern(boundingBox1, "access=forestry")).isFalse();
-		assertThat(contribution2.filterBoundingBoxAndPattern(boundingBox1, "source=Landsat;JRC")).isFalse();
-		assertThat(contribution2.filterBoundingBoxAndPattern(boundingBox1, "highway=track")).isFalse();
-		assertThat(contribution2.filterBoundingBoxAndPattern(boundingBox1, "start_date=2014")).isFalse();
+		assertThat(contribution2.isWithinBBoxAndHasPattern(boundingBox1, "access=forestry")).isFalse();
+		assertThat(contribution2.isWithinBBoxAndHasPattern(boundingBox1, "source=Landsat;JRC")).isFalse();
+		assertThat(contribution2.isWithinBBoxAndHasPattern(boundingBox1, "highway=track")).isFalse();
+		assertThat(contribution2.isWithinBBoxAndHasPattern(boundingBox1, "start_date=2014")).isFalse();
 	}
 
 	@Test
 	void filterBoundingBoxAndPatternContribution3Test() throws IOException, ParseException {
 		Contribution contribution3 = Contribution.createContribution(Files.readString(Paths.get("src/test/resources/contribution3.json")));
 		Geometry boundingBox3 = new WKTReader().read("POLYGON ((-88 41, -86 41, -86 43, -88 43, -88 41))");
-		assertThat(contribution3.filterBoundingBoxAndPattern(boundingBox3, "entrance=yes")).isTrue();
-		assertThat(contribution3.filterBoundingBoxAndPattern(boundingBox3, "access=forestry")).isFalse();
-		assertThat(contribution3.filterBoundingBoxAndPattern(null, null)).isFalse();
+		assertThat(contribution3.isWithinBBoxAndHasPattern(boundingBox3, "entrance=yes")).isTrue();
+		assertThat(contribution3.isWithinBBoxAndHasPattern(boundingBox3, "access=forestry")).isFalse();
+		assertThat(contribution3.isWithinBBoxAndHasPattern(null, null)).isFalse();
 	}
-
 
 	@Test
 	void hasPatternTest() throws IOException {

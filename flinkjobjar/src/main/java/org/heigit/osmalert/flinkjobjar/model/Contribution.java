@@ -38,7 +38,7 @@ public class Contribution {
 		return false;
 	}
 
-	public boolean filterBoundingBoxAndPattern(Geometry boundingBox, String pattern) {
+	public boolean isWithinBBoxAndHasPattern(Geometry boundingBox, String pattern) {
 		return isWithin(boundingBox) && hasPattern(pattern) && registerContributor();
 	}
 
@@ -64,7 +64,6 @@ public class Contribution {
 				   tag.getKey().equals(keyAndValue[0]) :
 				   tag.getKey().equals(keyAndValue[0]) && tag.getValue().equals(keyAndValue[1]);
 	}
-
 
 	private Geometry getGeometry() {
 		Geometry geometry = new GeometryFactory().createPoint();
