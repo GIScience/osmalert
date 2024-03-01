@@ -18,6 +18,8 @@ time interval selection (minutes, hours, days).\
 Another optional specification is the filtering for tags. There can be used any
 key and value combination that is a valid tag in OSM.
 
+![](images/website.png)
+
 After the submission of a job the application continuously calculates the
 average of changes
 in the given area based on historical data from the ohsome API and new incoming
@@ -33,9 +35,8 @@ be seen below.
 
 ## Technical foundations
 
-OSM planet server
+OSM planet server\
 data flow overview
-standard deviation
 
 [](architecture/Simple_data_flow.puml)
 
