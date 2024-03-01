@@ -5,7 +5,8 @@
 - why do we need it
 - The goal
 
-how project come to a being
+The project was initiated by HeiGit with the main architecture and then
+developed with students of the Heidelberg University.
 
 ## How it works
 
@@ -38,8 +39,9 @@ be seen below.
 OSM planet server\
 data flow overview
 
-[](architecture/Simple_data_flow.puml)
-
 ## Conclusion
 
-future work: vandalism detection
+The application implements basic functionalities to get noticed when there are
+changes in Open Street Map data within a given time interval.\
+For further development the application can be extended to detect vandalism in
+Open Street Map.
