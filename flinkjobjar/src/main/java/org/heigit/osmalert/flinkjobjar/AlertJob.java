@@ -64,8 +64,8 @@ public class AlertJob {
 		streamOperator
 			.map(AlertJob::log)
 			.map(Contribution::createContribution)
-			.filter(contrib -> contrib.filterBoundingBoxAndPattern(boundingBox, pattern))
-			.map(log -> 1)
+			.filter(contribution -> contribution.filterBoundingBoxAndPattern(boundingBox, pattern))
+			.map(contribution -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
 			.addSink(mailSink)
