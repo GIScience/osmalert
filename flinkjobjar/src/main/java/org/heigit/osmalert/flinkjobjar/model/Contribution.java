@@ -6,7 +6,6 @@ import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.*;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.json.*;
-import org.heigit.osmalert.flinkjobjar.*;
 import org.locationtech.jts.geom.*;
 import org.locationtech.jts.io.*;
 
@@ -36,15 +35,6 @@ public class Contribution {
 					return true;
 		}
 		return false;
-	}
-
-	public boolean isWithinBBoxAndHasPattern(Geometry boundingBox, String pattern) {
-		return isWithin(boundingBox) && hasPattern(pattern) && registerContributor();
-	}
-
-	public boolean registerContributor() {
-		StatisticalAnalyzer.addContributor(changeset.getUserId());
-		return true;
 	}
 
 	public boolean hasPattern(String pattern) {
