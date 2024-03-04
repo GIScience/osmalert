@@ -51,11 +51,6 @@ be seen below.
 
 ![](images/e-mail.png)
 
-## Technical foundations
-
-OSM planet server\
-data flow overview
-
 ## Conclusion
 
 The application implements basic functionalities to get noticed when there are
