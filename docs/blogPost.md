@@ -2,8 +2,16 @@
 
 ## Introduction
 
-- why do we need it
-- The goal
+A large number of changes can happen due to destruction, flooding or blockades.
+In these times of distresses, humanitarian organisations need to know when and
+where changes happen, to help efficiently and in the right places.
+Then timeliness update of map data is very important and OSMs
+free availability supports the work of companies and NGOs.
+
+OSMAlert uses OSM data to provide a notification system to inform humanitarian
+organisations about changes in their appropriate areas in near real-time. They
+get information whether a number of changes is higher than usual within an
+e-mail.
 
 The project was initiated by HeiGit with the main architecture and then
 developed with students of the Heidelberg University.
