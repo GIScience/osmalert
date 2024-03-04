@@ -5,7 +5,7 @@
 A large number of changes can happen due to destruction, flooding or blockades.
 In these times of distresses, humanitarian organisations need to know when and
 where changes happen, to help efficiently and in the right places.
-Then timeliness update of map data is very important and OSMs
+Then timeliness update of map data is very important and Open Street Maps (OSMs)
 free availability supports the work of companies and NGOs.
 
 OSMAlert uses OSM data to provide a notification system to inform humanitarian
@@ -61,4 +61,4 @@ data flow overview
 The application implements basic functionalities to get noticed when there are
 changes in Open Street Map data within a given time interval.\
 For further development the application can be extended to detect vandalism in
-Open Street Map.
+OSM.
