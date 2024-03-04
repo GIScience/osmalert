@@ -83,6 +83,10 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 				   + "\n\nThank you,\nOSM Alert System";
 	}
 
+	public static void setStatisticalAnalyzer(StatisticalAnalyzer statisticalAnalyzer) {
+		MailSinkFunction.statisticalAnalyzer = statisticalAnalyzer;
+	}
+
 	private void initializeStatisticalAnalyzer() {
 		if (statisticalAnalyzer == null) {
 			try {

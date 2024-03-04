@@ -76,5 +76,6 @@ dependencies {
     testImplementation 'org.junit-pioneer:junit-pioneer:2.1.0'
     testImplementation 'org.apache.flink:flink-runtime:1.17.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    testImplementation 'org.mockito:mockito-core:4.0.0'
 
 }

@@ -16,6 +16,7 @@ import org.heigit.osmalert.flinkjobjar.model.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
 import org.locationtech.jts.geom.*;
+import org.mockito.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
@@ -25,12 +26,16 @@ class AlertJobIntegrationTests {
 
 	static final Configuration configuration = new Configuration();
 
+	@Mock
+	private StatisticalAnalyzer mockStatisticalAnalyzer;
+
 	@BeforeAll
 	static void setConfiguration() {
 		configuration.setString("MAILERTOGO_SMTP_HOST", "localhost");
 		configuration.setString("MAILERTOGO_SMTP_PORT", "2025");
 		configuration.setString("MAILERTOGO_SMTP_USER", "whatever");
 		configuration.setString("MAILERTOGO_SMTP_PASSWORD", "whatever");
+
 	}
 
 	@RegisterExtension
@@ -64,6 +69,7 @@ class AlertJobIntegrationTests {
 
 	@Test
 	void flinkJobCanBeRunAndMailIsSent() throws Exception {
+		MockitoAnnotations.openMocks(this);
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(configuration);
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
@@ -79,6 +85,9 @@ class AlertJobIntegrationTests {
 			timewindow,
 			"highway=track",
 			"Test job");
+
+		MailSinkFunction.setStatisticalAnalyzer(mockStatisticalAnalyzer);
+
 		configureAndRunJob("job1", operator, environment, timewindow, mailSink, boundingBox, "highway=track");
 
 		assertThat(fakeMailServer.getMessages().size())
