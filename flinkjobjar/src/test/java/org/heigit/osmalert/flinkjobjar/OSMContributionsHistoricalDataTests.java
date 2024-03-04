@@ -20,34 +20,22 @@ public class OSMContributionsHistoricalDataTests {
 	@Test
 	void getContributionsCountHistoricalAverageTest() throws IOException, InterruptedException, JSONException {
 
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "natural=tree");
+		getContributionsCountHistoricalAverage("8.67,49.39,8.71,49.42", "2014-01-01", "2017-01-01", 525600, "natural=*");
 
 		Assertions.assertEquals(
-			633.8,
+			504,
 			statisticalAnalyzer.getMean(),
 			2
 		);
 	}
 
 	@Test
-	void getContributionsCountHistoricalAverageWithNullPatternTest() throws IOException, InterruptedException, JSONException {
-
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, null);
-
-		Assertions.assertEquals(
-			34500.2,
-			statisticalAnalyzer.getMean(),
-			5
-		);
-	}
-
-	@Test
 	void getContributionsCountHistoricalAverageWithEmptyStringTest() throws IOException, InterruptedException, JSONException {
 
-		getContributionsCountHistoricalAverage("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-06", 60 * 24, "");
+		getContributionsCountHistoricalAverage("8.67,49.39,8.71,49.42", "2014-01-01", "2017-01-01", 525600, "");
 
 		Assertions.assertEquals(
-			34500.2,
+			11768.7,
 			statisticalAnalyzer.getMean(),
 			5
 		);
@@ -56,9 +44,9 @@ public class OSMContributionsHistoricalDataTests {
 	@Test
 	void getContributionsCountInBBTest() throws IOException, InterruptedException {
 
-		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("6.9,49.8,13.4,53.8", "2023-11-01", "2023-11-02", 60 * 24, "natural=tree"));
+		JSONObject contributionsCountObject = new JSONObject(getContributionsCountInBB("8.67,49.39,8.71,49.42", "2014-01-01", "2017-01-01", 525600, ""));
 		Assertions.assertEquals(
-			680,
+			14970,
 			((JSONObject) contributionsCountObject.getJSONArray("result").get(0)).getInt("value")
 		);
 	}
