@@ -15,6 +15,7 @@ shadowJar {
         dependencies {
 
             // some flink libraries are already provided on the server side
+            // exclude(dependency('org.apache.flink:.*'))
 
             exclude { dependency ->
                 def moduleName = dependency.name
@@ -24,6 +25,12 @@ shadowJar {
                 def moduleName = dependency.name
                 return moduleName.startsWith('org.apache.commons:commons')
             }
+            
+            exclude { dependency ->
+                def moduleName = dependency.name
+                return moduleName.startsWith('org.xerial.snappy:snappy-java')
+            }
+
 
             exclude(dependency('org.apache.flink:flink-core:1.17.1'))
             exclude(dependency('org.apache.flink:flink-runtime:1.17.1'))
@@ -32,8 +39,8 @@ shadowJar {
             exclude(dependency('org.apache.flink:flink-clients:1.17.1'))
             exclude(dependency('org.apache.flink:flink-rpc-akka-loader:1.17.1'))
             exclude(dependency('org.apache.flink:flink-rpc-core:1.17.1'))
-            exclude(dependency('org.apache.flink:flink-rpc-core:1.17.1'))
-            exclude(dependency('org.apache.kafka:flink-rpc-core:1.17.1'))
+            //exclude(dependency('org.apache.kafka:kafka-clients:3.2.3'))
+            exclude(dependency('org.apache.kafka:kafka-clients:3.4.1'))
 
         }
     }
@@ -76,6 +83,5 @@ dependencies {
     testImplementation 'org.junit-pioneer:junit-pioneer:2.1.0'
     testImplementation 'org.apache.flink:flink-runtime:1.17.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
-    testImplementation 'org.mockito:mockito-core:4.0.0'
 
 }
