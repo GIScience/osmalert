@@ -14,7 +14,8 @@ get information whether a number of changes is higher than usual within an
 e-mail.
 
 The project was initiated by HeiGit with the main architecture and then
-developed with students of the Heidelberg University.
+developed with students of the Heidelberg University. The application was
+improved and new enhanced features were implemented.
 
 ## How it works
 
