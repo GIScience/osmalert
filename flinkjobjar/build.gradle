@@ -39,8 +39,6 @@ shadowJar {
             exclude(dependency('org.apache.flink:flink-clients:1.17.1'))
             exclude(dependency('org.apache.flink:flink-rpc-akka-loader:1.17.1'))
             exclude(dependency('org.apache.flink:flink-rpc-core:1.17.1'))
-            //exclude(dependency('org.apache.kafka:kafka-clients:3.2.3'))
-            exclude(dependency('org.apache.kafka:kafka-clients:3.4.1'))
 
         }
     }
