@@ -59,6 +59,8 @@ data flow overview
 ## Conclusion
 
 The application implements basic functionalities to get noticed when there are
-changes in Open Street Map data within a given time interval.\
-For further development the application can be extended to detect vandalism in
-OSM.
+changes in Open Street Map data within a given time interval via e-mail. This
+supports the work of humanitarian organisations and has the potential to expand
+the field of application and analysis on OSM data.\
+For further development the number of users that changed something can be used
+to extend the application to detect vandalism in OSM.
