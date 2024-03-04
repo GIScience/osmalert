@@ -15,25 +15,25 @@ shadowJar {
         dependencies {
 
             // some flink libraries are already provided on the server side
-            // exclude(dependency('org.apache.flink:.*'))
 
+            exclude { dependency ->
+                def moduleName = dependency.name
+                return moduleName.startsWith('org.apache.flink:flink-shaded')
+            }
+            exclude { dependency ->
+                def moduleName = dependency.name
+                return moduleName.startsWith('org.apache.commons:commons')
+            }
+
+            exclude(dependency('org.apache.flink:flink-core:1.17.1'))
+            exclude(dependency('org.apache.flink:flink-runtime:1.17.1'))
             exclude(dependency('org.apache.flink:flink-java:1.17.1'))
             exclude(dependency('org.apache.flink:flink-streaming-java:1.17.1'))
             exclude(dependency('org.apache.flink:flink-clients:1.17.1'))
-            exclude(dependency('org.apache.flink:flink-shaded-asm-9:9.3-16.1'))
-            exclude(dependency('org.apache.flink:flink-shaded-guava:30.1.1-jre-16.1'))
-            exclude(dependency('org.apache.flink:flink-shaded-force-shading:16.1'))
-            exclude(dependency('org.apache.flink:flink-shaded-jackson:2.13.4-16.1'))
-            exclude(dependency('org.apache.flink:flink-shaded-netty:4.1.82.Final-16.1'))
-            exclude(dependency('org.apache.flink:flink-shaded-zookeeper-3:3.7.1-16.1'))
-            exclude(dependency('org.apache.flink:flink-core:1.17.1'))
-            exclude(dependency('org.apache.flink:flink-runtime:1.17.1'))
-            exclude(dependency('org.apache.commons:commons-compress:1.21'))
-            exclude(dependency('org.apache.commons:commons-lang3:3.12.0'))
-            exclude(dependency('org.apache.commons:commons-math3:3.6.1'))
-            exclude(dependency('org.apache.commons:commons-text:1.10.0'))
             exclude(dependency('org.apache.flink:flink-rpc-akka-loader:1.17.1'))
             exclude(dependency('org.apache.flink:flink-rpc-core:1.17.1'))
+            exclude(dependency('org.apache.flink:flink-rpc-core:1.17.1'))
+            exclude(dependency('org.apache.kafka:flink-rpc-core:1.17.1'))
 
         }
     }
