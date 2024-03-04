@@ -20,6 +20,12 @@ shadowJar {
             exclude(dependency('org.apache.flink:flink-java:1.17.1'))
             exclude(dependency('org.apache.flink:flink-streaming-java:1.17.1'))
             exclude(dependency('org.apache.flink:flink-clients:1.17.1'))
+            exclude(dependency('org.apache.flink:flink-shaded-asm-9:9.3-16.1'))
+            exclude(dependency('org.apache.flink:flink-shaded-guava:30.1.1-jre-16.1'))
+            exclude(dependency('org.apache.flink:flink-shaded-force-shading:16.1'))
+            exclude(dependency('org.apache.flink:flink-shaded-jackson:2.13.4-16.1'))
+            exclude(dependency('org.apache.flink:flink-shaded-netty:4.1.82.Final-16.1'))
+            exclude(dependency('org.apache.flink:flink-shaded-zookeeper-3.3.7.1-16.1'))
 
 
             // TODO: try to decrease jar file size further by removing more dependencies,
