@@ -13,7 +13,15 @@ developed with students of the Heidelberg University.
 The application provides a website where jobs can be created to receive
 notifications about OSM changes in a specific area.
 The user has to give a unique job name, a valid e-mail address and coordinates
-for a bounding box to submit the job. It is also possible to choose the time
+for a bounding box to submit the job.
+The bounding box can be selected with the [bbox finder](http://bboxfinder.com).
+A bounding box can be drawn and then the coordinates can be copied from there to
+the OSMAlert website.
+
+![](images/bbox_finder.png)
+![](images/bboxSelection.png)
+
+It is also possible to choose the time
 interval in which the e-mails are sent. There are three options in the
 time interval selection (minutes, hours, days).\
 Another optional specification is the filtering for tags. There can be used any
