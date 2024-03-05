@@ -123,10 +123,10 @@ public class Job {
 
 	// @Todo handle Exception
 	public void setExpirationDate(String expirationDate) {
-		String parseDate = expirationDate == null ? "1900-01-01" : expirationDate;
+		String parseDate = expirationDate == null || expirationDate.isEmpty() ? "1900-01-01" : expirationDate;
 		try {
 			this.expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(parseDate);
-		} catch(ParseException e){
+		} catch (ParseException e) {
 			this.expirationDate = Date.from(Instant.parse("1900-01-01"));
 		}
 	}
