@@ -1,5 +1,6 @@
 package org.heigit.osmalert.webapp.domain;
 
+import java.time.*;
 import java.util.*;
 
 import org.junit.jupiter.api.*;
@@ -42,6 +43,27 @@ class JobRepositoryTests {
 
 		assertThat(unsubmittedJobs).hasSize(2);
 		assertThat(unsubmittedJobs).extracting(Job::getJobName)
+								   .containsExactlyInAnyOrder("job3", "job4");
+	}
+
+	@Test
+	void findJobsByExpirationDateBefore() {
+
+		LocalDate today = LocalDate.now();
+		LocalDate nextDay = today.plusDays(1);
+		Date nextDayDate = java.sql.Date.valueOf(nextDay);
+
+
+		List<Job> jobs = List.of(
+			new Job(3L, "job3", new Date()),
+			new Job(4L, "job4", new Date()),
+			new Job(5L, "job5", nextDayDate)
+		);
+		repository.saveAll(jobs);
+
+		Iterable<Job> jobsByExpirationDateBefore = repository.findJobsByExpirationDateBefore();
+		assertThat(jobsByExpirationDateBefore).hasSize(2);
+		assertThat(jobsByExpirationDateBefore).extracting(Job::getJobName)
 								   .containsExactlyInAnyOrder("job3", "job4");
 	}
 

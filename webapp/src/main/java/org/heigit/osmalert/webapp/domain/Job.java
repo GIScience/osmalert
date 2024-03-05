@@ -47,6 +47,13 @@ public class Job {
 		this.timeWindow = 1;
 	}
 
+	public Job(Long id, String jobName, Date expirationDate) {
+		this.id = id;
+		this.jobName = jobName;
+		this.expirationDate = expirationDate;
+		this.timeWindow = 1;
+	}
+
 	public String getJobName() {
 		return jobName;
 	}
@@ -121,7 +128,6 @@ public class Job {
 		return expirationDate;
 	}
 
-	// @Todo handle Exception
 	public void setExpirationDate(String expirationDate) {
 		String parseDate = expirationDate == null || expirationDate.isEmpty() ? "1900-01-01" : expirationDate;
 		try {
