@@ -37,7 +37,8 @@ public class JobsController {
 		@RequestParam(required = false) String timeWindow,
 		@RequestParam(required = false) String timeFormat,
 		@RequestParam(required = false) String value,
-		@RequestParam(required = false) String key
+		@RequestParam(required = false) String key,
+		@RequestParam(required = false) String date
 	) {
 
 		String normalizedJobName = normalizeString(jobName);
@@ -50,6 +51,7 @@ public class JobsController {
 			newJob.setEmail(ownersEmail);
 			newJob.setTimeWindow(calculatedTimeWindow);
 			newJob.setPattern(pattern);
+			newJob.setExpirationDate(date);
 			calculateAndSetFormattedTimeWindow(newJob, timeFormat, calculatedTimeWindow);
 			String normalizedBoundingBox = normalizeString(boundingBox);
 			if (jobsService.validateCoordinates(normalizedBoundingBox)) {

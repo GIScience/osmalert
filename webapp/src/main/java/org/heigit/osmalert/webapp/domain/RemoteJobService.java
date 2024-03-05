@@ -5,4 +5,6 @@ public interface RemoteJobService {
 	void submit(Job job);
 
 	RemoteJobStatus getStatus(Job job);
+
+	void finishJob(Job job);
 }

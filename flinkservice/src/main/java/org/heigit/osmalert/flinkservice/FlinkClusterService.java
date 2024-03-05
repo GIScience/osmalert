@@ -124,4 +124,8 @@ public class FlinkClusterService {
 		}
 	}
 
+	public void finishJob(String jobId) throws Exception{
+		flinkClient.cancel(fromHexString(jobId));
+	}
+
 }

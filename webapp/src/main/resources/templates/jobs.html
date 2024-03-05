@@ -83,6 +83,19 @@
                     </optgroup>
                 </select>
                 </span>
+                <span class="div-straightStyle" th:if="${@toggles.isEnabled('EXPIRATION_DATE')}">
+                    <label for="date">Expiration date:</label>
+                    <input type="Date" id="date" name="date" value="1900-01-01" min="2024-01-01"></input>
+                </span>
+
+                <!--
+                <select aria-label="timeFormat" name="timeFormat">
+                    <optgroup label="Time Format">
+                        <option value="M">Minutes</option>
+                        <option value="H">Hours</option>
+                    </optgroup>
+                </select>
+                -->
             </div>
 
             <div class="div-straightStyle">

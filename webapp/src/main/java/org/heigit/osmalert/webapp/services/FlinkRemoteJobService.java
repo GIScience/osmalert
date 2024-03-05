@@ -58,4 +58,12 @@ public class FlinkRemoteJobService implements RemoteJobService {
 			case FINISHED, CANCELED -> RemoteJobStatus.FINISHED;
 		};
 	}
+
+	// @Todo handle Exception
+	public void finishJob(Job job)
+	{
+		try {
+			flinkClusterService.finishJob(String.valueOf(job.getFlinkId()));
+		} catch(Exception e){}
+	}
 }

@@ -1,5 +1,7 @@
 package org.heigit.osmalert.webapp.domain;
 
+import java.text.*;
+import java.time.*;
 import java.util.*;
 
 import jakarta.persistence.*;
@@ -29,6 +31,9 @@ public class Job {
 	private String formattedTimeWindow;
 
 	private String pattern;
+
+	@Temporal(TemporalType.DATE)
+	private Date expirationDate;
 
 	protected Job() {}
 
@@ -110,5 +115,19 @@ public class Job {
 
 	public void setPattern(String pattern) {
 		this.pattern = pattern;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	// @Todo handle Exception
+	public void setExpirationDate(String expirationDate) {
+		String parseDate = expirationDate == null ? "1900-01-01" : expirationDate;
+		try {
+			this.expirationDate = new SimpleDateFormat("yyyy-MM-dd").parse(parseDate);
+		} catch(ParseException e){
+			this.expirationDate = Date.from(Instant.parse("1900-01-01"));
+		}
 	}
 }

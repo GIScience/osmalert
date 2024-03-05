@@ -48,4 +48,8 @@ public class FakeRemoteJobService implements RemoteJobService {
 			return RemoteJobStatus.CREATED;
 		}
 	}
+	public void finishJob(Job job)
+	{
+		submittedJobs.remove(job.getId());
+	}
 }

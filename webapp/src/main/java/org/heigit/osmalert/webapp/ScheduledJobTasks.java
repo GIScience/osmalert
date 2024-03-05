@@ -4,6 +4,8 @@ import org.heigit.osmalert.webapp.domain.*;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.*;
 
+import java.util.*;
+
 @Component
 public class ScheduledJobTasks {
 
@@ -25,4 +27,14 @@ public class ScheduledJobTasks {
 			remoteJobService.submit(job);
 		}
 	}
+
+	@Scheduled(cron = "0 * * * * *") // Executes at 12:00 AM UTC every day
+	public void cancelFlinkJob() {
+		Iterable<Job> jobsWithExpiryDate = jobRepository.findJobsByExpirationDateBefore();
+
+        for (Job job : jobsWithExpiryDate) {
+            remoteJobService.finishJob(job);
+        }
+	}
+
 }
