@@ -2,10 +2,16 @@
 
 ## Introduction
 
-A large number of changes can happen due to destruction, flooding or blockades.
+Open Street Map (OSM) is a service that provide a free editable map of the
+world. A worldwide community contributes and maintain data about buildings,
+roads,
+stations, trees and much more from the scratch.
+
+An extremely high number of OSM changes can happen due to destruction, flooding
+or blockades.
 In these times of distresses, humanitarian organisations need to know when and
 where changes happen, to help efficiently and in the right places.
-Then timeliness update of map data is very important and Open Street Maps (OSMs)
+Then timeliness update of map data is very important and Open Street Maps
 free availability supports the work of companies and NGOs.
 
 OSMAlert uses OSM data to provide a notification system to inform humanitarian
@@ -53,7 +59,7 @@ be seen below.
 
 ## Conclusion
 
-The application implements basic functionalities to get noticed when there are
+The application implements basic functionalities to get notified when there are
 changes in Open Street Map data within a given time interval via e-mail. This
 supports the work of humanitarian organisations and has the potential to expand
 the field of application and analysis on OSM data.\
