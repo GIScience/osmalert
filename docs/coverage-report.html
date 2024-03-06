@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Jacoco Statistics</title>
 </head>
 <body>
 <div>
@@ -33,24 +33,29 @@
 
         type: 'line',
         data: {
-            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '17.Dec'],
+            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '19.Dec', '24.Jan','07.Feb'],
             datasets: [{
-                label: 'Instructions',
-                data: [77, 78, 71, 71, 73, 81, 85, 78],
+                label: 'webapp',
+                data: [77, 78, 71, 71, 73, 81, 85, 78,80,80],
                 borderWidth: 1
             },{
-                label: 'Branches',
-                data: [68,74,74,63,71,81,81,72],
+                label: 'flinkjobjar',
+                data: [55,55,57,57,48,56,84,83,88,87],
                 borderWidth: 1
-            }]
+            },
+                {
+                    label: 'Flinkservice',
+                    data: [94,94,94,94,94,94,94,94,94,94],
+                    borderWidth: 1
+                }]
 
         },
         options: {
-        plugins:{
-            title: {
-                display: true,
-                text: 'webapp: % Coverage'
-            }},
+            plugins:{
+                title: {
+                    display: true,
+                    text:'% Coverage'
+                }},
             scales: {
                 y: {
                     beginAtZero: false
@@ -63,24 +68,24 @@
         type: 'bar',
 
         data: {
-            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '17.Dec'],
+            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '19.Dec','24.Jan','07.Feb'],
             datasets: [{
                 label: 'missed Instructions',
-                data: [131,129,209,240,240,174,136,243],
+                data: [131,129,209,240,240,174,136,239,227,232],
                 borderWidth: 1
             },{
                 label: 'total Instructions',
-                data: [577,596,745,843,914,953,918,1123],
+                data: [577,596,745,843,914,953,918,1123,1140,1172],
                 borderWidth: 1
             },
                 {
                     label: 'total Branches',
-                    data: [35,35,35,41,53,65,65,95],
+                    data: [35,35,35,41,53,65,65,95,97,103],
                     borderWidth: 1
                 },
                 {
                     label: '#missed Branches',
-                    data: [11,9,9,15,15,12,12,26],
+                    data: [11,9,9,15,15,12,12,26,26,26],
                     borderWidth: 1
                 }]
 
@@ -89,7 +94,7 @@
             plugins:{
                 title: {
                     display: true,
-                    text: 'webapp: Nr. of Instructions'
+                    text: 'webapp: No. of Instructions'
                 }},
             scales: {
                 y: {
@@ -108,14 +113,14 @@
 
         type: 'line',
         data: {
-            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '17.Dec'],
+            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '19.Dec','24.Jan','07.Feb'],
             datasets: [{
                 label: 'Instructions',
-                data: [94,55,57,57,48,56,84,83],
+                data: [94,55,57,57,48,56,84,83,88,87],
                 borderWidth: 1
             },{
                 label: 'Branches',
-                data: [50,0,0,0,10,37,100,94],
+                data: [50,0,0,0,10,37,100,94,100,73],
                 borderWidth: 1
             }]
 
@@ -138,24 +143,24 @@
         type: 'bar',
 
         data: {
-            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '17.Dec'],
+            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '19.Dec','24.Jan','07.Feb'],
             datasets: [{
                 label: 'missed Instructions',
-                data: [111,141,141,141,245,211,72,85],
+                data: [111,141,141,141,245,211,72,85,90,131],
                 borderWidth: 1
             },{
                 label: '#total Instructions',
-                data: [190,319,335,335,473,481,478,519],
+                data: [190,319,335,335,473,481,478,517,768,1048],
                 borderWidth: 1
             },
                 {
                     label: 'total Branches',
-                    data: [2,4,4,4,10,16,16,18],
+                    data: [2,4,4,4,10,16,16,18,20,64],
                     borderWidth: 1
                 },
                 {
                     label: '#missed Branches',
-                    data: [1,4,4,4,9,10,0,1],
+                    data: [1,4,4,4,9,10,0,1,0,17],
                     borderWidth: 1
                 }]
 
@@ -164,7 +169,7 @@
             plugins:{
                 title: {
                     display: true,
-                    text: 'flinkjobjar: Nr. of Instructions'
+                    text: 'flinkjobjar: No. of Instructions'
                 }},
             scales: {
                 y: {
@@ -183,14 +188,14 @@
 
         type: 'line',
         data: {
-            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '17.Dec'],
+            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '19.Dec','24.Jan','07.Feb'],
             datasets: [{
                 label: 'Instructions',
-                data: [94,94,94,94,94,94,94,83],
+                data: [94,94,94,94,94,94,94,94,94,94],
                 borderWidth: 1
             },{
                 label: 'Branches',
-                data: [100,50,50,50,50,50,50,94],
+                data: [100,50,50,50,50,50,50,50,50,50],
                 borderWidth: 1
             }]
 
@@ -213,24 +218,24 @@
         type: 'bar',
 
         data: {
-            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '17.Dec'],
+            labels: ['26.Okt', '03.Nov', '11.Nov', '18.Nov', '25.Nov', '02.Dec', '10.Dec', '19.Dec','24.Jan','07.Feb'],
             datasets: [{
                 label: 'missed Instructions',
-                data: [11,11,11,11,11,11,11,85],
+                data: [11,11,11,11,11,11,11,11,11,11],
                 borderWidth: 1
             },{
                 label: '#total Instructions',
-                data: [190,190,190,190,195,195,195,519],
+                data: [190,190,190,190,195,195,195,200,200,205],
                 borderWidth: 1
             },
                 {
                     label: 'total Branches',
-                    data: [2,2,2,2,2,2,2,18],
+                    data: [2,2,2,2,2,2,2,2,2,2],
                     borderWidth: 1
                 },
                 {
                     label: '#missed Branches',
-                    data: [2,1,1,1,1,1,1,1],
+                    data: [2,1,1,1,1,1,1,1,1,1],
                     borderWidth: 1
                 }]
 
@@ -239,7 +244,7 @@
             plugins:{
                 title: {
                     display: true,
-                    text: 'flinkservice: Nr. of Instructions'
+                    text: 'flinkservice: No. of Instructions'
                 }},
             scales: {
                 y: {
@@ -249,7 +254,5 @@
         }
     });
 </script>
-
 </body>
 </html>
-
