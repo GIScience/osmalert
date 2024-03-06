@@ -1,0 +1,23 @@
+Osmalert Sequence Diagram (draft)
+
+
+
+@startuml
+'participant User
+'participant Browser
+'participant Webapp
+'participant Database
+'participant "Flink Cluster" as Flink
+'participant Kafka
+'participant Email
+
+User -> Browser:
+Browser -> Webapp:
+Webapp -> Database:
+Database --> Webapp
+Webapp -> Flink: Jar
+Flink -> Kafka:
+Kafka --> Flink:
+Flink -> Email:
+Email --> User:
+@enduml
