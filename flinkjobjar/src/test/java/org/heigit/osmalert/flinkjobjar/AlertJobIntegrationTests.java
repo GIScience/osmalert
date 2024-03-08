@@ -121,13 +121,13 @@ class AlertJobIntegrationTests {
 		assertThat(contributionObj).isNotNull();
 	}
 
-	private static class MockSink implements SinkFunction<Integer> {
+	private static class MockSink implements SinkFunction<StatsResult> {
 		public static final List<Integer> values = new ArrayList<>();
 
 		@Override
-		public void invoke(Integer value, Context context) {
+		public void invoke(StatsResult value, Context context) {
 			System.out.println("Mock sink stream value: " + value);
-			values.add(value);
+			values.add(value.count);
 		}
 
 	}

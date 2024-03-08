@@ -8,6 +8,7 @@ import java.util.*;
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
 
 public class StatisticalAnalyzer {
+
 	private double mean;
 	private double noOfDataPoints;
 	private double sumOfSquaredDifferences;

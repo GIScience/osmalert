@@ -29,10 +29,6 @@ public class AlertJob {
 		JobConfiguration jobConfiguration = new JobConfiguration((args));
 
 
-		/*
-		 * For Polygon use this
-		 * new WKTReader().read(args[2]);
-		 */
 		Geometry boundingBox = new GeometryFactory().toGeometry(
 			new Envelope(
 				jobConfiguration.getBoundingBoxValues(0),
@@ -40,6 +36,7 @@ public class AlertJob {
 				jobConfiguration.getBoundingBoxValues(1),
 				jobConfiguration.getBoundingBoxValues(3)
 			));
+
 		MailSinkFunction mailSink = new MailSinkFunction(
 			System.getenv("MAILERTOGO_SMTP_HOST"),
 			Integer.parseInt(System.getenv("MAILERTOGO_SMTP_PORT")),
@@ -56,7 +53,7 @@ public class AlertJob {
 
 	static void configureAndRunJob(
 		String jobName, SingleOutputStreamOperator<String> streamOperator,
-		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction<Integer> mailSink, Geometry boundingBox, String tag
+		StreamExecutionEnvironment environment, int windowSeconds, SinkFunction<StatsResult> mailSink, Geometry boundingBox, String tag
 	) throws Exception {
 
 		String sinkName = "osmalert_flink_mail_sink";
@@ -70,6 +67,7 @@ public class AlertJob {
 			.map(contribution -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
 			.reduce(Integer::sum)
+			.map(StatsResult::new)
 			.addSink(mailSink)
 			.uid(sinkName)
 			.name(sinkName);

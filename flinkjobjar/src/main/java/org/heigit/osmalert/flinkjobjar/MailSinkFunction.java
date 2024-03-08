@@ -7,7 +7,7 @@ import org.apache.flink.streaming.api.functions.sink.*;
 
 import static java.lang.Runtime.*;
 
-public class MailSinkFunction implements SinkFunction<Integer> {
+public class MailSinkFunction implements SinkFunction<StatsResult> {
 
 	private final String host;
 	private final int port;
@@ -39,17 +39,14 @@ public class MailSinkFunction implements SinkFunction<Integer> {
 	}
 
 	@Override
-	public void invoke(Integer value, Context context) {
+	public void invoke(StatsResult result, Context context) {
 
 		initializeStatisticalAnalyzer();
 
-		System.out.println("##### MailSink input: " + value);
+		System.out.println("##### MailSink input: " + result);
 
-		System.out.println("##### memory:  reserved heap MB : " + getRuntime().totalMemory() / 1_000_000);
-		System.out.println("##### memory: maximum memory MB : " + getRuntime().maxMemory() / 1_000_000);
-
-		String emailContent = buildEmailContent(value);
-		statisticalAnalyzer.calculateStandardDeviation(value);
+		String emailContent = buildEmailContent(result.count);
+		statisticalAnalyzer.calculateStandardDeviation(result.count);
 		StatisticalAnalyzer.resetContributorAmount();
 
 		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
