@@ -3,9 +3,9 @@ package org.heigit.osmalert.flinkjobjar;
 import java.io.*;
 import java.time.*;
 import java.time.format.*;
-import java.util.*;
 
 import static org.heigit.osmalert.flinkjobjar.OSMContributionsHistoricalData.*;
+
 
 public class StatisticalAnalyzer {
 
@@ -20,7 +20,7 @@ public class StatisticalAnalyzer {
 	private static final int weekEnd = 2;
 	private String historicDataStart;
 	private String historicDataEnd;
-	private static HashSet<Integer> numberOfUserChanges;
+
 
 	private StatisticalAnalyzer(double defaultChanges, double numberAverageChanges, double sumOfSquaredDifferences) {
 		this.mean = Math.max(defaultChanges, 0);
@@ -111,29 +111,5 @@ public class StatisticalAnalyzer {
 		return (value - this.getMean()) / this.getStandardDeviation();
 	}
 
-
-	@Deprecated
-	public static void addContributor(int userId) {
-		if (numberOfUserChanges == null)
-			numberOfUserChanges = new HashSet<>();
-		numberOfUserChanges.add(userId);
-	}
-
-
-	@Deprecated
-	public static int getContributorAmount() {
-		return numberOfUserChanges == null ? 0 : numberOfUserChanges.size();
-	}
-
-
-	@Deprecated
-	public static void resetContributorAmount() {
-
-		System.out.println("GREAT RESET");
-
-		if (numberOfUserChanges == null)
-			numberOfUserChanges = new HashSet<>();
-		numberOfUserChanges.clear();
-	}
 
 }

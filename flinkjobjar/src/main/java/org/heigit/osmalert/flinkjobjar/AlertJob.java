@@ -11,9 +11,9 @@ import static org.apache.flink.api.common.eventtime.WatermarkStrategy.*;
 import static org.apache.flink.streaming.api.windowing.time.Time.*;
 import static org.heigit.osmalert.flinkjobjar.KafkaSourceFactory.*;
 
+
 public class AlertJob {
 
-	private AlertJob() {}
 
 	public static void main(String[] args) throws Exception {
 
@@ -74,12 +74,6 @@ public class AlertJob {
 
 	private static String log(String contribution) {
 		System.out.println("contribution = " + contribution);
-		return contribution;
-	}
-
-	@Deprecated
-	public static Contribution registerContributor(Contribution contribution) {
-		StatisticalAnalyzer.addContributor(contribution.getUserId());
 		return contribution;
 	}
 
