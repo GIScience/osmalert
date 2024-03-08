@@ -20,9 +20,10 @@ import org.mockito.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class AlertJobIntegrationTests {
-	private AlertJobIntegrationTests() {}
 
 	static final Configuration configuration = new Configuration();
 
@@ -94,21 +95,25 @@ class AlertJobIntegrationTests {
 			.isGreaterThan(0);
 	}
 
-	@Test
+
+	@RepeatedTest(2)
 	void flinkStreamCountIsRight() throws Exception {
 		StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment(configuration);
 		Iterator<String> iterator = new SlowStringIterator();
 		DataStreamSource<String> operator = environment.fromCollection(iterator, TypeInformation.of(String.class));
 
 		MockSink mockSink = new MockSink();
+		MockSink.values.clear();
 
 		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox, "highway=track");
 
-		for (Integer value : MockSink.values) {
-			boolean match = (value <= 3);
-			Assertions.assertTrue(match);
-		}
+		assertThat(MockSink.values).allMatch(v -> (v<=4) && (v>=1));
+		assertThat(MockSink.values).hasSizeBetween(1, 2);
+
+		int count = StatisticalAnalyzer.getContributorAmount();
+		assertEquals(1, count);
 	}
+
 
 	@Test
 	void isContributionNotNull() {
@@ -133,7 +138,7 @@ class AlertJobIntegrationTests {
 
 		@Override
 		public boolean hasNext() {
-			return count < 6;
+			return count < 7;
 		}
 
 		@Override
