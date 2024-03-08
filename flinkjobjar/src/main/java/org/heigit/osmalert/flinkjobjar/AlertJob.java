@@ -63,11 +63,8 @@ public class AlertJob {
 			.map(Contribution::createContribution)
 			.filter(contribution -> contribution.isWithin(boundingBox))
 			.filter(contribution -> contribution.hasTag(tag))
-			.map(AlertJob::registerContributor)
-			.map(contribution -> 1)
 			.windowAll(TumblingProcessingTimeWindows.of(seconds(windowSeconds)))
-			.reduce(Integer::sum)
-			.map(StatsResult::new)
+			.aggregate(new StatsAggregateFunction())
 			.addSink(mailSink)
 			.uid(sinkName)
 			.name(sinkName);
@@ -80,8 +77,10 @@ public class AlertJob {
 		return contribution;
 	}
 
+	@Deprecated
 	public static Contribution registerContributor(Contribution contribution) {
 		StatisticalAnalyzer.addContributor(contribution.getUserId());
 		return contribution;
 	}
+
 }

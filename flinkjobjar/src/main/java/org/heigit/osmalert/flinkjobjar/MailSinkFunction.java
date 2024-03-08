@@ -5,7 +5,6 @@ import java.util.*;
 
 import org.apache.flink.streaming.api.functions.sink.*;
 
-import static java.lang.Runtime.*;
 
 public class MailSinkFunction implements SinkFunction<StatsResult> {
 
@@ -45,19 +44,21 @@ public class MailSinkFunction implements SinkFunction<StatsResult> {
 
 		System.out.println("##### MailSink input: " + result);
 
-		String emailContent = buildEmailContent(result.count);
+		String emailContent = buildEmailContent(result);
 		statisticalAnalyzer.calculateStandardDeviation(result.count);
-		StatisticalAnalyzer.resetContributorAmount();
 
 		String jobName = this.jobName.startsWith("AlertJob_") ? this.jobName.split("AlertJob_")[1] : this.jobName;
 		this.sendMail(emailContent, this.emailAddress, jobName);
 	}
 
-	private String buildEmailContent(Integer value) {
+	private String buildEmailContent(StatsResult result) {
+
+		int value = result.count;
+
 		long currentTimeMillis = System.currentTimeMillis();
 		long startTimeMillis = currentTimeMillis - (this.time * 60 * 1000L);
 
-		String unusualChanges = "There were " + value + " changes, which is an unusual high amount of changes as they deviate by more than " +
+		String unusualChanges = "There were " + result.count + " changes, which is an unusual high amount of changes as they deviate by more than " +
 									"1 standard deviation from the mean of value " + statisticalAnalyzer.getRoundedMeanChanges() +
 									". The Standard Deviation value is " + statisticalAnalyzer.getRoundedStandardDeviation();
 
@@ -74,7 +75,8 @@ public class MailSinkFunction implements SinkFunction<StatsResult> {
 			filter = pattern;
 		}
 		return "Dear user,\n\nIn the last " + this.time + " minutes, there have been "
-				   + value + " new OpenStreetMap updates from " + StatisticalAnalyzer.getContributorAmount() + " users.\n\n" + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
+				   + value + " new OpenStreetMap updates from " + result.uniqueUsers + " users.\n\n"
+				   + boundingBox + timeRange + "Tag Filter: \"" + filter + "\"\n\n" + getBoundingBoxLink() + "\n\n"
 				   + (statisticalAnalyzer.getZScore(value) > 1.0 ? unusualChanges : "")
 				   + initial
 				   + "\n\nThank you,\nOSM Alert System";

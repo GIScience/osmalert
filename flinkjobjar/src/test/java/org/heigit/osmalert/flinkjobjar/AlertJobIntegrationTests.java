@@ -20,8 +20,6 @@ import org.mockito.*;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.heigit.osmalert.flinkjobjar.AlertJob.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 
 class AlertJobIntegrationTests {
 
@@ -108,10 +106,8 @@ class AlertJobIntegrationTests {
 		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox, "highway=track");
 
 		assertThat(MockSink.values).allMatch(result -> (result.count <= 4) && (result.count >= 1));
+		assertThat(MockSink.values).allMatch(result -> (result.uniqueUsers == 1));
 		assertThat(MockSink.values).hasSizeBetween(1, 2);
-
-		int count = StatisticalAnalyzer.getContributorAmount();
-		assertEquals(1, count);
 	}
 
 

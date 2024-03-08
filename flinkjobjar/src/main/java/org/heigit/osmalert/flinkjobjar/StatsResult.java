@@ -4,10 +4,11 @@ package org.heigit.osmalert.flinkjobjar;
 public final class StatsResult {
 
     public int count;
-    public int uniqueUser = 0;
+    public int uniqueUsers;
 
-	public StatsResult(int count) {
+	public StatsResult(int count, int uniqueUsers) {
 		this.count = count;
+		this.uniqueUsers = uniqueUsers;
 	}
 
 }

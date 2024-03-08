@@ -111,19 +111,29 @@ public class StatisticalAnalyzer {
 		return (value - this.getMean()) / this.getStandardDeviation();
 	}
 
+
+	@Deprecated
 	public static void addContributor(int userId) {
 		if (numberOfUserChanges == null)
 			numberOfUserChanges = new HashSet<>();
 		numberOfUserChanges.add(userId);
 	}
 
+
+	@Deprecated
 	public static int getContributorAmount() {
 		return numberOfUserChanges == null ? 0 : numberOfUserChanges.size();
 	}
 
+
+	@Deprecated
 	public static void resetContributorAmount() {
+
+		System.out.println("GREAT RESET");
+
 		if (numberOfUserChanges == null)
 			numberOfUserChanges = new HashSet<>();
 		numberOfUserChanges.clear();
 	}
+
 }
