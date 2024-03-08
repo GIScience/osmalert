@@ -12,7 +12,7 @@ import org.locationtech.jts.io.*;
 @JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true)
 public class Contribution {
 
-	private Contribution() {
+	public Contribution() {
 		current = new Current();
 		id = "";
 		changeset = new Changeset();
@@ -23,6 +23,10 @@ public class Contribution {
 
 	@JsonProperty("id")
 	private final String id;
+
+	public Changeset getChangeset() {
+		return changeset;
+	}
 
 	@JsonProperty("changeset")
 	private final Changeset changeset;

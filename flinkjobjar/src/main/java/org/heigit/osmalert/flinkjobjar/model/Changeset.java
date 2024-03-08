@@ -9,4 +9,9 @@ public class Changeset {
 	public int getUserId() {
 		return this.userId;
 	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 }
