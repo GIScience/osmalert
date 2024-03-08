@@ -107,7 +107,7 @@ class AlertJobIntegrationTests {
 
 		configureAndRunJob("job1", operator, environment, 3, mockSink, boundingBox, "highway=track");
 
-		assertThat(MockSink.values).allMatch(v -> (v<=4) && (v>=1));
+		assertThat(MockSink.values).allMatch(result -> (result.count <= 4) && (result.count >= 1));
 		assertThat(MockSink.values).hasSizeBetween(1, 2);
 
 		int count = StatisticalAnalyzer.getContributorAmount();
@@ -122,12 +122,12 @@ class AlertJobIntegrationTests {
 	}
 
 	private static class MockSink implements SinkFunction<StatsResult> {
-		public static final List<Integer> values = new ArrayList<>();
+		public static final List<StatsResult> values = new ArrayList<>();
 
 		@Override
 		public void invoke(StatsResult value, Context context) {
 			System.out.println("Mock sink stream value: " + value);
-			values.add(value.count);
+			values.add(value);
 		}
 
 	}
