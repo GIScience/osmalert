@@ -4,6 +4,7 @@ package org.heigit.osmalert.flinkjobjar;
 import org.apache.flink.api.common.functions.*;
 import org.heigit.osmalert.flinkjobjar.model.*;
 
+import java.util.*;
 
 public class StatsAggregateFunction implements AggregateFunction<Contribution, StatsAccumulator, StatsResult> {
 
@@ -11,20 +12,21 @@ public class StatsAggregateFunction implements AggregateFunction<Contribution, S
          return new StatsAccumulator();
      }
 
-	 //TODO: use immutable accumulators
      public StatsAccumulator merge(StatsAccumulator a, StatsAccumulator b) {
-         a.count += b.count;
-		 a.uniqueUsers.addAll(b.uniqueUsers);
 
-		 return a;
+		 Set<Integer> uniqueUsers = new HashSet<>();
+		 uniqueUsers.addAll(a.uniqueUsers);
+		 uniqueUsers.addAll(b.uniqueUsers);
+
+		 return new StatsAccumulator(a.count + b.count, uniqueUsers);
      }
 
      public StatsAccumulator add(Contribution value, StatsAccumulator accumulator) {
-		 accumulator.count++;
-		 accumulator.uniqueUsers.add(value.getUserId());
+         Set<Integer> uniqueUsers = new HashSet<>(accumulator.uniqueUsers);
+		 uniqueUsers.add(value.getChangeset().getUserId());
 
-         return accumulator;
-     }
+	 	return new StatsAccumulator(accumulator.count + 1, uniqueUsers);
+	 }
 
      public StatsResult getResult(StatsAccumulator accumulator) {
          return new StatsResult(accumulator.count, accumulator.uniqueUsers.size());

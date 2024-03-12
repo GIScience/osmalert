@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -27,21 +28,31 @@ class StatsAggregateFunctionTests {
 
 		assertEquals(9, merged.count);
 
-		//TODO: check items in set
 		assertEquals(5, merged.uniqueUsers.size());
+		assertThat(merged.uniqueUsers).containsExactly(1, 2, 3, 4, 5);
 	}
 
 
 	@Test
-	void add() {
-
+	void addWithExistingUserId() {
 		Contribution contribution = new Contribution();
 		contribution.getChangeset().setUserId(2);
 		StatsAccumulator result = this.aggregateFunction.add(contribution, new StatsAccumulator(11, set123));
 
 		assertEquals(12, result.count);
 		assertEquals(3, result.uniqueUsers.size());
+		assertThat(result.uniqueUsers).containsExactly(1, 2, 3);
+	}
 
+	@Test
+	void addWithNewUserId() {
+		Contribution contribution = new Contribution();
+		contribution.getChangeset().setUserId(7);
+		StatsAccumulator result = this.aggregateFunction.add(contribution, new StatsAccumulator(11, set123));
+
+		assertEquals(12, result.count);
+		assertEquals(4, result.uniqueUsers.size());
+		assertThat(result.uniqueUsers).containsExactly(1, 2, 3, 7);
 	}
 
 
