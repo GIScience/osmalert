@@ -1,11 +1,10 @@
 package org.heigit.osmalert.flinkjobjar;
 
-import org.heigit.osmalert.flinkjobjar.model.*;
-import org.junit.jupiter.api.Test;
-
 import java.util.*;
 
-import static java.util.Arrays.asList;
+import org.heigit.osmalert.flinkjobjar.model.*;
+import org.junit.jupiter.api.*;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,8 +13,8 @@ class StatsAggregateFunctionTests {
 
 	StatsAggregateFunction aggregateFunction = new StatsAggregateFunction();
 
-	HashSet<Integer> set123 = new HashSet<>(asList(1, 2, 3));
-	HashSet<Integer> set345 = new HashSet<>(asList(3, 4, 5));
+	Set<Integer> set123 = Set.of(1, 2, 3);
+	Set<Integer> set345 = Set.of(3, 4, 5);
 
 
 	@Test
